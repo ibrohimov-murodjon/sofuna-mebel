@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardHeader,
@@ -11,19 +10,29 @@ import { Spinner } from "@material-tailwind/react";
 import { AddProduct, CardUI, Pagination } from "../components";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Fragment } from "react";
+import { CirclesWithBar } from "react-loader-spinner";
 
-const TABLE_HEAD = ["Maxsulot", "Narxi", "Soni", "Jami",'Function'];
+const TABLE_HEAD = ["Maxsulot", "Narxi", "qty", "Jami", "", " "];
 
 function Product() {
   const [value, setValue] = useState("");
   const [data, setData] = useState([]);
+  async function getApi() {
+    try {
+      const response = await fetch("https://custom.uz/products/api/");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   useEffect(() => {
-    fetch("https://custom.uz/products/api/")
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error("Product ditn't added", error));
+    getApi();
   }, []);
+
   function filterFn(type) {
     setData(
       data.sort((a, b) => {
@@ -47,33 +56,24 @@ function Product() {
             </div>
 
             <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
-              <AddProduct api={"https://custom.uz/products/api/"} />
+              <AddProduct
+                getApi={getApi}
+                api={"https://custom.uz/products/api/"}
+              />
             </div>
           </div>
         </CardHeader>
-        <table className="w-full min-w-max table-auto text-left" >
-        <thead>
-         <tr>
-          {TABLE_HEAD.map(item => {
-            return(
-              <th
-            key={item}
-            className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-          >
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal leading-none opacity-70"
-            >
-              {item}
-            </Typography>
-          </th>
-            )
-          })}
-         </tr>
-        </thead>
-          <React.Fragment >
-            <tbody >
+        <span className="flex items-center px-10  bg-blue-gray-200 py-5 gap-x-[210px]">
+          <p className="w-full max-w-[250px]">Mahsulot Nomi</p>
+          <small className="flex items-center gap-14">
+            <p>Narxi</p>
+            <p>Soni</p>
+            <p>Umumiy narxi</p>
+          </small>
+        </span>
+        <CardBody className="overflow-scroll prdouct scrol px-0">
+          <div className="mt-4 w-full min-w-max table-auto text-left">
+            <div className="flex flex-col gap-3">
               {data.length > 0 ? (
                 <>
                   {data.map((product, index) => {
@@ -90,12 +90,27 @@ function Product() {
                 </>
               ) : (
                 <div className="loaderWrapper">
-                <Spinner className="h-12 w-12" />
-              </div>
+                  <Spinner className="h-12 w-12" />
+                </div>
               )}
-            </tbody>
-          </React.Fragment>
-        </table>
+            </div>
+          </div>
+          {/* <table className="mt-4 w-full min-w-max table-auto text-left">
+            <div>
+              {data.map((product, index) => {
+                return (
+                  <CardUI
+                    key={crypto.randomUUID()}
+                    setUiData={setData}
+                    uiData={data}
+                    user={product}
+                    api={"https://custom.uz/products/api/"}
+                  />
+                );
+              })}
+            </div>
+          </table> */}
+        </CardBody>
         <Pagination />
       </Card>
     </div>

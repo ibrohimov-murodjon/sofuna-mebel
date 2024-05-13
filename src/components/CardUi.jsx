@@ -1,8 +1,10 @@
 import { toast } from "react-toastify";
+// import { IconButton } from '@material-tailwind/react'
 import { useState } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { Button, Dialog } from "@material-tailwind/react";
+// import {useForm } from 'react-hook-form'
 function CardUI({ user, setUiData, uiData, api }) {
   const [size, setSize] = useState(null);
   const handleOpen = (value) => setSize(value);
@@ -25,6 +27,7 @@ function CardUI({ user, setUiData, uiData, api }) {
         setUiData(uiData.filter((user) => user.id !== id));
         toast.success("Deleted User ✅", {
           position: "top-right",
+          autoClose: 1500,
         });
       })
       .catch((error) => console.error("Error deleting user:", error));
@@ -59,16 +62,30 @@ function CardUI({ user, setUiData, uiData, api }) {
     });
   }
   return (
-    <tr className="w-full">
-      <td >
-        {user.name ? <>{user.name}</> : null}
-      </td>
+    <div className="flex items-center w-full  justify-around py-4 cardUser">
+      <span className="flex items-center gap-3 w-[250px]">
+        <small className="">
+          <img
+            className="w-8 h-8 rounded-full"
+            src="https://docs.material-tailwind.com/img/face-2.jpg"
+            alt=""
+          />
+        </small>
+        <p>
+          {user.username ? (
+            <p className="text-[18px] font-semibold">{user.username}</p>
+          ) : null}
+        </p>
+        <p>{user.name ? <p>{user.name}</p> : null}</p>
+      </span>
 
-      {user.user_roles ? <td>{user.user_roles}</td> : null}
-        {user.price ? <td>{user.price}</td> : null}
-        {user.qty ? <td>{user.qty}</td> : null}
-        {user.total_price ? <td>{user.total_price}</td> : null}
-      <td className="flex gap-x-3">
+      <p>{user.user_roles ? <p>{user.user_roles}</p> : null}</p>
+      <span className="flex items-center gap-x-14">
+        {user.price ? <p>{user.price}</p> : null}
+        {user.qty ? <p>{user.qty}</p> : null}
+        {user.total_price ? <p>{user.total_price}</p> : null}
+      </span>
+      <span className="flex items-center gap-5">
         <Button
           variant="outlined"
           className="border rounded-md p-2"
@@ -85,7 +102,7 @@ function CardUI({ user, setUiData, uiData, api }) {
         >
           <RiDeleteBin5Line className="text-[20px]" />
         </Button>
-      </td>
+      </span>
       <Dialog
         className="animateModal"
         open={size === "sm"}
@@ -169,7 +186,7 @@ function CardUI({ user, setUiData, uiData, api }) {
           </form>
         </span>
       </Dialog>
-    </tr>
+    </div>
   );
 }
 
