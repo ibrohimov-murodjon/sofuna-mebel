@@ -139,7 +139,13 @@ function Xodimlar() {
           <div className="flex prdouct flex-col gap-3">
             {category.length > 0 ? (
               <>
-                {category.map((el, index) => {
+              <CardUI
+                            key={crypto.randomUUID()}
+                            setUiData={setCategory}
+                            uiData={category}
+                            api={"https://custom.uz/users/"}
+                          />
+                {/* {category.map((el, index) => {
                   return (
                     <CardUI
                       api={"https://custom.uz/users/"}
@@ -149,7 +155,7 @@ function Xodimlar() {
                       uiData={category}
                     />
                   );
-                })}
+                })} */}
               </>
             ) : (
               <div className="loaderWrapper">

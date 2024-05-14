@@ -17,6 +17,7 @@ function RoutesLayout({ children }) {
       user_role: "worker",
     },
   });
+  localStorage.getItem('activePage') == null ? localStorage.setItem('activePage', 'Home') : ''
   function addUser(userr) {
     let { username, password, user_role } = userr;
       let userData = {

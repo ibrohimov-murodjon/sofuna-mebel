@@ -75,7 +75,7 @@ function Sidebar({setActivePage, activePage}) {
       {sidebar && (
         <div className="w-80 bg-white min-h-screen flex flex-col items-center rounded py-6 px-4">
           <div className="mb-7 ">
-            <img src={Logo} alt="logo" className="h-32 w-32 rounded-full" />
+            <img src={Logo} alt="logo" className="h-24 w-24 rounded-full" />
           </div>
           <nav className="MainMeniu">
             {MenuItems.map((item) => {

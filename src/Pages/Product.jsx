@@ -71,20 +71,18 @@ function Product() {
                 </div>
               </div>
             </CardHeader>
-            <span className="flex items-center px-10  bg-blue-gray-200 py-5 gap-x-[210px]">
-              <p className="w-full max-w-[250px]">Mahsulot Nomi</p>
-              <small className="flex items-center gap-14">
-                <p>Narxi</p>
-                <p>Soni</p>
-                <p>Umumiy narxi</p>
-              </small>
-            </span>
-            <CardBody className="overflow-scroll prdouct scrol px-0">
+            <CardBody className="overflow-scroll mt-[-30px] prdouct scrol px-0">
               <div className="mt-4 w-full min-w-max table-auto text-left">
                 <div className="flex flex-col gap-3">
                   {data.length > 0 ? (
                     <>
-                      {data.map((product) => {
+                    <CardUI
+                            key={crypto.randomUUID()}
+                            setUiData={setData}
+                            uiData={data}
+                            api={"https://custom.uz/products/api/"}
+                          />
+                      {/* {data.map((product) => {
                         return (
                           <CardUI
                             key={crypto.randomUUID()}
@@ -94,7 +92,7 @@ function Product() {
                             api={"https://custom.uz/products/api/"}
                           />
                         );
-                      })}
+                      })} */}
                     </>
                   ) : (
                     <div className="loaderWrapper">
