@@ -603,7 +603,7 @@ input[type="checkbox"] {
 
 .AddProductform--submit:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(39, 77, 120);
+  background-color: #0e95d8;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -612,7 +612,7 @@ input[type="checkbox"] {
   min-width: 30px;
   min-height: 60px;
   font-family: "Nunito", sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 1.3px;
   font-weight: 700;
@@ -620,15 +620,15 @@ input[type="checkbox"] {
   position: fixed;
   right: 50px;
   bottom: 70px;
-  background: #4fd1c5;
-  background: linear-gradient(
+  background: #0e95d8;
+  /* background: linear-gradient(
     90deg,
     rgba(129, 230, 217, 1) 0%,
     rgba(79, 209, 197, 1) 100%
-  );
+  ); */
   border: none;
   border-radius: 1000px;
-  box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+  /* box-shadow: 12px 12px 24px 12px rgba(79, 209, 197, 0.64); */
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
   outline: none;
@@ -638,10 +638,10 @@ input[type="checkbox"] {
 .createBtn::before {
   content: "";
   border-radius: 1000px;
-  min-width: calc(64px + 12px);
-  min-height: calc(60px + 12px);
-  border: 6px solid #00ffcb;
-  box-shadow: 0 0 60px rgba(0, 255, 203, 0.64);
+  min-width: calc(60px + 12px);
+  min-height: calc(58px + 12px);
+  border: 4px solid #1100ff;
+  /* box-shadow: 0 0 60px rgba(0, 255, 203, 0.64); */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -666,13 +666,13 @@ input[type="checkbox"] {
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  border: 6px solid #00ffcb;
+  border: 6px solid #0e95d8;
   position: absolute;
   z-index: -1;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: ring 1.5s infinite;
+  animation: ring 1.7s infinite;
 }
 
 .createBtn:hover::after,
@@ -688,8 +688,8 @@ input[type="checkbox"] {
     opacity: 1;
   }
   100% {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     opacity: 0;
   }
 }
