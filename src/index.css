@@ -368,17 +368,17 @@ input[type="checkbox"] {
 }
 
 .MenuActive {
-  background: rgb(160, 159, 164);
-  background: linear-gradient(
+  background: rgb(14, 80, 193);
+  /* background: linear-gradient(
     299deg,
     rgba(160, 159, 164, 1) 34%,
     rgba(62, 144, 240, 1) 79%
-  );
+  ); */
 }
 
 .MainMeniu {
   display: flex;
-  width: 288px;
+  width: 238px;
   align-items: center;
   flex-direction: column;
   gap: 12px;

@@ -50,7 +50,7 @@ function Product() {
         <Loader />
       ) : (
         <div className="MainProductWrapper">
-          <Card className=" w-full rounded-md mt-[-3px]">
+          <Card className=" w-full px-4 rounded-md mt-[-3px]">
             <CardHeader
               floated={false}
               shadow={false}
