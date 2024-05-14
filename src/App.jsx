@@ -12,36 +12,31 @@ import {
   Profile,
   Xodimlar,
 } from "./Pages";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setRole } from "./store/userToken";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
-  const [role, setRole] = useState("");
-
-  useEffect(() => {
-    async function fetchUserRole() {
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.user_id;
-        try {
-          const response = await fetch(`https://custom.uz/users/${userId}`);
-          const data = await response.json();
-          setRole(data.user_roles);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-    fetchUserRole();
-  }, [token]);
-
+  const role = useSelector((state) => state.userToken.role);
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+  
+  
+  function fetchUserRole() {
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken.user_roles;
+    dispatch(setRole(userRole));
+  }
+}
+
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }
-  }, [navigate]);
+    fetchUserRole()
+  }, [navigate,token]);
 
   function ProtectedRoute({
     children,

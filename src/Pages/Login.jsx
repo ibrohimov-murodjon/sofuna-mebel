@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -10,10 +10,12 @@ import {
 import { Validate, Clear } from "../Functions/Function";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../store/userToken";
-
+import { jwtDecode } from "jwt-decode";
+import { setRole } from "../store/userToken";
 function Login() {
+  const token = useSelector((state) => state.userToken.token);
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
@@ -42,7 +44,7 @@ function Login() {
               "accessToken",
               JSON.stringify(data.access_token)
             );
-            navigate("/");
+        navigate('/')
           }
           setLoading(false);
         })
@@ -53,7 +55,6 @@ function Login() {
     }
     Clear(username, password);
   }
-
   return (
     <div className="LoginPageWrapper bg-login">
       {loading ? (
