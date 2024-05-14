@@ -1,6 +1,7 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import RoutesLayout from "./Layout/RoutesLayout.jsx";
+import { jwtDecode } from "jwt-decode";
 import {
   ErrorPage,
   Home,
@@ -11,85 +12,133 @@ import {
   Profile,
   Xodimlar,
 } from "./Pages";
-import { AuthLogin } from "./Auth/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setRole } from "./store/userToken";
 
 function App() {
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-  const [role, setRole] = useState();
+  const token = useSelector((state) => state.userToken.token);
+  const role = useSelector((state) => state.userToken.role);
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  
+  
+  function fetchUserRole() {
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken.user_roles;
+    dispatch(setRole(userRole));
+  }
+}
 
-  const ProtectedRoute = ({ redirectTo = "/login", isAuthentication }) => {
-    const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    }
+    fetchUserRole()
+  }, [navigate,token]);
+
+  function ProtectedRoute({
+    children,
+    redirectTo = "/login",
+    isAuthentication,
+  }) {
     useEffect(() => {
-      if (localStorage.getItem("roles")) {
-        setIsUserAuthenticated(true);
-        const roles = JSON.parse(localStorage.getItem("roles"));
-        setRole(roles);
-      } else {
+      if (!isAuthentication) {
         navigate(redirectTo);
       }
-    }, [isUserAuthenticated, redirectTo]);
+    }, [isAuthentication, navigate, redirectTo]);
 
-    const rols = (role) => {
-      switch (role) {
-        case "admin":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <>
-                  <Route path="/product" element={<Product />} />
-                  <Route path="/order" element={<Order />} />
-                  <Route path="/message" element={<Message />} />
-                  <Route path="/Xodimlar" element={<Xodimlar />} />
-                  <Route path="/profile" element={<Profile />} />
-                </>
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        case "manager":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        case "worker":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        default:
-          break;
-      }
-    };
-
-    return isAuthentication ? rols(role) : null;
-  };
+    return children;
+  }
 
   return (
-    <AuthLogin.Provider value={{ isUserAuthenticated, setIsUserAuthenticated }}>
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute
-              isAuthentication={isUserAuthenticated}
-              redirectTo="/login"
-            ></ProtectedRoute>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/errorPage" element={<ErrorPage />} />
-      </Routes>
-    </AuthLogin.Provider>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<ErrorPage />} />
+      {token && role === "admin" && (
+        <>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Home />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/product"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Product />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Order />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/message"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Message />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/xodimlar"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Xodimlar />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                isAuthentication={token ? true : false}
+                redirectTo="/login"
+              >
+                <RoutesLayout>
+                  <Profile />
+                </RoutesLayout>
+              </ProtectedRoute>
+            }
+          />
+        </>
+      )}
+    </Routes>
   );
 }
 
