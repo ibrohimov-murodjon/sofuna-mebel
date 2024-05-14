@@ -41,7 +41,7 @@ function Login() {
             navigate("/");
             console.log(data);
             localStorage.setItem("roles", JSON.stringify(data.roles));
-            setLoading(false)
+            setLoading(false);
           }
         })
         .catch((error) => {
@@ -70,6 +70,13 @@ function Login() {
             ref={username}
             placeholder="Username"
             size="lg"
+            style={{
+              background: "transparent",
+              outlineColor: "white",
+              border: " 2px solid white",
+              fontWeight: "700",
+              color: "white",
+            }}
           />
           <input
             className="LoginRefInput"
@@ -77,18 +84,24 @@ function Login() {
             ref={password}
             placeholder="Password"
             size="lg"
+            style={{
+              background: "transparent",
+              outlineColor: "white",
+              border: " 2px solid white",
+              fontWeight: "700",
+              color: "white",
+            }}
           />
-          <div className="-ml-2.5">
-            <Checkbox  label="Remember Me" />
-          </div>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button onClick={hendalSubmit} variant="gradient" fullWidth>
+          <Button
+            onClick={hendalSubmit}
+            disabled={loading}
+            variant="gradient"
+            fullWidth
+          >
             {loading ? "Loading..." : "Sign In"}
           </Button>
-          <Typography variant="small" className="mt-6 flex justify-center">
-            Don&apos;t have an account?
-          </Typography>
         </CardFooter>
       </Card>
     </div>
