@@ -10,13 +10,15 @@ import {
 import { Validate, Clear } from "../Functions/Function";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import { setToken } from "../store/userToken";
 
 function Login() {
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   function hendalSubmit(e) {
     setLoading(true);
     e.preventDefault();
@@ -35,10 +37,14 @@ function Login() {
         .then((res) => res.json())
         .then((data) => {
           if (data.access_token) {
-            localStorage.setItem("accessToken", JSON.stringify(data.access_token));
+            dispatch(setToken(data.access_token));
+            localStorage.setItem(
+              "accessToken",
+              JSON.stringify(data.access_token)
+            );
             navigate("/");
-            setLoading(false);
           }
+          setLoading(false);
         })
         .catch((error) => {
           setLoading(false);

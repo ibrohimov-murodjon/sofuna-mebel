@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import RoutesLayout from "./Layout/RoutesLayout.jsx";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,22 +16,24 @@ import {
 import { useSelector } from "react-redux";
 
 function App() {
-  // const token = useSelector((state) => state.userToken.token);
-  let token =
-    "eyJhbGciOiaIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1Njg4MTYyLCJpYXQiOjE3MTU2NzAxNjIsImp0aSI6IjAxODY1YTc4MmFiMjQyMWJiYjE5MzNmMGQ1OTYwZjA3IiwidXNlcl9pZCI6ImIzNzEzOWFhLTk3MTgtNGM0OC04MzYxLTQ1ZjdmNjk1YzY3YyJ9.rx7j3Xd4ki4lAwmRgpv63kNT4wqSSs0-wkcZJm2h85A";
+  const token = useSelector((state) => state.userToken.token);
   let userId = "";
+  const [role, setRole] = useState("");
+
   if (token) {
     const decodedToken = jwtDecode(token);
     userId = decodedToken.user_id;
-    console.log(decodedToken);
+    fetch("https://custom.uz/users/" + userId)
+      .then((res) => res.json())
+      .then((data) => {
+        setRole(data.user_roles);
+      });
   }
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }
-    console.log(userId);
   }, []);
 
   function ProtectedRoute({
@@ -47,13 +49,13 @@ function App() {
 
     return children;
   }
-  let role = "admin";
+
   return (
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
-        {token !== null && role === "admin" && (
+        {token !== null && role == "admin" && (
           <>
             <Route
               path="/"
@@ -66,11 +68,53 @@ function App() {
               }
             />
             <Route
-              path="/"
+              path="/product"
               element={
-                <ProtectedRoute
-                  isAuthentication={token ? true : false}
-                ></ProtectedRoute>
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Product />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order"
+              element={
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Order />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/message"
+              element={
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Message />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/xodimlar"
+              element={
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Xodimlar />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Profile />
+                  </RoutesLayout>
+                </ProtectedRoute>
               }
             />
           </>
