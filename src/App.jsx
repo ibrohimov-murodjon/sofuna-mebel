@@ -1,6 +1,8 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import RoutesLayout from "./Layout/RoutesLayout.jsx";
+import { jwtDecode } from "jwt-decode";
+
 import {
   ErrorPage,
   Home,
@@ -11,85 +13,70 @@ import {
   Profile,
   Xodimlar,
 } from "./Pages";
-import { AuthLogin } from "./Auth/Auth";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-  const [role, setRole] = useState();
+  // const token = useSelector((state) => state.userToken.token);
+  let token =
+    "eyJhbGciOiaIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1Njg4MTYyLCJpYXQiOjE3MTU2NzAxNjIsImp0aSI6IjAxODY1YTc4MmFiMjQyMWJiYjE5MzNmMGQ1OTYwZjA3IiwidXNlcl9pZCI6ImIzNzEzOWFhLTk3MTgtNGM0OC04MzYxLTQ1ZjdmNjk1YzY3YyJ9.rx7j3Xd4ki4lAwmRgpv63kNT4wqSSs0-wkcZJm2h85A";
+  let userId = "";
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    userId = decodedToken.user_id;
+    console.log(decodedToken);
+  }
+  const navigate = useNavigate();
 
-  const ProtectedRoute = ({ redirectTo = "/login", isAuthentication }) => {
-    const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    }
+    console.log(userId);
+  }, []);
 
+  function ProtectedRoute({
+    children,
+    redirectTo = "/login",
+    isAuthentication,
+  }) {
     useEffect(() => {
-      if (localStorage.getItem("roles")) {
-        setIsUserAuthenticated(true);
-        const roles = JSON.parse(localStorage.getItem("roles"));
-        setRole(roles);
-      } else {
-        navigate(redirectTo);
+      if (!isAuthentication) {
+        return navigate(redirectTo);
       }
-    }, [isUserAuthenticated, redirectTo]);
+    }, [isAuthentication, navigate, redirectTo]);
 
-    const rols = (role) => {
-      switch (role) {
-        case "admin":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <>
-                  <Route path="/product" element={<Product />} />
-                  <Route path="/order" element={<Order />} />
-                  <Route path="/message" element={<Message />} />
-                  <Route path="/Xodimlar" element={<Xodimlar />} />
-                  <Route path="/profile" element={<Profile />} />
-                </>
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        case "manager":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        case "worker":
-          return (
-            <RoutesLayout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </RoutesLayout>
-          );
-        default:
-          break;
-      }
-    };
-
-    return isAuthentication ? rols(role) : null;
-  };
-
+    return children;
+  }
+  let role = "admin";
   return (
-    <AuthLogin.Provider value={{ isUserAuthenticated, setIsUserAuthenticated }}>
+    <>
       <Routes>
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute
-              isAuthentication={isUserAuthenticated}
-              redirectTo="/login"
-            ></ProtectedRoute>
-          }
-        />
         <Route path="/login" element={<Login />} />
-        <Route path="/errorPage" element={<ErrorPage />} />
+        <Route path="*" element={<ErrorPage />} />
+        {token !== null && role === "admin" && (
+          <>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isAuthentication={token ? true : false}>
+                  <RoutesLayout>
+                    <Home />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                ></ProtectedRoute>
+              }
+            />
+          </>
+        )}
       </Routes>
-    </AuthLogin.Provider>
+    </>
   );
 }
 

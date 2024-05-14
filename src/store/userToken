@@ -1,0 +1,15 @@
+const initialState = {
+    token: localStorage.getItem("accessToken") || null,
+  };
+  
+  const userTokenReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case "SET_TOKEN":
+        return { ...state, token: action.payload };
+      default:
+        return state;
+    }
+  };
+  export const setToken = (token) => ({ type: "SET_TOKEN", payload: token });
+  
+  export default userTokenReducer;

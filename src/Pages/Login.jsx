@@ -1,19 +1,17 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Card,
   CardHeader,
   CardBody,
   CardFooter,
   Typography,
-  Checkbox,
   Button,
 } from "@material-tailwind/react";
 import { Validate, Clear } from "../Functions/Function";
 import { useNavigate } from "react-router-dom";
-import { AuthLogin } from "../Auth/Auth";
+import Loader from "../components/Loader";
 
 function Login() {
-  const auth = useContext(AuthLogin);
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
@@ -37,14 +35,13 @@ function Login() {
         .then((res) => res.json())
         .then((data) => {
           if (data.access_token) {
-            auth.setIsUserAuthenticated(true);
+            localStorage.setItem("accessToken", JSON.stringify(data.access_token));
             navigate("/");
-            console.log(data);
-            localStorage.setItem("roles", JSON.stringify(data.roles));
             setLoading(false);
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Login error:", error);
         });
     }
@@ -53,57 +50,61 @@ function Login() {
 
   return (
     <div className="LoginPageWrapper bg-login">
-      <Card className="w-96 shadow-xl backdrop-blur-[10px] border bg-[rgb(255, 255, 255 / 20%)]">
-        <CardHeader
-          variant="gradient"
-          color="gray"
-          className="mb-4 grid h-28 place-items-center"
-        >
-          <Typography variant="h3" color="white">
-            Sign In
-          </Typography>
-        </CardHeader>
-        <CardBody className="flex flex-col gap-4">
-          <input
-            className="LoginRefInput"
-            type="text"
-            ref={username}
-            placeholder="Username"
-            size="lg"
-            style={{
-              background: "transparent",
-              outlineColor: "white",
-              border: " 2px solid white",
-              fontWeight: "700",
-              color: "white",
-            }}
-          />
-          <input
-            className="LoginRefInput"
-            type="password"
-            ref={password}
-            placeholder="Password"
-            size="lg"
-            style={{
-              background: "transparent",
-              outlineColor: "white",
-              border: " 2px solid white",
-              fontWeight: "700",
-              color: "white",
-            }}
-          />
-        </CardBody>
-        <CardFooter className="pt-0">
-          <Button
-            onClick={hendalSubmit}
-            disabled={loading}
+      {loading ? (
+        <Loader />
+      ) : (
+        <Card className="w-96 shadow-xl backdrop-blur-[10px] border bg-[rgb(255, 255, 255 / 20%)]">
+          <CardHeader
             variant="gradient"
-            fullWidth
+            color="gray"
+            className="mb-4 grid h-28 place-items-center"
           >
-            {loading ? "Loading..." : "Sign In"}
-          </Button>
-        </CardFooter>
-      </Card>
+            <Typography variant="h3" color="white">
+              Sign In
+            </Typography>
+          </CardHeader>
+          <CardBody className="flex flex-col gap-4">
+            <input
+              className="LoginRefInput"
+              type="text"
+              ref={username}
+              placeholder="Username"
+              size="lg"
+              style={{
+                background: "transparent",
+                outlineColor: "white",
+                border: " 2px solid white",
+                fontWeight: "700",
+                color: "white",
+              }}
+            />
+            <input
+              className="LoginRefInput"
+              type="password"
+              ref={password}
+              placeholder="Password"
+              size="lg"
+              style={{
+                background: "transparent",
+                outlineColor: "white",
+                border: " 2px solid white",
+                fontWeight: "700",
+                color: "white",
+              }}
+            />
+          </CardBody>
+          <CardFooter className="pt-0">
+            <Button
+              onClick={hendalSubmit}
+              disabled={loading}
+              variant="gradient"
+              fullWidth
+            >
+              {loading ? "Loading..." : "Sign In"}
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   );
 }
