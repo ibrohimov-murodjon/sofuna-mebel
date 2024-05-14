@@ -85,10 +85,10 @@ function Message() {
 
 
   return (
-    <div className="flex items-start gap-x-2 mt-4">
+    <div className="flex  items-start gap-x-2 mt-2">
       {/* LEFT_SECTION */}
       <div
-        className={`w-full min-w-[250px] max-w-[250px] min-h-[80vh]  h-[85vh] overflow-y-auto flex flex-col gap-y-3  px-5 bg-white  pt-4 scroll-m-1 box-border`}
+        className={`w-full min-w-[250px] max-w-[250px] min-h-[80vh]  h-[85vh] overflow-y-auto flex rounded-md flex-col gap-y-3  px-5 bg-white  pt-4 scroll-m-1 box-border`}
       >
         {users.map((e) => {
           return (
@@ -158,14 +158,14 @@ function Message() {
           )}
         </div>
         {/* footer-message */}
-        <span className="flex justify-around items-center border-[#6bb9df] border-[3px] gap-x-2 p-3 rounded-md">
+        <span className="flex justify-around items-center bg-blue-gray-200 border-[#6bb9df] border-[3px] gap-x-2 p-3 rounded-md">
           <small className="flex items-center gap-x-2">
             <button onClick={() => handleOpen("sm")}>
               <img className="w-7 h-7" src={Orderimg} />
             </button>
           </small>
           <input
-            className="border-[2px] flex-grow outline-none pl-2 "
+            className="border-[2px] bg-inherit outline-none flex-grow border-none pl-2 "
             placeholder="Send your message"
             type="text"
           />

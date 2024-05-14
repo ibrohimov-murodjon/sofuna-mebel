@@ -1,13 +1,10 @@
 //Toastify
 import "react-toastify/dist/ReactToastify.css";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { CirclesWithBar } from "react-loader-spinner";
 import { Spinner } from "@material-tailwind/react";
 import {
   Card,
   CardHeader,
   Input,
-  CardBody,
   Tabs,
   TabsHeader,
   Tab,
@@ -112,7 +109,7 @@ function Xodimlar() {
 
 
   return (
-    <Card className=" mt-2 w-full relative">
+    <Card className="rounded-md mt-2 w-full relative">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="flex flex-col items-center border-b-2 justify-between gap-4 md:flex-row">
           <Tabs value="all" className="w-full p-4 md:w-max">
@@ -132,7 +129,7 @@ function Xodimlar() {
             <Input
               onChange={(e) => searchFn(e.target.value)}
               label="Search"
-              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              // icon={< className="h-5 w-5" />}
             />
           </div>
         </div>
