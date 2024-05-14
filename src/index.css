@@ -516,23 +516,39 @@ input[type="checkbox"] {
   }
 }
 .bg-login {
-  height: 100vh;
   width: 100%;
-  background-image: url(./assets/login-bg.jpg);
+  /* background-image: url(./assets/login_bg.png); */
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0.33)
+    ),
+    url(./assets/lgon_bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login-bg {
+  width: 100%;
+  background-image: url("./assets/new_sofa.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.bg-login {
-  height: 100vh;
-  width: 100%;
-  background-image: url(./assets/login-bg.jpg);
-  background-position: center;
+.center_login_img {
+  background-image: url("./assets/flower_img.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  width: 40%;
+  height: 400px;
 }
 
+.top_login_img {
+  background-image: url("./assets/light_img.jpg");
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 500px;
+}
 /* add product modal style  */
 
 .AddProductform {
