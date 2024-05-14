@@ -1,5 +1,5 @@
 //react-icons
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const months = [
@@ -19,7 +19,17 @@ const months = [
 function Header({activePage, setActivePage}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
-  const dataOfDay = new Date();
+  const [dataOfDay, setDataOfDay] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDataOfDay(new Date());
+    }, 60000); // 60000 milliseconds = 1 minute
+  
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+  
   return (
     <div className="flex items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
@@ -27,9 +37,9 @@ function Header({activePage, setActivePage}) {
       </div>
       <div className="flex items-center gap-x-20">
         <div className="flex items-center gap-x-4 text-[18px] font-extralight">
-          <span className="flex items-center text-[25px] font-bold font-serif">
-            <p>{dataOfDay.getHours()}</p> : <p className="mr-2">{dataOfDay.getMinutes()}</p>
-            {dataOfDay.getHours() > 12 ? <p className="text-gray-500">PM</p> : <p className="text-gray-500">AM</p>}
+          <span className="flex items-center gap-x-2">
+            <p className="w-full">{dataOfDay.getHours()} : {dataOfDay.getMinutes()}</p>
+      {dataOfDay.getHours() > 12 ? <p className="text-gray-500">PM</p> : <p className="text-gray-500">AM</p>}
           </span>
           <span className="flex items-center">
             <p>{dataOfDay.getDate()}</p> -{" "}

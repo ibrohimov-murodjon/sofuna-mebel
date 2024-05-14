@@ -3,20 +3,18 @@ import { useState } from "react";
 import { SideBar } from "../components";
 import { Header } from "../Section";
 import { useForm } from "react-hook-form";
+import adduserIcon from "../../src/assets/user-plus-solid.svg";
 
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
-  const {
-    handleSubmit,
-    register,
-    resetField,
-  } = useForm({
+  const { handleSubmit, register, resetField } = useForm({
     defaultValues: {
       user_role: "worker",
     },
   });
+  localStorage.getItem('activePage') == null ? localStorage.setItem('activePage', 'Home') : ''
   function addUser(userr) {
     let { username, password, user_role } = userr;
     let userData = {
@@ -44,23 +42,29 @@ function RoutesLayout({ children }) {
     resetField("profile_pic", { keepDirty: true });
   }
   function setActivePageName(name) {
-    localStorage.setItem('activePage', name)
+    localStorage.setItem("activePage", name);
   }
   function getActivePageName() {
-    return localStorage.getItem('activePage')
+    return localStorage.getItem("activePage");
   }
   return (
     <div className="thum w-full flex gap-x-2">
-      <SideBar setActivePage={setActivePageName} activePage={getActivePageName} />
+      <SideBar
+        setActivePage={setActivePageName}
+        activePage={getActivePageName}
+      />
       <div className="col w-full max-w-[1250px] ">
-        <Header setActivePage={setActivePageName} activePage={getActivePageName} />
+        <Header
+          setActivePage={setActivePageName}
+          activePage={getActivePageName}
+        />
         {children}
       </div>
       <div
         onClick={handleOpen}
         className="createBtn w-full max-w-16 text-[40px] cursor-pointer text-white h-16 rounded-full flex items-center justify-center absolute bottom-6 right-6 bg-[#0e95d8]"
       >
-        +
+        <img width="25px" height="25px" src={adduserIcon} alt="" />
       </div>
       <Dialog
         size="xs"

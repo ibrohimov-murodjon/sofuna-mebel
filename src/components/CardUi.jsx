@@ -5,8 +5,10 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { Button, Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
+import { data } from "autoprefixer";
 // import {useForm } from 'react-hook-form'
-function CardUI({ user, setUiData, uiData, api }) {
+function CardUI({ setUiData, uiData, api }) {
+  console.log(uiData);
   const [size, setSize] = useState(null);
   const handleOpen = (value) => setSize(value);
   // const { register, handleSubmit, resetField, formState: {dirtyFields, isDirty}  } =  useForm()
@@ -59,186 +61,144 @@ function CardUI({ user, setUiData, uiData, api }) {
       ndc: user.ndc,
       qty: user.qty,
       price: user.price,
-      // total_price: user.total_price
     });
   }
   return (
-    <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-      <table class="w-full text-left table-auto min-w-max">
+    <div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+      <table className="w-full text-left table-auto min-w-max">
         <thead>
           <tr>
-            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Name
               </p>
             </th>
-            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                Job
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Qty
               </p>
             </th>
-            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                Employed
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Meauserement
               </p>
             </th>
-            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Price
+              </p>
+            </th>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Total price
+              </p>
+            </th>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                NDS + Price
+              </p>
+            </th>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Dollar curs
+              </p>
+            </th>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Dollar convert
+              </p>
+            </th>
+            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                Actions
+              </p>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                John Michael
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Manager
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                23/04/18
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <a
-                href="#"
-                class="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-              >
-                Edit
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Alexa Liras
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Developer
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                23/04/18
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <a
-                href="#"
-                class="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-              >
-                Edit
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Laurent Perrier
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Executive
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                19/09/17
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <a
-                href="#"
-                class="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-              >
-                Edit
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Michael Levi
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Developer
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                24/12/08
-              </p>
-            </td>
-            <td class="p-4 border-b border-blue-gray-50">
-              <a
-                href="#"
-                class="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-              >
-                Edit
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-4">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Richard Gran
-              </p>
-            </td>
-            <td class="p-4">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                Manager
-              </p>
-            </td>
-            <td class="p-4">
-              <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                04/10/21
-              </p>
-            </td>
-            <td class="p-4">
-              <a
-                href="#"
-                class="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-              >
-                Edit
-              </a>
-            </td>
-          </tr>
+          {uiData.map((user) => {
+            return (
+              <tr key={crypto.randomUUID()}>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                    {user.name.charAt() + user.name.slice(1) }
+                  </p>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                    {user.qty}
+                  </p>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                    {user.measurement}
+                  </p>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                    {user.price}
+                  </p>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <a
+                    href="#"
+                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                  >
+                    {user.total_price}
+                  </a>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <a
+                    href="#"
+                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                  >
+                    {user.ndc_price}
+                  </a>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <a
+                    href="#"
+                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                  >
+                    {user.dollor_course}
+                  </a>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <a
+                    href="#"
+                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                  >
+                    {user.dollor_course_total?.toFixed(2)}
+                  </a>
+                </td>
+                <td className="p-4 border-b border-blue-gray-50">
+                  <span className="flex items-center gap-5">
+                    <button
+                      className=""
+                      onClick={() => {
+                        updateUser(user), handleOpen("sm");
+                      }}
+                    >
+                      <img src={EditBTn} alt="edit btn" />
+                    </button>
+                    <button className="" onClick={() => deleteUser(user.id)}>
+                      <img src={DeleteBtn} alt="delete btn" />
+                    </button>
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      {/* <span className="flex items-center gap-5">
-        <button
-          className=""
-          onClick={() => {
-            updateUser(user), handleOpen("sm");
-          }}
-        >
-          <img src={EditBTn} alt="edit btn" />
-        </button>
-        <button
-          className=""
-          onClick={() => deleteUser(user.id)}
-        >
-          <img src={DeleteBtn} alt="delete btn" />
-        </button>
-      </span> */}
-      {/* <Dialog
+      <Dialog
         className="animateModal"
         open={size === "sm"}
         size={size || "md"}
         handler={handleOpen}
       >
         <span>
-          <form
+          {/* <form
             onSubmit={(e) => handleUpdate(e, user.id)}
             className="flex items-start flex-col gap-5"
           >
@@ -311,9 +271,9 @@ function CardUI({ user, setUiData, uiData, api }) {
             <button className="bg-green-600 rounded-md text-white w-full max-w-[150px] py-1">
               Send
             </button>
-          </form>
+          </form> */}
         </span>
-      </Dialog> */}
+      </Dialog>
     </div>
   );
 }
