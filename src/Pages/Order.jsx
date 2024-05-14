@@ -10,7 +10,6 @@ import {
   Option,
 } from "@material-tailwind/react";
 import { AddProduct, CardUI, Pagination } from "../components";
-import { CirclesWithBar } from "react-loader-spinner";
 function Order() {
   const [value, setValue] = useState("");
   const [data, setData] = useState([]);
@@ -32,7 +31,7 @@ function Order() {
     );
   }
   return (
-    <Card className=" mt-2 w-full">
+    <Card className=" mt-2 rounded-md w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none m-4 ">
         <div className="mb-2 flex items-center justify-between gap-8">
           <div>

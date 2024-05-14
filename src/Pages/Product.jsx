@@ -10,7 +10,6 @@ import { Spinner } from "@material-tailwind/react";
 import { AddProduct, CardUI, Pagination } from "../components";
 import { useState } from "react";
 import { useEffect } from "react";
-import { CirclesWithBar } from "react-loader-spinner";
 
 const TABLE_HEAD = ["Maxsulot", "Narxi", "qty", "Jami", "", " "];
 
@@ -46,7 +45,7 @@ function Product() {
   }
   return (
     <div className="MainProductWrapper">
-      <Card className=" w-full">
+      <Card className=" w-full rounded-md mt-[-3px]">
         <CardHeader floated={false} shadow={false} className="rounded-none m-4">
           <div className="mb-2 flex items-center justify-between gap-8">
             <div>

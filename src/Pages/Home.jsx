@@ -1,40 +1,9 @@
-import {
-  Chart as ChartJS,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-
-ChartJS.register(
-  LineElement,
-  PointElement,
-  Tooltip,
-  LinearScale,
-  CategoryScale,
-  Legend
-);
-const data = {
-  labels: ["Yak", "Dus", "Sesh", "Chor", "Pay", "Jum", "Shan"],
-  datasets: [
-    {
-      label: "Furnitures sold this week",
-      data: [65, 59, 80, 81, 56, 55, 40],
-      borderWidth: 4,
-      backgroundColor: "red",
-      hoverBackgroundColor: "black",
-      pointStyle: "triangle",
-      borderColor: "rgb(75, 192, 190)",
-      tension: 0.5,
-    },
-  ],
-};
-const options = {};
 function Home() {
-  return <Line data={data} options={options}></Line>;
+  return (
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae autem sit voluptatem quidem animi repellat libero maxime! Impedit, repellendus quaerat. In porro dignissimos tempore voluptas, officia sint ad dolor ut similique iste sunt accusamus aperiam dicta doloribus dolorem eveniet rem blanditiis dolore quaerat tempora culpa odio eos saepe. Velit facilis porro rerum quaerat maiores consequatur consequuntur, repudiandae eum expedita tempore eaque reiciendis quos iure libero magnam sint ipsam molestiae, blanditiis dignissimos, ratione incidunt voluptates qui facere repellendus! Voluptatibus fugiat delectus corporis aliquid, dolore accusamus veniam aliquam perferendis a nihil dolorem? Quis enim tempore atque? Magni fugit magnam maiores cupiditate.
+    </div>
+  )
 }
 
 export default Home;

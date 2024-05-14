@@ -8,6 +8,7 @@ import {
   Message,
   Order,
   Product,
+  Profile,
   Xodimlar,
 } from "./Pages";
 import { AuthLogin } from "./Auth/Auth";
@@ -41,6 +42,7 @@ function App() {
                   <Route path="/order" element={<Order />} />
                   <Route path="/message" element={<Message />} />
                   <Route path="/Xodimlar" element={<Xodimlar />} />
+                  <Route path="/profile" element={<Profile />} />
                 </>
                 <Route path="*" element={<ErrorPage />} />
               </Routes>

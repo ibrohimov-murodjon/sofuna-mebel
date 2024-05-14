@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { Button, Dialog } from "@material-tailwind/react";
+import { DeleteBtn, EditBTn } from "../assets";
 // import {useForm } from 'react-hook-form'
 function CardUI({ user, setUiData, uiData, api }) {
   const [size, setSize] = useState(null);
@@ -86,22 +87,20 @@ function CardUI({ user, setUiData, uiData, api }) {
         {user.total_price ? <p>{user.total_price}</p> : null}
       </span>
       <span className="flex items-center gap-5">
-        <Button
-          variant="outlined"
-          className="border rounded-md p-2"
+        <button
+          className=""
           onClick={() => {
             updateUser(user), handleOpen("sm");
           }}
         >
-          <MdOutlineModeEditOutline className="text-[20px]" />
-        </Button>
-        <Button
-          variant="outlined"
-          className="border rounded-md p-2"
+          <img src={EditBTn} alt="edit btn" />
+        </button>
+        <button
+          className=""
           onClick={() => deleteUser(user.id)}
         >
-          <RiDeleteBin5Line className="text-[20px]" />
-        </Button>
+          <img src={DeleteBtn} alt="delete btn" />
+        </button>
       </span>
       <Dialog
         className="animateModal"
