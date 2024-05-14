@@ -6,6 +6,15 @@ import { setToken } from "../store/userToken";
 import Loader from "../components/Loader/index";
 
 function Login() {
+import { Validate, Clear } from "../Functions/Function";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../store/userToken";
+import { jwtDecode } from "jwt-decode";
+import { setRole } from "../store/userToken";
+function Login() {
+  const token = useSelector((state) => state.userToken.token);
   const navigate = useNavigate();
   const username = useRef();
   const password = useRef();
@@ -34,6 +43,7 @@ function Login() {
     return Object.keys(newErrors).length === 0; // Return true if no errors
   }
 
+  const dispatch = useDispatch();
   function hendalSubmit(e) {
     setLoading(true);
     e.preventDefault();
@@ -65,6 +75,7 @@ function Login() {
           setLoading(false);
         })
         .catch((error) => {
+          setLoading(false);
           console.error("Login error:", error);
         })
         .finally(() => {
@@ -74,7 +85,6 @@ function Login() {
       setLoading(false); // Reset loading state if validation fails
     }
   }
-
   return (
     <div className="min-h-screen bg-login text-gray-900 flex justify-center">
       {loading ? (
@@ -153,8 +163,6 @@ function Login() {
             <div className="login-bg w-full bg-contain bg-center bg-no-repeat"></div>
           </div>
         </div>
-      )}
-    </div>
   );
 }
 
