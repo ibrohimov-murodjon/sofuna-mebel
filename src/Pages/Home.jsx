@@ -1,9 +1,74 @@
+import { Dialog } from "@material-tailwind/react";
+import OutlinedInput from "../components/OutlineInput";
+import { useState } from "react";
+import OutlineModal from "../components/OutlineModal/OutlineModal";
+
 function Home() {
+  const [openUserAdModal, setopenUserAdModal] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState({});
+  const [isSuccess, setIsSucces] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const addUsersFun = () => {
+    setopenUserAdModal(true);
+  };
+
+  const deleteCloseFun = () => {
+    setopenUserAdModal(false);
+  };
+
+  const [eskizValues, setEskizValues] = useState({
+    email: "",
+    emailError: false,
+    secretKey: "",
+    secretKeyError: false,
+  });
+
+  const handleEskizChange = (e) => {
+    const { name, value } = e.target;
+    setEskizValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+      [`${name}Error`]: false,
+    }));
+  };
+
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae autem sit voluptatem quidem animi repellat libero maxime! Impedit, repellendus quaerat. In porro dignissimos tempore voluptas, officia sint ad dolor ut similique iste sunt accusamus aperiam dicta doloribus dolorem eveniet rem blanditiis dolore quaerat tempora culpa odio eos saepe. Velit facilis porro rerum quaerat maiores consequatur consequuntur, repudiandae eum expedita tempore eaque reiciendis quos iure libero magnam sint ipsam molestiae, blanditiis dignissimos, ratione incidunt voluptates qui facere repellendus! Voluptatibus fugiat delectus corporis aliquid, dolore accusamus veniam aliquam perferendis a nihil dolorem? Quis enim tempore atque? Magni fugit magnam maiores cupiditate.
-    </div>
-  )
+    <>
+      {/* <OutlinedInput
+        placeholder="Secret key"
+        name="secretKey"
+        value={eskizValues.secretKey}
+        onChange={handleEskizChange}
+        isError={eskizValues.secretKeyError}
+        errorMessage={"Maydonni to'ldiring"}
+      /> */}
+
+      <button onClick={addUsersFun}>Open</button>
+      <Dialog
+        open={openUserAdModal}
+        onClose={() => setopenUserAdModal(false)}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          with: "700px",
+        }}
+      >
+        <OutlineModal
+          handleClose={deleteCloseFun}
+          selectedItem={selectedTemplate}
+          updateFun={dataUpdate}
+          setIsSucces={setIsSucces}
+          setMessage={setMessage}
+          setOpenSnackbar={setOpenSnackbar}
+        />
+      </Dialog>
+    </>
+  );
 }
+Home.propTypes = {};
 
 export default Home;
