@@ -1,14 +1,9 @@
-import React, { useRef } from "react";
-import { CiSquareChevLeft } from "react-icons/ci";
-import { Drawer, Button, Typography } from "@material-tailwind/react";
-import { Select, Option } from "@material-tailwind/react";
-
-import { Avatar } from "@material-tailwind/react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { RegisterValidate } from "../Functions/Function";
 import { useState } from "react";
 //Toastify
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { EmployeeBlack, EmployeeWhite, HomeBlack, HomeWhite, Logo, MessageBlack, MessageWhite, OrderBlack, OrderWhite, WarehouseBlack, WarehouseWhite } from "../assets";
 
@@ -46,10 +41,6 @@ const MenuItems = [
 function Sidebar({setActivePage}) {
   const [activeEl, setActiveEl] = useState('/');
   const [sidebar, setSidebar] = useState(true);
-  const [open, setOpen] = React.useState(false);
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
-  const [image, setImage] = useState("");
   function addUser(userr) {
     let { username, password, user_role, profile_pic } = userr;
     if (RegisterValidate(username, password, user_role)) {

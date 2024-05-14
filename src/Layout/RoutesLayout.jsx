@@ -1,5 +1,4 @@
 import { Card, CardBody, Dialog, Typography } from "@material-tailwind/react";
-import React from "react";
 import { useState } from "react";
 import { SideBar } from "../components";
 import { Header } from "../Section";
