@@ -21,12 +21,16 @@ function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   
-  
+
   function fetchUserRole() {
   if (token) {
     const decodedToken = jwtDecode(token);
     const userRole = decodedToken.user_roles;
+    const currentTime = Date.now() / 1000;
     dispatch(setRole(userRole));
+    if (decodedToken.exp < currentTime) {
+      navigate("/login");
+    }
   }
 }
 
