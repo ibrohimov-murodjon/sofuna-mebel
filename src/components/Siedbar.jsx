@@ -38,7 +38,7 @@ const MenuItems = [
     link: "/xodimlar",
   },
 ];
-function Sidebar({setActivePage}) {
+function Sidebar({setActivePage, activePage}) {
   const [activeEl, setActiveEl] = useState('/');
   const [sidebar, setSidebar] = useState(true);
   function addUser(userr) {
@@ -84,16 +84,16 @@ function Sidebar({setActivePage}) {
                   onClick={() => {setActiveEl(item.link)
                   setActivePage(item.name)
                   }}
-                  className={`${activeEl == item.link ? "MenuActive" : ""}`}
+                  className={`${activePage() == item.name ? "MenuActive" : ""}`}
                   key={item.id}
                   to={item.link}
                 >
                   <img
-                    src={activeEl == item.link ? item.active : item.unActive}
+                    src={activePage() == item.name ? item.active : item.unActive}
                     className="w-7"
                     alt="home"
                   />
-                  <p className={`${activeEl == item.link ? 'text-white text-[18px]' : 'text-black text-[18px]'}`}>{item.name}</p>
+                  <p className={`${activePage() == item.name ? 'text-white text-[18px]' : 'text-black text-[18px]'}`}>{item.name}</p>
                 </NavLink>
               );
             })}

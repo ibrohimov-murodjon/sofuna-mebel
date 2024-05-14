@@ -12,7 +12,6 @@ function RoutesLayout({ children }) {
     handleSubmit,
     register,
     resetField,
-    formState: { dirtyFields, isDirty },
   } = useForm({
     defaultValues: {
       user_role: "worker",
@@ -44,11 +43,17 @@ function RoutesLayout({ children }) {
     resetField("password", { keepDirty: true });
     resetField("profile_pic", { keepDirty: true });
   }
+  function setActivePageName(name) {
+    localStorage.setItem('activePage', name)
+  }
+  function getActivePageName() {
+    return localStorage.getItem('activePage')
+  }
   return (
     <div className="thum w-full flex gap-x-2">
-      <SideBar setActivePage={setActivePage} />
+      <SideBar setActivePage={setActivePageName} activePage={getActivePageName} />
       <div className="col w-full max-w-[1250px] ">
-        <Header setActivePage={setActivePage} activePage={activePage} />
+        <Header setActivePage={setActivePageName} activePage={getActivePageName} />
         {children}
       </div>
       <div onClick={handleOpen} className="createBtn w-full max-w-16 text-[40px] cursor-pointer text-white h-16 rounded-full flex items-center justify-center absolute bottom-6 right-6 bg-[#0e95d8]">+</div>
