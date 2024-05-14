@@ -13,17 +13,14 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  const minPasswordLength = 8;
+  const minPasswordLength = 5;
   function handleValidation() {
     const newErrors = {};
 
     // Username validation
     if (!username.current.value) {
       newErrors.username = "Username is required.";
-    } else {
-      newErrors.username = "Please enter a valid username.";
-    }
-
+    } 
     // Password validation
     if (!password.current.value) {
       newErrors.password = "Password is required.";
