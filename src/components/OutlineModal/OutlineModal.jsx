@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/exit.svg";
 import OutlinedInput from "../OutlineInput";
+import Button from "../Button/Button";
 
 const MainWrapper = styled.div`
   position: relative;
@@ -11,10 +12,6 @@ const MainWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    gap: 40%;
-    & > div {
-      width: 100%;
-    }
   }
 `;
 
@@ -60,12 +57,11 @@ const ModalHeading = styled.h2`
 `;
 
 const CloseModal = styled.div`
-  top: 0px;
   right: 15px;
-  top: -10px;
+  top: -17px;
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: 35px;
+  height: 35px;
   box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
   padding: 5px;
   border-radius: 78px;
@@ -75,8 +71,8 @@ const CloseModal = styled.div`
 `;
 
 const CloseModalIcon = styled.img`
-  width: 16px;
-  height: 16px;
+  width: 25px;
+  height: 25px;
   position: absolute;
 `;
 const InputWrapper = styled.form`
@@ -136,10 +132,15 @@ function OutlineModal({
           </InputWrapper>
           <div className="btn-part">
             <div>
-              <button>Ortga</button>
+              <Button
+                onClick={handleClose}
+                width="130px"
+                bgColor="#FF0000"
+                value="Ortga"
+              />
             </div>
             <div>
-              <button>Saqlash</button>
+              <Button width="130px" bgColor="#0E95D8" value="Saqlash" />
             </div>
           </div>
         </ModalWrapper>

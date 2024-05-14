@@ -621,14 +621,9 @@ input[type="checkbox"] {
   right: 50px;
   bottom: 70px;
   background: #0e95d8;
-  /* background: linear-gradient(
-    90deg,
-    rgba(129, 230, 217, 1) 0%,
-    rgba(79, 209, 197, 1) 100%
-  ); */
+  
   border: none;
   border-radius: 1000px;
-  /* box-shadow: 12px 12px 24px 12px rgba(79, 209, 197, 0.64); */
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
   outline: none;
@@ -641,7 +636,6 @@ input[type="checkbox"] {
   min-width: calc(60px + 12px);
   min-height: calc(58px + 12px);
   border: 4px solid #1100ff;
-  /* box-shadow: 0 0 60px rgba(0, 255, 203, 0.64); */
   position: absolute;
   top: 50%;
   left: 50%;

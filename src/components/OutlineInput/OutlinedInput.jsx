@@ -19,7 +19,7 @@ const Content = styled.div`
     }
     &:focus {
       outline: none;
-      border-color: #50b5ff;
+      border-color: #0e95d8;
     }
   }
   .errorMessage {

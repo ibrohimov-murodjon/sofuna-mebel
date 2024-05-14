@@ -2,6 +2,7 @@ import { Dialog } from "@material-tailwind/react";
 import OutlinedInput from "../components/OutlineInput";
 import { useState } from "react";
 import OutlineModal from "../components/OutlineModal/OutlineModal";
+import Button from "../components/Button/Button";
 
 function Home() {
   const [openUserAdModal, setopenUserAdModal] = useState(false);
@@ -46,6 +47,7 @@ function Home() {
         errorMessage={"Maydonni to'ldiring"}
       /> */}
 
+      <Button width="130px" bgColor="black" value="Text" />
       <button onClick={addUsersFun}>Open</button>
       <Dialog
         open={openUserAdModal}
