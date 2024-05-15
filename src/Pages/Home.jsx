@@ -3,6 +3,7 @@ import OutlinedInput from "../components/OutlineInput";
 import { useState } from "react";
 import OutlineModal from "../components/OutlineModal/OutlineModal";
 import Button from "../components/Button/Button";
+import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
 
 function Home() {
   const [openUserAdModal, setopenUserAdModal] = useState(false);
@@ -12,12 +13,16 @@ function Home() {
   const [message, setMessage] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  const [size, setSize] = useState(null);
+
+  const handleOpen = (value) => setSize(value);
+
   const addUsersFun = () => {
     setopenUserAdModal(true);
   };
 
   const deleteCloseFun = () => {
-    setopenUserAdModal(false);
+    setSize(null);
   };
 
   const [eskizValues, setEskizValues] = useState({
@@ -38,28 +43,27 @@ function Home() {
 
   return (
     <>
-      {/* <OutlinedInput
-        placeholder="Secret key"
-        name="secretKey"
-        value={eskizValues.secretKey}
-        onChange={handleEskizChange}
-        isError={eskizValues.secretKeyError}
-        errorMessage={"Maydonni to'ldiring"}
-      /> */}
-
       <Button width="130px" bgColor="black" value="Text" />
-      <button onClick={addUsersFun}>Open</button>
+      <button onClick={() => handleOpen("xs")}>Open</button>
       <Dialog
-        open={openUserAdModal}
-        onClose={() => setopenUserAdModal(false)}
+        open={
+          size === "xs" ||
+          size === "sm" ||
+          size === "md" ||
+          size === "lg" ||
+          size === "xl" ||
+          size === "xxl"
+        }
+        size={size || "md"}
+        handler={handleOpen}
+        onClose={() => deleteCloseFun()}
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          with: "700px",
         }}
       >
-        <OutlineModal
+        <OutlineDeleteModal
           handleClose={deleteCloseFun}
           selectedItem={selectedTemplate}
           updateFun={dataUpdate}
