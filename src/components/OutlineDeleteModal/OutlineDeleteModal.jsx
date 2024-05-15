@@ -1,5 +1,4 @@
-import React from "react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/exit.svg";
 import Button from "../Button/Button";
@@ -14,24 +13,7 @@ const MainWrapper = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
-  :last-child {
-    padding-bottom: 24px;
-  }
 
-  & > p {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
-    text-align: left;
-    margin-bottom: 9px;
-    margin-top: 24px;
-    color: black;
-    & > span {
-      color: red;
-    }
-  }
-`;
 
 const ModalWrapper = styled.div`
   background-color: aqua;
@@ -73,7 +55,7 @@ const CloseModalIcon = styled.img`
   position: absolute;
 `;
 
-function OutlineDeleteModal({ handleClose }) {
+function OutlineDeleteModal({ handleClose ,deleteUser}) {
   const modalRef = useRef(null);
   return (
     <MainWrapper ref={modalRef}>
@@ -81,7 +63,7 @@ function OutlineDeleteModal({ handleClose }) {
         <CloseModalIcon src={CloseIcon}></CloseModalIcon>
       </CloseModal>
       <ModalWrapper>
-        <ModalHeading>Rosdan ham o'chirmoqchimisiz</ModalHeading>
+        <ModalHeading>Rosdan ham o&apos;chirmoqchimisiz</ModalHeading>
         <div className="btn-part">
           <div>
             <Button
@@ -92,7 +74,7 @@ function OutlineDeleteModal({ handleClose }) {
             />
           </div>
           <div>
-            <Button width="130px" bgColor="#0E95D8" value="O'chirish" />
+            <Button onClick={deleteUser} width="130px" bgColor="#0E95D8" value="O'chirish" />
           </div>
         </div>
       </ModalWrapper>

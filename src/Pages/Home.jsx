@@ -47,12 +47,7 @@ function Home() {
       <button onClick={() => handleOpen("xs")}>Open</button>
       <Dialog
         open={
-          size === "xs" ||
-          size === "sm" ||
-          size === "md" ||
-          size === "lg" ||
-          size === "xl" ||
-          size === "xxl"
+          size === "xs" 
         }
         size={size || "md"}
         handler={handleOpen}
@@ -65,11 +60,7 @@ function Home() {
       >
         <OutlineDeleteModal
           handleClose={deleteCloseFun}
-          selectedItem={selectedTemplate}
-          updateFun={dataUpdate}
-          setIsSucces={setIsSucces}
-          setMessage={setMessage}
-          setOpenSnackbar={setOpenSnackbar}
+       
         />
       </Dialog>
     </>

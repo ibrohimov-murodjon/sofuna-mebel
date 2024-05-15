@@ -4,10 +4,20 @@ import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
 import Loader from "./Loader";
+import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
 function CardUI({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
+
+
+ 
   const [size, setSize] = useState(null);
+
   const handleOpen = (value) => setSize(value);
+
+  const deleteCloseFun = () => {
+    setSize(null);
+  };
+
   // const { register, handleSubmit, resetField, formState: {dirtyFields, isDirty}  } =  useForm()
   const [value, setValue] = useState({
     username: "",
@@ -78,6 +88,9 @@ function CardUI({ setUiData, uiData, api }) {
       price: user.price,
     });
   }
+
+ 
+
   return (
     <>
       {loader ? (
@@ -199,14 +212,14 @@ function CardUI({ setUiData, uiData, api }) {
                           <button
                             className=""
                             onClick={() => {
-                              updateUser(user), handleOpen("sm");
+                              updateUser(user), handleOpen("xs");
                             }}
                           >
                             <img src={EditBTn} alt="edit btn" />
                           </button>
                           <button
                             className=""
-                            onClick={() => deleteUser(user.id)}
+                            onClick={() => {handleOpen("xs")}}
                           >
                             <img src={DeleteBtn} alt="delete btn" />
                           </button>
@@ -218,11 +231,23 @@ function CardUI({ setUiData, uiData, api }) {
             </tbody>
           </table>
           <Dialog
-            className="animateModal"
-            open={size === "sm"}
-            size={size || "md"}
-            handler={handleOpen}
-          ></Dialog>
+        open={
+          size === "xs" 
+        }
+        size={size || "md"}
+        handler={handleOpen}
+        onClose={() => deleteCloseFun()}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <OutlineDeleteModal
+          handleClose={deleteCloseFun}
+       deleteButton = {deleteUser}
+        />
+      </Dialog>
           <ToastContainer />
         </div>
       )}
