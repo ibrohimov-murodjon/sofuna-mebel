@@ -7,6 +7,7 @@ import {
   Button,
   Dialog,
 } from "@material-tailwind/react";
+import { toast, ToastContainer } from "react-toastify";
 
 function AddProduct({ api, getApi }) {
   const [open, setOpen] = React.useState(false);
@@ -58,6 +59,10 @@ function AddProduct({ api, getApi }) {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
+          toast.success(data.message, {
+            position: "top-right",
+            autoClose: 1500,
+          });
           getApi();
         })
         .catch((error) => {
@@ -132,6 +137,7 @@ function AddProduct({ api, getApi }) {
           </CardBody>
         </Card>
       </Dialog>
+      <ToastContainer />
     </>
   );
 }
