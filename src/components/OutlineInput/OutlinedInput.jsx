@@ -19,7 +19,7 @@ const Content = styled.div`
     }
     &:focus {
       outline: none;
-      border-color: #50b5ff;
+      border-color: #0e95d8;
     }
   }
   .errorMessage {
@@ -38,7 +38,6 @@ const OutlinedInput = forwardRef(function OutlinedInput(
     onChange,
     placeholder,
     isError,
-    errorMessage,
     bgColor,
     onPaste,
     ...props
@@ -52,16 +51,13 @@ const OutlinedInput = forwardRef(function OutlinedInput(
         type={type}
         value={value}
         {...props}
-        onChange={onChange}
+        onChange={(e)=>{
+          onChange(e.target.value)
+        }}
         placeholder={placeholder}
         ref={ref}
       />
-      <p
-        style={{ display: isError ? "block" : "none" }}
-        className="errorMessage"
-      >
-        {errorMessage}
-      </p>
+     
     </Content>
   );
 });

@@ -16,7 +16,7 @@ const months = [
   "Noyabr",
   "Dekabr",
 ];
-function Header({activePage, setActivePage}) {
+function Header({ activePage, setActivePage }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   const [dataOfDay, setDataOfDay] = useState(new Date());
@@ -25,11 +25,11 @@ function Header({activePage, setActivePage}) {
     const intervalId = setInterval(() => {
       setDataOfDay(new Date());
     }, 60000); // 60000 milliseconds = 1 minute
-  
+
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-  
+
   return (
     <div className="flex items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
@@ -38,8 +38,14 @@ function Header({activePage, setActivePage}) {
       <div className="flex items-center gap-x-20">
         <div className="flex items-center gap-x-4 text-[18px] font-extralight">
           <span className="flex items-center gap-x-2">
-            <p className="w-full">{dataOfDay.getHours()} : {dataOfDay.getMinutes()}</p>
-      {dataOfDay.getHours() > 12 ? <p className="text-gray-500">PM</p> : <p className="text-gray-500">AM</p>}
+            <p className="w-full">
+              {dataOfDay.getHours()} : {dataOfDay.getMinutes()}
+            </p>
+            {dataOfDay.getHours() > 12 ? (
+              <p className="text-gray-500">PM</p>
+            ) : (
+              <p className="text-gray-500">AM</p>
+            )}
           </span>
           <span className="flex items-center">
             <p>{dataOfDay.getDate()}</p> -{" "}
@@ -47,13 +53,15 @@ function Header({activePage, setActivePage}) {
             <p className="text-gray-500">{dataOfDay.getFullYear()}</p>
           </span>
         </div>
-        <div className="flex items-center gap-x-3">
+        <div
+          onClick={handleOpen}
+          className="flex cursor-pointer items-center gap-x-3"
+        >
           <div>
             <img
-              onClick={handleOpen}
               alt="tania andrew"
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
-              className="relative inline-block object-cover object-center w-12 h-12 rounded-full cursor-pointer"
+              className="relative inline-block object-cover object-center w-12 h-12 rounded-full"
               data-popover-target="profile-menu"
             />
             <ul
@@ -66,10 +74,10 @@ function Header({activePage, setActivePage}) {
             >
               <Link
                 onClick={() => {
-                  handleOpen()
-                  setActivePage('Profile')
+                  handleOpen();
+                  setActivePage("Profile");
                 }}
-                to='/profile'
+                to="/profile"
                 role="menuitem"
                 className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
               >
