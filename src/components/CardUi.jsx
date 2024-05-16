@@ -8,7 +8,7 @@ import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
 function CardUI({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
 
-
+const [userId,setUserId] = useState('')
  
   const [size, setSize] = useState(null);
 
@@ -219,7 +219,11 @@ function CardUI({ setUiData, uiData, api }) {
                           </button>
                           <button
                             className=""
-                            onClick={() => {handleOpen("xs")}}
+                            onClick={() => {
+                            setUserId(user.id)
+                              handleOpen("xs")
+                            }
+                          }
                           >
                             <img src={DeleteBtn} alt="delete btn" />
                           </button>
@@ -243,10 +247,8 @@ function CardUI({ setUiData, uiData, api }) {
           alignItems: "center",
         }}
       >
-        <OutlineDeleteModal
-          handleClose={deleteCloseFun}
-       deleteButton = {deleteUser}
-        />
+      <OutlineDeleteModal handleClose={deleteCloseFun} deleteUser={() => deleteUser(userId)} />
+
       </Dialog>
           <ToastContainer />
         </div>
