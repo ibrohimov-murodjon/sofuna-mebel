@@ -4,6 +4,7 @@ import { SideBar } from "../components";
 import { Header } from "../Section";
 import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
+import OutlineAdUserModal from "../components/OutlineAdUserModal/OutlineAdUserModal";
 
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
@@ -69,50 +70,11 @@ function RoutesLayout({ children }) {
         <img width="25px" height="25px" src={adduserIcon} alt="" />
       </div>
       <Dialog
-        size="xs"
+        size="sm"
         open={open}
-        handler={handleOpen}
         className="bg-transparent shadow-none"
       >
-        <Card className="mx-auto w-full max-w-[24rem]">
-          <CardBody className="flex flex-col gap-4">
-            <form
-              onSubmit={handleSubmit((data) => addUser(data))}
-              className="flex flex-col gap-6 p-4"
-            >
-              <Typography
-                variant="h6"
-                color="blue-gray"
-                className="-mb-3 text-center"
-              >
-                Add User
-              </Typography>
-              <input
-                className="RefInput"
-                type="text"
-                {...register("username", { required: "Username required" })}
-                placeholder="Username"
-              />
-              <input
-                className="RefInput"
-                type="password"
-                {...register("password", { required: "password required" })}
-                placeholder="Password"
-              />
-              <select
-                label="Select Version"
-                {...register("user_role", { required: "Role is required" })}
-              >
-                <option value="worker">worker</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </select>
-
-              <button className="AddUserBtn">Send</button>
-            </form>
-          </CardBody>
-        </Card>
-        <h1>HELLo</h1>
+      <OutlineAdUserModal handleClose={handleOpen}/>
       </Dialog>
     </div>
   );
