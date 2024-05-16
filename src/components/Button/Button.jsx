@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
-import React from "react";
 
 const Button = styled.button`
-  padding: 10px 20px;
+transition: all 0.3s;
+text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
 
   &:hover {
-    box-shadow: 0 0 20px #6fc5ff50;
-    transform: scale(1.05);
     opacity: 0.8;
+    transform: scale(1.1);
   }
 `;
 
@@ -22,7 +24,7 @@ function index({ value, onClick, bgColor, width }) {
           backgroundColor: bgColor,
           color: "white",
           borderRadius: "10px",
-          transition: "all 0.5s",
+          transition: "all 0.3s",
         }}
       >
         {value}
