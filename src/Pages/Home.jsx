@@ -4,6 +4,8 @@ import { useState } from "react";
 import OutlineModal from "../components/OutlineModal/OutlineModal";
 import Button from "../components/Button/Button";
 import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
+import OutlineAdUserModal from "../components/OutlineAdUserModal/OutlineAdUserModal";
+import OutlineAdProductModal from "../components/OutlineAdProductModal/OutlineAdProductModal";
 
 function Home() {
   const [openUserAdModal, setopenUserAdModal] = useState(false);
@@ -44,13 +46,13 @@ function Home() {
   return (
     <>
       <Button width="130px" bgColor="black" value="Text" />
-      <button onClick={() => handleOpen("xs")}>Open</button>
+      <button onClick={() => handleOpen("sm")}>Open</button>
+
       <Dialog
         open={
           size === "xs" 
         }
         size={size || "md"}
-        handler={handleOpen}
         onClose={() => deleteCloseFun()}
         sx={{
           display: "flex",
@@ -58,7 +60,7 @@ function Home() {
           alignItems: "center",
         }}
       >
-        <OutlineDeleteModal
+        <OutlineAdProductModal
           handleClose={deleteCloseFun}
        
         />
