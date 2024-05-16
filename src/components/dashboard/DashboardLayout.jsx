@@ -7,12 +7,13 @@ import Stats from "./Stats";
 // import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
 import SalesChart from "./SalesChart";
+import NavigateCard from "./NavigateCard";
 // import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
+  grid-template-columns: 1fr;
+  grid-template-rows:auto 28rem auto;
   gap: 2rem;
   margin-top: 2rem;
 `;
@@ -38,18 +39,13 @@ const bookings = [
 ];
 
 function DashboardLayout() {
-  // const { bookings, isLoading: isLoading1 } = useRecentBookings();
-  // const { confirmedStays, isLoading: isLoading2, numDays } = useRecentStays();
-  // const { cabins, isLoading: isLoading3 } = useCabins();
-
-  // if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
-
   return (
     <StyledDashboardLayout>
+      {/* <NavigateCard/> */}
+      <span className="w-full flex gap-6 ">
       <Stats />
-      <DurationChart />
-      {/* <TodayActivity />
-      <DurationChart confirmedStays={confirmedStays} /> */}
+      <DurationChart /> 
+      </span>
       <SalesChart bookings={bookings} numDays={30} />
     </StyledDashboardLayout>
   );

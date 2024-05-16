@@ -2,11 +2,15 @@ import styled from "styled-components";
 
 const StyledStat = styled.div`
   /* Box */
+  width: 230px;
+  /* max-width: 1200px; */
+  height: 192px;
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
   padding: 1.2rem;
   display: flex;
+  align-items: center;
   gap: 1.2rem;
 `;
 

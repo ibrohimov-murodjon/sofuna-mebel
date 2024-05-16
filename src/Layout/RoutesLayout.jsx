@@ -5,10 +5,10 @@ import { Header } from "../Section";
 import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
 import OutlineAdUserModal from "../components/OutlineAdUserModal/OutlineAdUserModal";
-
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);
+  const [sidebarSize, setSidebarSize] = useState(true)
   const handleOpen = () => setOpen((cur) => !cur);
   const { handleSubmit, register, resetField } = useForm({
     defaultValues: {
@@ -53,10 +53,12 @@ function RoutesLayout({ children }) {
   return (
     <div className="thum w-full flex gap-x-2">
       <SideBar
+        sidebarSize={sidebarSize}
+        setSidebarSize={setSidebarSize}
         setActivePage={setActivePageName}
         activePage={getActivePageName}
       />
-      <div className="col w-full max-w-[1250px] ">
+      <div className="col w-full ">
         <Header
           setActivePage={setActivePageName}
           activePage={getActivePageName}
@@ -70,7 +72,7 @@ function RoutesLayout({ children }) {
         <img width="25px" height="25px" src={adduserIcon} alt="" />
       </div>
       <Dialog
-        size="sm"
+        size="md"
         open={open}
         className="bg-transparent shadow-none"
       >

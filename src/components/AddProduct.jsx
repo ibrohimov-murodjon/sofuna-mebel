@@ -45,8 +45,6 @@ function AddProduct({ api, getApi }) {
         name: productName,
         qty: Number(productQty),
         price: Number(productPrice),
-        dollor_course: Number(productPrice * productQty),
-        total_price: Number(productPrice * productQty),
       };
       console.log(product);
       fetch(`${api}`, {
@@ -131,9 +129,9 @@ function AddProduct({ api, getApi }) {
               error={productQtyError}
             />
 
-            <Button variant="gradient" onClick={handleSubmit} fullWidth>
+            <button variant="gradient" onClick={handleSubmit} fullWidth>
               Saqlash
-            </Button>
+            </button>
           </CardBody>
         </Card>
       </Dialog>
