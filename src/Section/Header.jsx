@@ -31,7 +31,7 @@ function Header({ activePage, setActivePage }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
+    <div className="flex ml-[-8px]  items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
         <p className="text-black text-[30px]">{activePage()}</p>
       </div>

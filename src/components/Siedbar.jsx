@@ -38,9 +38,8 @@ const MenuItems = [
     link: "/xodimlar",
   },
 ];
-function Sidebar({setActivePage, activePage}) {
+function Sidebar({setActivePage, activePage, sidebarSize, setSidebarSize}) {
   const [activeEl, setActiveEl] = useState('/');
-  const [sidebar, setSidebar] = useState(true);
   function addUser(userr) {
     let { username, password, user_role, profile_pic } = userr;
     if (RegisterValidate(username, password, user_role)) {
@@ -72,7 +71,7 @@ function Sidebar({setActivePage, activePage}) {
   }
   return (
     <>
-      {sidebar && (
+      {sidebarSize ? (
         <div className="w-80 bg-white min-h-screen flex flex-col items-center rounded py-6 px-4">
           <div className="mb-7 ">
             <img src={Logo} alt="logo" className="h-24 w-24 rounded-full" />
@@ -94,6 +93,33 @@ function Sidebar({setActivePage, activePage}) {
                     alt="home"
                   />
                   <p className={`${activePage() == item.name ? 'text-white text-[18px]' : 'text-black text-[18px]'}`}>{item.name}</p>
+                </NavLink>
+              );
+            })}
+          </nav>
+        </div> 
+      ) : 
+      (
+        <div className="w-28 bg-white  flex flex-col items-start rounded py-6 pl-6">
+          <div className="mb-7">
+            <img src={Logo} alt="logo" className="h-14 w-14 rounded-full" />
+          </div>
+          <nav className="MainMeniu">
+            {MenuItems.map((item) => {
+              return (
+                <NavLink
+                  onClick={() => {setActiveEl(item.link)
+                  setActivePage(item.name)
+                  }}
+                  className={`${activePage() == item.name ? "MenuActive " : ""}`}
+                  key={item.id}
+                  to={item.link}
+                >
+                  <img
+                    src={activePage() == item.name ? item.active : item.unActive}
+                    className="w-7"
+                    alt="home"
+                  />
                 </NavLink>
               );
             })}

@@ -11,6 +11,7 @@ import {
 
 const ChartBox = styled.div`
   /* Box */
+  width: 500px;
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -84,8 +85,8 @@ const data = [
 
 function DurationChart({ confirmedStays }) {
   return (
-    <ChartBox>
-      <Heading as="h2">Stay duration summary</Heading>
+    <ChartBox >
+      <Heading as="h2">Get orders statistic</Heading>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie

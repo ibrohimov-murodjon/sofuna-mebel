@@ -22,11 +22,12 @@ function Stats() {
   const checkins = 15;
 
   // 4.
-  const occupation = 30;
+  const occupation = 3;
   // num checked in nights / all available nights (num days * num cabins)
 
   return (
-    <>
+    <div className="flex items-start gap-4">
+      <span className="flex flex-col gap-4">
       <Stat
         title="Bookings"
         color="blue"
@@ -39,6 +40,8 @@ function Stats() {
         icon={<HiOutlineBanknotes />}
         value={formatCurrency(sales)}
       />
+      </span>
+      <span className="flex flex-col gap-4">
       <Stat
         title="Check ins"
         color="indigo"
@@ -51,7 +54,8 @@ function Stats() {
         icon={<HiOutlineChartBar />}
         value={Math.round(occupation * 100) + "%"}
       />
-    </>
+      </span>
+    </div>
   );
 }
 
