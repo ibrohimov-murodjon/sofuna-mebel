@@ -1,9 +1,9 @@
-import React from "react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/exit.svg";
 import Button from "../Button/Button";
 import OutlinedInput from "../OutlineInput";
+import { toast, ToastContainer } from "react-toastify";
 
 const MainWrapper = styled.div`
   position: relative;
@@ -70,25 +70,100 @@ const StyledOption = styled.option`
 `;
 
 function OutlineAdUserModal({ handleClose }) {
-  const modalRef = useRef(null);
+  const selectRef = useRef("worker");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    phoneNumber: false,
+    username: false,
+    password: false,
+  });
+
+  function validationFunction() {
+    const newErrors = { ...errors };
+    let isValid = true;
+
+    if (!firstName.trim().length) {
+      newErrors.firstName = true;
+      isValid = false;
+    } else {
+      newErrors.firstName = false;
+    }
+
+    if (!lastName.trim().length) {
+      newErrors.lastName = true;
+      isValid = false;
+    } else {
+      newErrors.lastName = false;
+    }
+
+    if (!(phoneNumber.trim().length > 5)) {
+      newErrors.phoneNumber = true;
+      isValid = false;
+    } else {
+      newErrors.phoneNumber = false;
+    }
+
+    if (!username.trim().length) {
+      newErrors.username = true;
+      isValid = false;
+    } else {
+      newErrors.username = false;
+    }
+
+    if (!(password.trim().length > 4)) {
+      newErrors.password = true;
+      isValid = false;
+    } else {
+      newErrors.password = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  }
+
+  function handleAddUser() {
+    if (validationFunction()) {
+      console.log("Form submitted successfully");
+      setFirstName("");
+      setLastName("");
+      setPhoneNumber("");
+      setUsername("");
+      setPassword("");
+    } else {
+      console.log("Form validation failed");
+    }
+  }
+
   return (
-    <MainWrapper ref={modalRef}>
+    <MainWrapper>
       <CloseModal onClick={handleClose}>
-        <CloseModalIcon src={CloseIcon}></CloseModalIcon>
+        <CloseModalIcon src={CloseIcon} />
       </CloseModal>
       <ModalWrapper>
-        <ModalHeading>Hodim qo'shish</ModalHeading>
+        <ModalHeading>Hodim qo&apos;shish</ModalHeading>
         <form>
           <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
             <OutlinedInput
               label="Firstname"
               placeholder="Firstname"
               type="text"
+              value={firstName}
+              onChange={setFirstName}
+              isError={errors.firstName}
             />
             <OutlinedInput
               label="Lastname"
               placeholder="Lastname"
               type="text"
+              value={lastName}
+              onChange={setLastName}
+              isError={errors.lastName}
             />
           </div>
           <div
@@ -103,7 +178,11 @@ function OutlineAdUserModal({ handleClose }) {
               label="Phone Number"
               placeholder="+998 (XX) XXX-XX-XX"
               type="tel"
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              isError={errors.phoneNumber}
             />
+
             <label
               style={{
                 color: "black",
@@ -123,14 +202,28 @@ function OutlineAdUserModal({ handleClose }) {
                 borderRadius: "7px",
                 border: "1px solid #EBEAED",
               }}
+              ref={selectRef}
             >
-              <StyledOption>Hazmat turini tanlang</StyledOption>
-              <StyledOption>Worker</StyledOption>
-              <StyledOption>Menejer</StyledOption>
-              <StyledOption>Admin</StyledOption>
+              <StyledOption value="worker">Worker</StyledOption>
+              <StyledOption value="manager">Manager</StyledOption>
+              <StyledOption value="admin">Admin</StyledOption>
             </Select>
-            <OutlinedInput label="Username" placeholder="Username" type="tel" />
-            <OutlinedInput label="Password" placeholder="Password" type="tel" />
+            <OutlinedInput
+              label="Username"
+              placeholder="Username"
+              type="text"
+              value={username}
+              onChange={setUsername}
+              isError={errors.username}
+            />
+            <OutlinedInput
+              label="Password"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={setPassword}
+              isError={errors.password}
+            />
           </div>
         </form>
         <div className="btn-part">
@@ -143,10 +236,17 @@ function OutlineAdUserModal({ handleClose }) {
             />
           </div>
           <div>
-            <Button width="130px" bgColor="#0E95D8" value="O'chirish" />
+            <Button
+              onClick={handleAddUser}
+              width="130px"
+              bgColor="#0E95D8"
+              value="O'chirish"
+            />
           </div>
         </div>
       </ModalWrapper>
+
+      <ToastContainer />
     </MainWrapper>
   );
 }

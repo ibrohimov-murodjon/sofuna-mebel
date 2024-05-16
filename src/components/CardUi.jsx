@@ -212,7 +212,7 @@ const [userId,setUserId] = useState('')
                           <button
                             className=""
                             onClick={() => {
-                              updateUser(user), handleOpen("xs");
+                             handleOpen("xs");
                             }}
                           >
                             <img src={EditBTn} alt="edit btn" />
