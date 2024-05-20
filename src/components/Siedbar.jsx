@@ -11,14 +11,14 @@ const MenuItems = [
   { id: 1, name: "Home", unActive: HomeBlack, active: HomeWhite, link: "/" },
   {
     id: 2,
-    name: "Warehouse",
+    name: "Ombor",
     unActive: WarehouseBlack,
     active: WarehouseWhite,
     link: "/product",
   },
   {
     id: 3,
-    name: "Order",
+    name: "Buyurtmalar",
     unActive: OrderBlack,
     active: OrderWhite,
     link: "/order",
@@ -32,7 +32,7 @@ const MenuItems = [
   },
   {
     id: 5,
-    name: "Employee",
+    name: "Xodimlar",
     unActive: EmployeeBlack,
     active: EmployeeWhite,
     link: "/xodimlar",
