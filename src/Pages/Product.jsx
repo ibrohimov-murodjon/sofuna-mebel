@@ -15,19 +15,18 @@ function Product() {
   const [loader, setLoader] = useState(false);
   async function getApi() {
     try {
-      setLoader(true)
+      setLoader(true);
       const response = await fetch("https://custom.uz/products/api/");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setData(data);
-      setLoader(false)
+      setLoader(false);
     } catch (error) {
-      setLoader(false)
+      setLoader(false);
       console.error("Error fetching data:", error);
     }
-
   }
   useEffect(() => {
     getApi();
@@ -65,6 +64,7 @@ function Product() {
 
                 <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
                   <AddProduct
+                    title='Ombor'
                     getApi={getApi}
                     api={"https://custom.uz/products/api/"}
                   />
@@ -76,23 +76,12 @@ function Product() {
                 <div className="flex flex-col gap-3">
                   {data.length > 0 ? (
                     <>
-                    <CardUI
-                            key={crypto.randomUUID()}
-                            setUiData={setData}
-                            uiData={data}
-                            api={"https://custom.uz/products/api/"}
-                          />
-                      {/* {data.map((product) => {
-                        return (
-                          <CardUI
-                            key={crypto.randomUUID()}
-                            user={product}
-                            setUiData={setData}
-                            uiData={data}
-                            api={"https://custom.uz/products/api/"}
-                          />
-                        );
-                      })} */}
+                      <CardUI
+                        key={crypto.randomUUID()}
+                        setUiData={setData}
+                        uiData={data}
+                        api={"https://custom.uz/products/api/"}
+                      />
                     </>
                   ) : (
                     <div className="loaderWrapper">
