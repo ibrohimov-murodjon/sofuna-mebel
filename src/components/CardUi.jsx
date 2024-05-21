@@ -88,9 +88,6 @@ const [userId,setUserId] = useState('')
       price: user.price,
     });
   }
-
- 
-
   return (
     <>
       {loader ? (
@@ -100,6 +97,11 @@ const [userId,setUserId] = useState('')
           <table className="w-full text-left border-l-2 table-auto min-w-max">
             <thead className="">
               <tr>
+              <th className="p-4 border-b  bg-blue-600 text-white">
+                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
+                    No
+                  </p>
+                </th>
                 <th className="p-4 border-b  bg-blue-600 text-white">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
                     Name
@@ -127,7 +129,7 @@ const [userId,setUserId] = useState('')
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    NDS + Price
+                    NDS Price
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
@@ -138,6 +140,17 @@ const [userId,setUserId] = useState('')
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                     Dollar convert
+                  </p>
+                </th>
+                {api !== 'https://custom.uz/products/api/' ? <th className="p-4 border-b  bg-blue-600">
+                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                    Company
+                  </p>
+                </th> : null }
+                
+                <th className="p-4 border-b  bg-blue-600">
+                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                    Qarzdorlik
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
@@ -155,6 +168,11 @@ const [userId,setUserId] = useState('')
                       className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
                       key={crypto.randomUUID()}
                     >
+                      <td className="p-4 border-b border-blue-gray-50">
+                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          {index +1}
+                        </p>
+                      </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                           {user.name.charAt() + user.name.slice(1)}
@@ -204,10 +222,27 @@ const [userId,setUserId] = useState('')
                           href="#"
                           className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
                         >
-                          {user.dollor_course_total?.toFixed(2)}
+                          { api == 'https://custom.uz/products/api/' ? user.dollor_course_total?.toFixed(2) : user.dollor_convert.toFixed(2) }
+                        </a>
+                      </td>
+                      {api !== 'https://custom.uz/products/api/' ? <td className="p-4 border-b border-blue-gray-50 text-center ">
+                        <a
+                          href="#"
+                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                        >
+                          {user.company_name}
+                        </a>
+                      </td> : null}
+                      <td className="p-4 border-b border-blue-gray-50 text-center ">
+                        <a
+                          href="#"
+                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                        >
+                          {user.debt}
                         </a>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
+                        
                         <span className="flex items-center justify-end gap-5">
                           <button
                             className=""
