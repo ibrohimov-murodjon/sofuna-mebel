@@ -11,6 +11,7 @@ import {
   Product,
   Profile,
   Xodimlar,
+  UserProfile,
 } from "./Pages";
 import { useDispatch, useSelector } from "react-redux";
 import { setRole } from "./store/userToken";
@@ -170,6 +171,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <Profile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/userprofile"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <UserProfile />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
