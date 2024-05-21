@@ -5,6 +5,7 @@ import { forwardRef } from "react";
 const Content = styled.div`
   input {
     width: 100%;
+    color: black;
     height: 48px;
     border: ${(props) =>
       props.isError ? "1px solid #FC5A5A" : "1px solid #EBEAED"};
@@ -39,6 +40,7 @@ const OutlinedInput = forwardRef(function OutlinedInput(
     placeholder,
     isError,
     bgColor,
+    label,
     onPaste,
     ...props
   },
@@ -46,18 +48,29 @@ const OutlinedInput = forwardRef(function OutlinedInput(
 ) {
   return (
     <Content bgColor={bgColor} isError={isError} onPaste={onPaste}>
+      <label
+        style={{
+          color: "black",
+          fontSize: "14px",
+          fontWeight: "500",
+          lineHeight: "20px",
+          textAlign: "left",
+        }}
+        htmlFor={id ? id : "id-input"}
+      >
+        {label}
+      </label>
       <input
         id={id ? id : "id-input"}
         type={type}
         value={value}
         {...props}
-        onChange={(e)=>{
-          onChange(e.target.value)
+        onChange={(e) => {
+          onChange(e.target.value);
         }}
         placeholder={placeholder}
         ref={ref}
       />
-     
     </Content>
   );
 });

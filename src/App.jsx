@@ -15,6 +15,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setRole } from "./store/userToken";
 import GlobalStyles from "./styles/GlobalStyles";
+import WorkerOrder from "./Pages/WorkerOrder.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -137,6 +138,36 @@ function App() {
                 >
                   <RoutesLayout>
                     <Profile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+          </>
+        )}
+        {token !== null && role == "worker" && (
+          <>
+             <Route
+              path="/"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <Profile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+                 <Route
+              path="/mahsulot/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <WorkerOrder />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
