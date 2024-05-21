@@ -11,6 +11,7 @@ import {
   Product,
   Profile,
   Xodimlar,
+  UserProfile,
 } from "./Pages";
 import { useDispatch, useSelector } from "react-redux";
 import { setRole } from "./store/userToken";
@@ -146,7 +147,7 @@ function App() {
         )}
         {token !== null && role == "worker" && (
           <>
-             <Route
+            <Route
               path="/"
               element={
                 <ProtectedRoute
@@ -159,7 +160,20 @@ function App() {
                 </ProtectedRoute>
               }
             />
-                 <Route
+            <Route
+              path="/userprofile"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/mahsulot/:id"
               element={
                 <ProtectedRoute
