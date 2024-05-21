@@ -1,6 +1,6 @@
 //react-icons
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const months = [
   "Yanvar",
@@ -18,6 +18,7 @@ const months = [
 ];
 function Header({ activePage, setActivePage }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
   const handleOpen = () => setOpen((cur) => !cur);
   const [dataOfDay, setDataOfDay] = useState(new Date());
 
@@ -29,6 +30,13 @@ function Header({ activePage, setActivePage }) {
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
+
+
+function handLogout (){
+  localStorage.clear()
+  navigate('/login')
+}
+
 
   return (
     <div className="flex ml-[-8px]  items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
@@ -117,7 +125,7 @@ function Header({ activePage, setActivePage }) {
                     fill="#90A4AE"
                   ></path>
                 </svg>
-                <p className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
+                <p onClick={handLogout} className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
                   Sign Out
                 </p>
               </button>
