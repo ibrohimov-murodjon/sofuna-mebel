@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@material-tailwind/react";
 
 import {
@@ -6,16 +6,14 @@ import {
   CardHeader,
   Typography,
   CardBody,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 import { AddProduct, CardUI, Pagination } from "../components";
 import Loader from "../components/Loader";
 
 function Order() {
-  const [value, setValue] = useState("");
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(false);
+
   async function getApi() {
     try {
       setLoader(true);
@@ -34,17 +32,7 @@ function Order() {
   useEffect(() => {
     getApi();
   }, []);
-  function filterFn(type) {
-    setData(
-      data.sort((a, b) => {
-        if (typeof a[type] == "string") {
-          return a[type].localeCompare(b[type]);
-        } else {
-          return b[type] - a[type];
-        }
-      })
-    );
-  }
+
   return (
     <>
       {loader ? (

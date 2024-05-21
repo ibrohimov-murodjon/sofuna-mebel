@@ -16,6 +16,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setRole } from "./store/userToken";
 import GlobalStyles from "./styles/GlobalStyles";
+import OrderDetails from "./Pages/OrderDetails.jsx";
 import WorkerOrder from "./Pages/WorkerOrder.jsx";
 
 function App() {
@@ -104,6 +105,20 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/orders/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <OrderDetails />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/message"
               element={
