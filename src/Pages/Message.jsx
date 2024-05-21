@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Orderimg, Productimg } from "../assets";
-import { IoSend, IoOptions } from "react-icons/io5";
-import { Button, Dialog } from "@material-tailwind/react";
+import { Orderimg } from "../assets";
+import { IoSend } from "react-icons/io5";
+import { Dialog } from "@material-tailwind/react";
 import { Fragment } from "react";
-import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
 function Message() {
   const [users, setUsers] = useState([]);
   const [messageUI, setMessageUi] = useState([]);
@@ -13,9 +12,9 @@ function Message() {
   const [size, setSize] = useState(null);
   const handleOpen = (value) => setSize(value);
   const [orderData, setOrderData] = useState([]);
-  const [orderMes, setOrderMes] = useState({})
-  const [textMes, setTextMes] = useState('')
-  const [workerMes, setWorkerMes] = useState('')
+  const [orderMes, setOrderMes] = useState({});
+  const [textMes, setTextMes] = useState("");
+  const [workerMes, setWorkerMes] = useState("");
   // const [orderMes, setOrderMes] = useState({})
   const messageData = {
     sender: "c8af4463-936f-4d8e-a384-d06e1f92ec91",
@@ -28,11 +27,25 @@ function Message() {
     fetch("https://custom.uz/users/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         setUsers(data);
       })
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, []);
+
+  // useEffect(() => {
+  //   fetch("https://custom.uz/users/")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const filteredUsers = data.filter(
+  //         (user) => user.user_roles === "worker"
+  //       );
+  //       console.log(data);
+  //       setUsers(filteredUsers);
+  //     })
+  //     .catch((error) => console.error("malumot olishta xatolik:", error));
+  // }, []);
+
   useEffect(() => {
     fetch("https://custom.uz/products/message_send/api/")
       .then((res) => res.json())
@@ -84,13 +97,12 @@ function Message() {
   }
 
   function selectOrder(orderId) {
-    let aa = orderData.filter(order => {
-      return order.id == orderId
-    } )
-    const [order] = aa
-    setOrderMes(order)
+    let aa = orderData.filter((order) => {
+      return order.id == orderId;
+    });
+    const [order] = aa;
+    setOrderMes(order);
   }
-
 
   return (
     <div className="flex items-start gap-x-2 mt-2">
@@ -105,8 +117,7 @@ function Message() {
                 className="messageItem flex border  w-[100%] gap-x-3 p-2 "
                 key={crypto.randomUUID()}
                 onClick={() => {
-                  createMessage(e.id),
-                  setWorkerMes(e.id)
+                  createMessage(e.id), setWorkerMes(e.id);
                 }}
               >
                 <small className="flex w-full p-2 justify-between">
@@ -129,7 +140,13 @@ function Message() {
         {/* header-message */}
         <div className="bg-blue-400 px-3 py-1 flex rounded  items-center justify-between">
           <span className="flex items-center gap-4">
-            <img src={headMessage.length > 0 ? headMessage[0]?.image : users[0]?.image} alt="user img" className="w-8 h-8 rounded-full" />
+            <img
+              src={
+                headMessage.length > 0 ? headMessage[0]?.image : users[0]?.image
+              }
+              alt="user img"
+              className="w-8 h-8 rounded-full"
+            />
             <small className="flex flex-col ">
               <p className="text-[18px] text-white">
                 {headMessage.length > 0
@@ -177,7 +194,7 @@ function Message() {
             className="border-[2px] bg-inherit outline-none flex-grow border-none pl-2 "
             placeholder="Send your message"
             type="text"
-            onChange={(e) =>  setTextMes(e.target.value)}
+            onChange={(e) => setTextMes(e.target.value)}
           />
           <button onClick={() => submitMessage()}>
             <IoSend className="w-6 h-6" />
