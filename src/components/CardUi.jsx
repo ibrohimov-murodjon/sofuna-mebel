@@ -5,20 +5,19 @@ import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
 import Loader from "./Loader";
 import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
+import { useNavigate } from "react-router-dom";
+
 function CardUI({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
-
-const [userId,setUserId] = useState('')
- 
+  const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
-
+  const navigate = useNavigate();
   const handleOpen = (value) => setSize(value);
 
   const deleteCloseFun = () => {
     setSize(null);
   };
 
-  // const { register, handleSubmit, resetField, formState: {dirtyFields, isDirty}  } =  useForm()
   const [value, setValue] = useState({
     username: "",
     password: "",
@@ -57,24 +56,16 @@ const [userId,setUserId] = useState('')
           position: "top-center",
           autoClose: 1500,
         });
+      })
+      .finally(() => {
+        setLoader(false);
       });
   }
 
-  function handleUpdate(e, id) {
-    e.preventDefault();
-    const requestOptions = {
-      method: "PUT", // Specify the request method
-      headers: { "Content-Type": "application/json" }, // Specify the content type
-      body: JSON.stringify(value), // Send the data in JSON format
-    };
-    fetch(`${api}${id}/`, requestOptions)
-      .then((res) => console.log(res))
-      // .then(data => console.log(data))
-      .catch((error) => {
-        console.error(error);
-      });
-    toast.success("Edit successfuly 🙂");
+  function handleRowClick(id) {
+    navigate(`/orders/${id}`);
   }
+
   function updateUser(user) {
     setValue({
       ...value,
@@ -88,6 +79,7 @@ const [userId,setUserId] = useState('')
       price: user.price,
     });
   }
+
   return (
     <>
       {loader ? (
@@ -97,7 +89,7 @@ const [userId,setUserId] = useState('')
           <table className="w-full text-left border-l-2 table-auto min-w-max">
             <thead className="">
               <tr>
-              <th className="p-4 border-b  bg-blue-600 text-white">
+                <th className="p-4 border-b  bg-blue-600 text-white">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
                     No
                   </p>
@@ -142,12 +134,14 @@ const [userId,setUserId] = useState('')
                     Dollar convert
                   </p>
                 </th>
-                {api !== 'https://custom.uz/products/api/' ? <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
-                    Company
-                  </p>
-                </th> : null }
-                
+                {api !== "https://custom.uz/products/api/" ? (
+                  <th className="p-4 border-b  bg-blue-600">
+                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                      Company
+                    </p>
+                  </th>
+                ) : null}
+
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                     Qarzdorlik
@@ -170,7 +164,7 @@ const [userId,setUserId] = useState('')
                     >
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {index +1}
+                          {index + 1}
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
@@ -222,17 +216,21 @@ const [userId,setUserId] = useState('')
                           href="#"
                           className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
                         >
-                          { api == 'https://custom.uz/products/api/' ? user.dollor_course_total?.toFixed(2) : user.dollor_convert.toFixed(2) }
+                          {api == "https://custom.uz/products/api/"
+                            ? user.dollor_course_total?.toFixed(2)
+                            : user.dollor_convert.toFixed(2)}
                         </a>
                       </td>
-                      {api !== 'https://custom.uz/products/api/' ? <td className="p-4 border-b border-blue-gray-50 text-center ">
-                        <a
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.company_name}
-                        </a>
-                      </td> : null}
+                      {api !== "https://custom.uz/products/api/" ? (
+                        <td className="p-4 border-b border-blue-gray-50 text-center ">
+                          <a
+                            href="#"
+                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                          >
+                            {user.company_name}
+                          </a>
+                        </td>
+                      ) : null}
                       <td className="p-4 border-b border-blue-gray-50 text-center ">
                         <a
                           href="#"
@@ -242,12 +240,11 @@ const [userId,setUserId] = useState('')
                         </a>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
-                        
                         <span className="flex items-center justify-end gap-5">
                           <button
                             className=""
                             onClick={() => {
-                             handleOpen("xs");
+                              handleOpen("xs");
                             }}
                           >
                             <img src={EditBTn} alt="edit btn" />
@@ -255,10 +252,9 @@ const [userId,setUserId] = useState('')
                           <button
                             className=""
                             onClick={() => {
-                            setUserId(user.id)
-                              handleOpen("xs")
-                            }
-                          }
+                              setUserId(user.id);
+                              handleOpen("xs");
+                            }}
                           >
                             <img src={DeleteBtn} alt="delete btn" />
                           </button>
@@ -269,22 +265,23 @@ const [userId,setUserId] = useState('')
                 })}
             </tbody>
           </table>
-          <Dialog
-        open={
-          size === "xs" 
-        }
-        size={size || "md"}
-        handler={handleOpen}
-        onClose={() => deleteCloseFun()}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-      <OutlineDeleteModal handleClose={deleteCloseFun} deleteUser={() => deleteUser(userId)} />
 
-      </Dialog>
+          <Dialog
+            open={size === "xs"}
+            size={size || "md"}
+            handler={handleOpen}
+            onClose={() => deleteCloseFun()}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <OutlineDeleteModal
+              handleClose={deleteCloseFun}
+              deleteUser={() => deleteUser(userId)}
+            />
+          </Dialog>
           <ToastContainer />
         </div>
       )}

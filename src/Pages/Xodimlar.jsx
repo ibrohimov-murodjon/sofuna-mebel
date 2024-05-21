@@ -107,7 +107,6 @@ function Xodimlar() {
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, []);
 
-
   return (
     <Card className="rounded-md mt-2 w-full relative">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -139,12 +138,12 @@ function Xodimlar() {
           <div className="flex prdouct flex-col gap-3">
             {category.length > 0 ? (
               <>
-              <CardUI
-                            key={crypto.randomUUID()}
-                            setUiData={setCategory}
-                            uiData={category}
-                            api={"https://custom.uz/users/"}
-                          />
+                <CardUI
+                  key={crypto.randomUUID()}
+                  setUiData={setCategory}
+                  uiData={category}
+                  api={"https://custom.uz/users/"}
+                />
                 {/* {category.map((el, index) => {
                   return (
                     <CardUI
