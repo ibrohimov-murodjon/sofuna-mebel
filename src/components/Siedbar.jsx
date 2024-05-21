@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { RegisterValidate } from "../Functions/Function";
 import { useState } from "react";
 //Toastify
@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { EmployeeBlack, EmployeeWhite, HomeBlack, HomeWhite, Logo, MessageBlack, MessageWhite, OrderBlack, OrderWhite, WarehouseBlack, WarehouseWhite } from "../assets";
 
 const MenuItems = [
-  { id: 1, name: "Home", unActive: HomeBlack, active: HomeWhite, link: "/" },
+  { id: 1, name: "Asosiy", unActive: HomeBlack, active: HomeWhite, link: "/" },
   {
     id: 2,
     name: "Ombor",
@@ -69,12 +69,15 @@ function Sidebar({setActivePage, activePage, sidebarSize, setSidebarSize}) {
     resetField("password", { keepDirty: true });
     resetField("profile_pic", { keepDirty: true });
   }
+  const navigate = useNavigate()
   return (
     <>
       {sidebarSize ? (
         <div className="w-80 bg-white min-h-screen flex flex-col items-center rounded py-6 px-4">
-          <div className="mb-7 ">
-            <img src={Logo} alt="logo" className="h-24 w-24 rounded-full" />
+          <div className="mb-7 cursor-pointer " onClick={() => {
+            navigate('/')
+          }}>
+            <img src={Logo}  alt="logo" className="h-24 w-24 rounded-full" />
           </div>
           <nav className="MainMeniu">
             {MenuItems.map((item) => {
