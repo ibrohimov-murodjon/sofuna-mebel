@@ -134,6 +134,19 @@ function App() {
               }
             />
             <Route
+              path="/userprofile"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/message"
               element={
                 <ProtectedRoute
@@ -239,6 +252,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <WorkerOrder />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/xodimlar/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <XodimProfil />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
