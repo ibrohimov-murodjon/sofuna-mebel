@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Button from "../ui/Button";
 import Tag from "../ui/Tag";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const StyledTodayItem = styled.li`
   display: flex;
@@ -21,7 +22,29 @@ const StyledTodayItem = styled.li`
   }
 `;
 
-function UserProfile() {
+function XodimProfil() {
+  const { id } = useParams();
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    fetch(`https://custom.uz/users/${id}/`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  }, [id]);
+
+  if (!users) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="h-full bg-white overflow-auto m-5 min-h-[280px] max-h-screen pb-20 p-10">
       <div className="px-2 pt-10 lg:p-10">
@@ -79,35 +102,32 @@ function UserProfile() {
 
           <div className="flex flex-col gap-5">
             <p className="font-semibold text-3xl text-center lg:text-start">
-              John Doe
+              {users.first_name} {users.last_name}
             </p>
             <div className="flex flex-col gap-5">
               <Button size="small" variation="primary">
                 Profilni tahrirlash
               </Button>
-              {/* <Button size="small" variation="secondary">
-                Parolni o'zgartirish
-              </Button> */}
             </div>
-            <Link to="/">
+            <Link className="flex flex-col gap-5" to="/">
               <Button size="small" variation="danger">
                 Chiqish
               </Button>
             </Link>
           </div>
         </div>
-        <div className="mt-[60px] ">
+        <div className="mt-[60px]  " style={{ width: "700px" }}>
           <StyledTodayItem>
-            <span className="font-bold">Ism: </span>
-            <span>John</span>
+            <span className="font-bold">Telefon raqami: </span>
+            <span>{users.phone_number} </span>
           </StyledTodayItem>
           <StyledTodayItem>
-            <span className="font-bold">Ism: </span>
-            <span>John</span>
+            <span className="font-bold">Kasbi: </span>
+            <span>{users.user_roles}</span>
           </StyledTodayItem>
           <StyledTodayItem>
             <span className="font-bold">Balans: </span>
-            <Tag type="green">$1,500</Tag>
+            <Tag type="green">$ 10000</Tag>
           </StyledTodayItem>
         </div>
       </div>
@@ -115,4 +135,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default XodimProfil;
