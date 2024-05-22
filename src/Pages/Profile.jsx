@@ -74,13 +74,11 @@ const Profile = () => {
         }
         const result = await response.json();
         setData(result);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData()
-    console.log(data);
   }, []);
   return (
     <Wrapper>
