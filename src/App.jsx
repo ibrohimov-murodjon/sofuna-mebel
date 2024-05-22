@@ -19,6 +19,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import OrderDetails from "./Pages/OrderDetails.jsx";
 import WorkerOrder from "./Pages/WorkerOrder.jsx";
 import StirCompany from "./Pages/StirCompany.jsx";
+import XodimProfil from "./Pages/XodimProfil.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -158,6 +159,34 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/xodimlar/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <XodimProfil />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* <Route
+              path="/xodimlar/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            /> */}
+
             <Route
               path="/profile"
               element={
