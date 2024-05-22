@@ -73,7 +73,7 @@ function Sidebar({setActivePage, activePage, sidebarSize, setSidebarSize}) {
   return (
     <>
       {sidebarSize ? (
-        <div className="w-80 bg-white min-h-screen flex flex-col items-center rounded py-6 px-4">
+        <aside className="w-80  bg-white min-h-screen flex flex-col items-center rounded py-6 px-4">
           <div className="mb-7 cursor-pointer " onClick={() => {
             navigate('/')
           }}>
@@ -100,7 +100,7 @@ function Sidebar({setActivePage, activePage, sidebarSize, setSidebarSize}) {
               );
             })}
           </nav>
-        </div> 
+        </aside> 
       ) : 
       (
         <div className="w-28 bg-white  flex flex-col items-start rounded py-6 pl-6">

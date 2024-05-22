@@ -1,4 +1,6 @@
 //react-icons
+import { Input } from "@material-tailwind/react";
+import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -17,17 +19,20 @@ const months = [
   "Dekabr",
 ];
 function Header({ activePage, setActivePage }) {
+  const stirNum = useRef()
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   const handleOpen = () => setOpen((cur) => !cur);
   const [dataOfDay, setDataOfDay] = useState(new Date());
-
+  function searchFn(e) {
+    e.preventDefault()
+    const id = stirNum.current?.value
+    id !== '' ? navigate(`/stirCompany/${id}`) : null
+  }
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDataOfDay(new Date());
     }, 60000); // 60000 milliseconds = 1 minute
-
-    // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
 
@@ -41,10 +46,17 @@ function handLogout (){
   return (
     <div className="flex ml-[-8px]  items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
-        <p className="text-black text-[30px]">{activePage()}</p>
+      <p className="text-black text-[30px]">{activePage()}</p>
       </div>
       <div className="flex items-center gap-x-20">
-        <div className="flex items-center gap-x-4 text-[18px] font-extralight">
+      <form onSubmit={(e) => searchFn(e)} className="w-96">
+            <input
+              ref={stirNum}
+              placeholder='Q   qidirish'
+              className="outline-none border py-1 px-3 w-96 rounded-md"
+            />
+      </form>
+        {/* <div className="flex items-center gap-x-4 text-[18px] font-extralight">
           <span className="flex items-center gap-x-2">
             <p className="w-full">
               {dataOfDay.getHours()} : {dataOfDay.getMinutes()}
@@ -60,7 +72,7 @@ function handLogout (){
             <p className="mr-2">{months[dataOfDay.getMonth()]}</p>
             <p className="text-gray-500">{dataOfDay.getFullYear()}</p>
           </span>
-        </div>
+        </div> */}
         <div
           onClick={handleOpen}
           className="flex cursor-pointer items-center gap-x-3"

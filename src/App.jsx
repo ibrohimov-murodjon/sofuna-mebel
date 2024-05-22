@@ -18,6 +18,7 @@ import { setRole } from "./store/userToken";
 import GlobalStyles from "./styles/GlobalStyles";
 import OrderDetails from "./Pages/OrderDetails.jsx";
 import WorkerOrder from "./Pages/WorkerOrder.jsx";
+import StirCompany from "./Pages/StirCompany.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -118,7 +119,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/stirCompany/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <StirCompany />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/message"
               element={
