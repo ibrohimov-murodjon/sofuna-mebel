@@ -1,8 +1,6 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RegisterValidate } from "../Functions/Function";
 import { useState } from "react";
-//Toastify
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { EmployeeBlack, EmployeeWhite, HomeBlack, HomeWhite, Logo, MessageBlack, MessageWhite, OrderBlack, OrderWhite, WarehouseBlack, WarehouseWhite } from "../assets";

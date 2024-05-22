@@ -1,5 +1,4 @@
 import { Button, CardFooter, Typography } from "@material-tailwind/react";
-import React from "react";
 
 function Pagination() {
   return (

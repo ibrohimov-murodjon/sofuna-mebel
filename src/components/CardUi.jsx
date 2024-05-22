@@ -19,16 +19,6 @@ function CardUI({ setUiData, uiData, api }) {
   };
 
   console.log(uiData);
-  const [value, setValue] = useState({
-    username: "",
-    password: "",
-    user_roles: "",
-    name: "",
-    ndc_price: "",
-    ndc: "",
-    price: "",
-    qty: "",
-  });
 
   const deleteOrder = (id) => {
     fetch(`https://custom.uz/products/order/api/${id}/`, {
@@ -61,20 +51,6 @@ function CardUI({ setUiData, uiData, api }) {
 
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
-  }
-
-  function updateUser(user) {
-    setValue({
-      ...value,
-      username: user.username,
-      password: user.password,
-      user_roles: user.user_roles,
-      name: user.name,
-      ndc_price: user.ndc_price,
-      ndc: user.ndc,
-      qty: user.qty,
-      price: user.price,
-    });
   }
 
   return (
