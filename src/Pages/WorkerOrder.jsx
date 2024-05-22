@@ -171,7 +171,7 @@ function WorkerOrder() {
             </>
           )}
           {product.status == "SUCCESSFULLY" && (
-            <button className="bg-green-600 p-2 px-5">Yakunlandi</button>
+            <h2 className="bg-green-300 p-2 px-5 w-full text-center mx-auto ">Yakunlandi</h2>
           )}
         </div>
       </div>
