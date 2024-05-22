@@ -17,7 +17,7 @@ function CardUI({ setUiData, uiData, api }) {
   const deleteCloseFun = () => {
     setSize(null);
   };
-
+  console.log(uiData)
   const [value, setValue] = useState({
     username: "",
     password: "",
@@ -170,7 +170,7 @@ function CardUI({ setUiData, uiData, api }) {
                     </td>
                     <td onClick={() => handleRowClick(user.id)} className="p-4 border-b border-blue-gray-50">
                       <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                        {user.name.charAt() + user.name.slice(1)}
+                        {user.name?.charAt() + user.name?.slice(1)}
                       </p>
                     </td>
                     <td className="p-4 border-b border-blue-gray-50">
@@ -348,7 +348,7 @@ function CardUI({ setUiData, uiData, api }) {
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name.charAt() + user.name.slice(1)}
+                          {user.name?.charAt() + user.name?.slice(1)}
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
@@ -397,7 +397,7 @@ function CardUI({ setUiData, uiData, api }) {
                         >
                           {api == "https://custom.uz/products/api/"
                             ? user.dollor_course_total?.toFixed(2)
-                            : user.dollor_convert.toFixed(2)}
+                            : user.dollor_convert?.toFixed(2)}
                         </a>
                       </td>
                       {api !== "https://custom.uz/products/api/" ? (

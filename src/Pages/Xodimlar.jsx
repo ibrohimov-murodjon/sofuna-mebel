@@ -136,6 +136,7 @@ function Xodimlar() {
       <div className="overflow-scroll scrol">
         <div className="mt-10 w-full min-w-max table-auto  text-left">
           <div className="flex prdouct flex-col gap-3">
+            
             {category.length > 0 ? (
               <>
                 <CardUI
