@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
+import Loader from "../components/Loader";
 
 const Wrapper = styled.div`
   max-width: 1280px;
@@ -58,6 +59,7 @@ const Profile = () => {
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
+  const [loader,setLoader] = useState(false)
   let a = ` Lorem ipsum dolor spariatur corporis. Accusamus
   id excepturi commodi blanditiis veritatis!fdsadadasdasdasdsadasdasdasdassadasssssssssssssssssssss`;
   function handleNavigate(elId) {
@@ -65,6 +67,7 @@ const Profile = () => {
   }
   useEffect(() => {
     const fetchData = async () => {
+      setLoader(true)
       try {
         const response = await fetch(
           `https://custom.uz/products/worker-orders/${decodedToken.user_id}`
@@ -74,16 +77,19 @@ const Profile = () => {
         }
         const result = await response.json();
         setData(result);
-        console.log(data);
+        setLoader(false)
       } catch (error) {
         console.log(error);
+        setLoader(false)
       }
     };
     fetchData()
-    console.log(data);
   }, []);
   return (
     <Wrapper>
+      <div style={{display:loader ? "block"  :"none"}}>
+        <Loader/>
+      </div>
       {data.length > 0 &&
       data.map((el, index) => {
           return (
