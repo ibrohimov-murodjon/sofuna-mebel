@@ -133,6 +133,19 @@ function App() {
               }
             />
             <Route
+              path="/userprofile"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/message"
               element={
                 <ProtectedRoute

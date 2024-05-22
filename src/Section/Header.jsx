@@ -1,7 +1,9 @@
 //react-icons
 import { Input } from "@material-tailwind/react";
+import { jwtDecode } from "jwt-decode";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const months = [
@@ -20,10 +22,13 @@ const months = [
 ];
 function Header({ activePage, setActivePage }) {
   const stirNum = useRef()
+  const token = useSelector((state) => state.userToken.token);
   const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState([]);
   const navigate = useNavigate()
   const handleOpen = () => setOpen((cur) => !cur);
   const [dataOfDay, setDataOfDay] = useState(new Date());
+  const decodedToken = jwtDecode(token);
   function searchFn(e) {
     e.preventDefault()
     const id = stirNum.current?.value
@@ -36,7 +41,12 @@ function Header({ activePage, setActivePage }) {
     return () => clearInterval(intervalId);
   }, []);
 
-
+ 
+  useEffect(() => {
+    fetch(`https://custom.uz/users/${decodedToken.user_id}`)
+    .then(res =>  res.json())
+    .then(data =>  setUserData(data))
+  }, [decodedToken.user_id])
 function handLogout (){
   localStorage.clear()
   navigate('/login')
@@ -146,7 +156,7 @@ function handLogout (){
               </button>
             </ul>
           </div>
-          <p className="text-[18px] font-medium">Husanboy</p>
+          <p className="text-[18px] font-medium">{userData.first_name}</p>
         </div>
       </div>
     </div>
