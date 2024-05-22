@@ -119,7 +119,7 @@ function Xodimlar() {
       })
       .catch((error) => console.error("malumot olishda xatolik:", error));
   }, []);
-
+console.log(worker);
   function handleSubmit(id) {
     navigate(`/xodimlar/${id}`);
   }

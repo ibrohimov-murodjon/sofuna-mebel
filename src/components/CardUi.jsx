@@ -103,6 +103,7 @@ function CardUI({ setUiData, uiData, api }) {
                       Dollar curs
                     </p>
                   </th>
+
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                       Dollar convert
@@ -266,6 +267,7 @@ function CardUI({ setUiData, uiData, api }) {
                       Meauserement
                     </p>
                   </th>
+
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
                       Price
@@ -344,6 +346,7 @@ function CardUI({ setUiData, uiData, api }) {
                             {user.price}
                           </p>
                         </td>
+
                         <td className="p-4 border-b border-blue-gray-50">
                           <a
                             href="#"

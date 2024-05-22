@@ -1,7 +1,8 @@
 //react-icons
-import { Input } from "@material-tailwind/react";
+import { jwtDecode } from "jwt-decode";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const months = [
@@ -20,10 +21,14 @@ const months = [
 ];
 function Header({ activePage, setActivePage }) {
   const stirNum = useRef()
+  const role = useSelector((state) => state.userToken.role);
+  const token = useSelector((state) => state.userToken.token);
   const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState([]);
   const navigate = useNavigate()
   const handleOpen = () => setOpen((cur) => !cur);
   const [dataOfDay, setDataOfDay] = useState(new Date());
+  const decodedToken = jwtDecode(token);
   function searchFn(e) {
     e.preventDefault()
     const id = stirNum.current?.value
@@ -36,26 +41,29 @@ function Header({ activePage, setActivePage }) {
     return () => clearInterval(intervalId);
   }, []);
 
-
+ 
+  useEffect(() => {
+    fetch(`https://custom.uz/users/${decodedToken.user_id}`)
+    .then(res =>  res.json())
+    .then(data =>  setUserData(data))
+  }, [decodedToken.user_id])
 function handLogout (){
   localStorage.clear()
   navigate('/login')
 }
-
-
   return (
     <div className="flex ml-[-8px]  items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
       <p className="text-black text-[30px]">{activePage()}</p>
       </div>
       <div className="flex items-center gap-x-20">
-      <form onSubmit={(e) => searchFn(e)} className="w-96">
+      {role !== 'worker' ?  <form onSubmit={(e) => searchFn(e)} className="w-96">
             <input
               ref={stirNum}
               placeholder='Q   qidirish'
               className="outline-none border py-1 px-3 w-96 rounded-md"
             />
-      </form>
+      </form> : null }
         {/* <div className="flex items-center gap-x-4 text-[18px] font-extralight">
           <span className="flex items-center gap-x-2">
             <p className="w-full">
@@ -97,7 +105,7 @@ function handLogout (){
                   handleOpen();
                   setActivePage("Profile");
                 }}
-                to="/userprofile"
+                to={`/xodimlar/${decodedToken.user_id}`}
                 role="menuitem"
                 className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
               >
@@ -146,7 +154,7 @@ function handLogout (){
               </button>
             </ul>
           </div>
-          <p className="text-[18px] font-medium">Husanboy</p>
+          <p className="text-[18px] font-medium">{userData.first_name}</p>
         </div>
       </div>
     </div>
