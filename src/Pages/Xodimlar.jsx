@@ -1,6 +1,7 @@
-//Toastify
+// Toastify
 import "react-toastify/dist/ReactToastify.css";
-import { Spinner } from "@material-tailwind/react";
+import { Dialog } from "@material-tailwind/react";
+import { DeleteBtn, EditBTn } from "../assets";
 import {
   Card,
   CardHeader,
@@ -10,8 +11,10 @@ import {
   Tab,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import CardUI from "../components/CardUi";
 import Pagination from "../components/Pagination";
+import { toast, ToastContainer } from "react-toastify";
+import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
+import { useNavigate } from "react-router-dom";
 
 const TABS = [
   {
@@ -32,64 +35,73 @@ const TABS = [
   },
 ];
 
-const TABLE_HEAD = ["Ism Familya ", "Lavozimi", "Taxrirlash"];
-
 function Xodimlar() {
   const [worker, setWorker] = useState([]);
   const [category, setCategory] = useState([]);
+  const [userId, setUserId] = useState("");
+  const [size, setSize] = useState(null);
+  const handleOpen = (value) => setSize(value);
+  const navigate = useNavigate();
+
   // const [value, setValue] = useState({
   //   username: "",
   //   password: "",
   //   user_roles: "",
   // });
+
+  const deleteCloseFun = () => {
+    setSize(null);
+  };
+
   // function handleUpdate(e, id) {
-  // // console.log(id)
   //   e.preventDefault();
   //   fetch(`https://custom.uz/users/${id}`, {
   //     method: "PUT",
   //     headers: {
-  //       "Content-Type": "application/json", // JSON formatida ma'lumot yuborish
+  //       "Content-Type": "application/json",
   //     },
   //     body: JSON.stringify(value),
   //   })
-  //     .then((res)=> console.log(res, 'succes updated'))
+  //     .then((res) => console.log(res, "succes updated"))
   //     .catch((error) => {
   //       console.error(error);
   //     });
-  //     setModal(false)
+  //   setModal(false);
   // }
+
   // function updateUser(user) {
-  //   idMember = user.id;
+  //   setIdMember(user.id);
   //   setModal(true);
   //   setValue({
-  //     ...value,
   //     username: user.username,
   //     password: user.password,
   //     user_roles: user.user_roles,
   //   });
   // }
 
-  // function deleteUser(id) {
-  //   fetch(`https://custom.uz/users/${id}`, { method: "DELETE" })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setWorker(worker.filter((user) => user.id !== id));
-  //       setCategory(category.filter((user) => user.id !== id));
-  //       toast.success("Deleted User", {
-  //         position: "top-right",
-  //       });
-  //     })
-  //     .catch((error) => console.error("Error deleting user:", error));
-  // }
+  function deleteUser(id) {
+    fetch(`https://custom.uz/users/${id}`, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((data) => {
+        setWorker(worker.filter((user) => user.id !== id));
+        setCategory(category.filter((user) => user.id !== id));
+        toast.success("Deleted User", {
+          position: "top-right",
+        });
+        deleteCloseFun();
+      })
+      .catch((error) => console.error("Error deleting user:", error));
+  }
 
   function categoryFilter(category) {
     setCategory(
       worker.filter((user) => {
-        if (category == "all") return user.user_roles;
-        else return user.user_roles == category;
+        if (category === "all") return user.user_roles;
+        else return user.user_roles === category;
       })
     );
   }
+
   function searchFn(word) {
     setCategory(
       worker.filter((user) => {
@@ -97,6 +109,7 @@ function Xodimlar() {
       })
     );
   }
+
   useEffect(() => {
     fetch("https://custom.uz/users/")
       .then((res) => res.json())
@@ -104,69 +117,172 @@ function Xodimlar() {
         setWorker(data);
         setCategory(data);
       })
-      .catch((error) => console.error("malumot olishta xatolik:", error));
+      .catch((error) => console.error("malumot olishda xatolik:", error));
   }, []);
+console.log(worker);
+  function handleSubmit(id) {
+    navigate(`/xodimlar/${id}`);
+  }
 
   return (
-    <Card className="rounded-md mt-2 w-full relative">
-      <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className="flex flex-col items-center border-b-2 justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full p-4 md:w-max">
-            <TabsHeader className="">
-              {TABS.map(({ label, value }) => (
-                <Tab
-                  onClick={() => categoryFilter(value)}
-                  key={value}
-                  value={value}
-                >
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
-          <div className="w-full md:w-72">
-            <Input
-              onChange={(e) => searchFn(e.target.value)}
-              label="Search"
-              // icon={< className="h-5 w-5" />}
-            />
+    <>
+      <Card style={{ width: "99%" }} className="rounded-md mt-2 relative">
+        <CardHeader
+          style={{ width: "96%" }}
+          floated={false}
+          shadow={false}
+          className="rounded-none"
+        >
+          <div className="flex flex-col items-center border-b-2 justify-between gap-4 md:flex-row">
+            <Tabs value="all" className="w-full p-4 md:w-max">
+              <TabsHeader className="">
+                {TABS.map(({ label, value }) => (
+                  <Tab
+                    onClick={() => categoryFilter(value)}
+                    key={value}
+                    value={value}
+                  >
+                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                  </Tab>
+                ))}
+              </TabsHeader>
+            </Tabs>
+            <div className="w-full md:w-72">
+              <Input
+                onChange={(e) => searchFn(e.target.value)}
+                label="Search"
+              />
+            </div>
           </div>
+        </CardHeader>
+        <div
+          style={{
+            marginTop: "30px",
+            marginBottom: "30px",
+          }}
+        >
+          <table
+            style={{
+              width: "95%",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+            className="text-left border-l-2 table-auto min-w-max"
+          >
+            <thead className="bg-blue-600">
+              <tr>
+                <th className="px-4 py-4 w-16 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-center">№</p>
+                </th>
+                <th className="px-4 py-4 w-36 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-left">Ismi</p>
+                </th>
+                <th className="px-4 py-4 w-36 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-left">Familyasi</p>
+                </th>
+                <th className="px-4 py-4 w-32 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-left">Telefon raqam</p>
+                </th>
+                <th className="px-4 py-4 w-36 text-center text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-center">Lavozimi</p>
+                </th>
+                <th className="px-4 py-4 w-44 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-left">Qaysi filialdaligi</p>
+                </th>
+                <th className="px-4 py-4 w-28 text-left text-sm font-medium text-white uppercase tracking-wider">
+                  <p className="text-center">Izox</p>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {category &&
+                category.map((user, index) => (
+                  <tr
+                    style={{ cursor: "pointer" }}
+                    className={`${index % 2 === 0 ? "bg-blue-50" : "bg-white"}`}
+                    key={user.id}
+                  >
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 text-center">
+                        {index + 1}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p
+                        onClick={() => handleSubmit(user.id)}
+                        className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900"
+                      >
+                        {user.first_name}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                        {user.last_name}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                        {user.phone_number}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p className="block font-sans text-sm antialiased text-center font-normal leading-normal text-blue-gray-900">
+                        {user.user_roles}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                        {user.filial_name || "N/A"}
+                      </p>
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-gray-50">
+                      <span className="flex items-center justify-center gap-5">
+                        <button
+                          className=""
+                          onClick={() => {
+                            handleOpen("xs");
+                          }}
+                        >
+                          <img src={EditBTn} alt="edit btn" />
+                        </button>
+                        <button
+                          className=""
+                          onClick={() => {
+                            setUserId(user.id);
+                            handleOpen("xs");
+                          }}
+                        >
+                          <img src={DeleteBtn} alt="delete btn" />
+                        </button>
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
-      </CardHeader>
-      <div className="overflow-scroll scrol">
-        <div className="mt-10 w-full min-w-max table-auto  text-left">
-          <div className="flex prdouct flex-col gap-3">
-            
-            {category.length > 0 ? (
-              <>
-                <CardUI
-                  key={crypto.randomUUID()}
-                  setUiData={setCategory}
-                  uiData={category}
-                  api={"https://custom.uz/users/"}
-                />
-                {/* {category.map((el, index) => {
-                  return (
-                    <CardUI
-                      api={"https://custom.uz/users/"}
-                      key={crypto.randomUUID()}
-                      user={el}
-                      setUiData={setCategory}
-                      uiData={category}
-                    />
-                  );
-                })} */}
-              </>
-            ) : (
-              <div className="loaderWrapper">
-                <Spinner className="h-12 w-12" />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <Pagination />
-    </Card>
+        <Pagination />
+      </Card>
+      <Dialog
+        open={size === "xs"}
+        size={size || "md"}
+        handler={handleOpen}
+        onClose={() => deleteCloseFun()}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <OutlineDeleteModal
+          handleClose={deleteCloseFun}
+          deleteUser={() => deleteUser(userId)}
+        />
+      </Dialog>
+      <ToastContainer />
+    </>
   );
 }
+
 export default Xodimlar;

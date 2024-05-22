@@ -17,67 +17,40 @@ function CardUI({ setUiData, uiData, api }) {
   const deleteCloseFun = () => {
     setSize(null);
   };
+
   console.log(uiData);
-  const [value, setValue] = useState({
-    username: "",
-    password: "",
-    user_roles: "",
-    name: "",
-    ndc_price: "",
-    ndc: "",
-    price: "",
-    qty: "",
-  });
-  function deleteUser(id) {
-    setLoader(true);
-    fetch(`${api}${id}/`, { method: "DELETE" })
+
+  const deleteOrder = (id) => {
+    fetch(`https://custom.uz/products/order/api/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.message == "Product successfully deleted") {
-          toast.success(data.message, {
-            position: "top-right",
-            autoClose: 1500,
-          });
+        if (res.ok) {
+          console.log("Order deleted successfully");
           let copied = JSON.parse(JSON.stringify(uiData));
           const updatedUiData = copied.filter((user) => user.id !== id);
           setUiData(updatedUiData);
-          setLoader(false);
+          toast.success("Mufaqiyatli o'chirildi", {
+            position: "top-right",
+            autoClose: 1500,
+          });
+          deleteCloseFun();
         }
       })
       .catch((error) => {
-        console.error("Error deleting user:", error);
-        setLoader(false);
+        console.error("Delete error:", error);
         toast.error("Error deleting user", {
           position: "top-center",
           autoClose: 1500,
         });
-      })
-      .finally(() => {
-        setLoader(false);
       });
-  }
+  };
 
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
-  }
-
-  function updateUser(user) {
-    setValue({
-      ...value,
-      username: user.username,
-      password: user.password,
-      user_roles: user.user_roles,
-      name: user.name,
-      ndc_price: user.ndc_price,
-      ndc: user.ndc,
-      qty: user.qty,
-      price: user.price,
-    });
   }
 
   return (
@@ -130,6 +103,7 @@ function CardUI({ setUiData, uiData, api }) {
                       Dollar curs
                     </p>
                   </th>
+
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                       Dollar convert
@@ -293,6 +267,7 @@ function CardUI({ setUiData, uiData, api }) {
                       Meauserement
                     </p>
                   </th>
+
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
                       Price
@@ -371,6 +346,7 @@ function CardUI({ setUiData, uiData, api }) {
                             {user.price}
                           </p>
                         </td>
+
                         <td className="p-4 border-b border-blue-gray-50">
                           <a
                             href="#"
@@ -450,6 +426,7 @@ function CardUI({ setUiData, uiData, api }) {
               </tbody>
             </table>
           )}
+
           <Dialog
             open={size === "xs"}
             size={size || "md"}
@@ -463,7 +440,7 @@ function CardUI({ setUiData, uiData, api }) {
           >
             <OutlineDeleteModal
               handleClose={deleteCloseFun}
-              deleteUser={() => deleteUser(userId)}
+              deleteUser={() => deleteOrder(userId)}
             />
           </Dialog>
           <ToastContainer />

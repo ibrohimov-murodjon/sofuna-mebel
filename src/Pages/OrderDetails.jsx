@@ -50,7 +50,9 @@ function OrderDetails() {
 
   return (
     <div style={{ width: "98%", marginBottom: "50px" }}>
-      <div><OrderOneAbuot /></div>
+      <div>
+        <OrderOneAbuot />
+      </div>
       <table className="w-full text-left  border-l-2  table-auto min-w-max">
         <thead className="bg-blue-600">
           <tr>

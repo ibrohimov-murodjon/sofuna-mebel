@@ -130,6 +130,33 @@ function OutlineAdUserModal({ handleClose }) {
 
   function handleAddUser() {
     if (validationFunction()) {
+      const newUser = {
+        username: username,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        user_roles: selectRef.current?.value,
+        image: null,
+        password: password
+      }
+      fetch(`https://custom.uz/users/register/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          toast.success(data.message, {
+            position: "top-right",
+            autoClose: 1500,
+          });
+          alert('success')
+        })
+        .catch((error) => {
+          alert("error:", error);
+        });
       console.log("Form submitted successfully");
       setFirstName("");
       setLastName("");
@@ -241,7 +268,7 @@ function OutlineAdUserModal({ handleClose }) {
               onClick={handleAddUser}
               width="130px"
               bgColor="#0E95D8"
-              value="O'chirish"
+              value="Qo'shish"
             />
           </div>
         </div>
