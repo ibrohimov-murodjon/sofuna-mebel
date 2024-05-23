@@ -143,7 +143,7 @@ function AddProduct({ api, title, getApi }) {
         qty: Number(productQty),
         price: Number(productPrice),
         dollor_course: Number(productDollarKurs),
-        description: buyurtmaTasnifi,
+        description: 'yaxshi',
         measurement: productMeasurement,
         category: productType,
         payment: payment,
@@ -189,7 +189,7 @@ function AddProduct({ api, title, getApi }) {
         <Card className="mx-auto w-full max-w-[730px]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" className="text-center" color="blue-gray">
-              {title} qo&apos;shish
+              {title == 'Ombor' ? 'Mahsulot' : 'Buyurtma'} qo&apos;shish
             </Typography>
             <div className="flex items-start justify-center gap-x-10 w-full">
               <div className="flex items-start flex-col gap-2 w-80">
@@ -204,73 +204,6 @@ function AddProduct({ api, title, getApi }) {
                   size="lg"
                   error={productNameError}
                 />
-                <Typography className="-mb-2" variant="h6">
-                  Maxsulot narxi
-                </Typography>
-                <Input
-                  value={productPrice}
-                  onChange={(e) => setProductPrice(e.target.value)}
-                  required
-                  label="Narx kiriting"
-                  type="number"
-                  size="lg"
-                  error={productPriceError}
-                />
-                <Typography className="-mb-2" variant="h6">
-                  Sonini kiriting
-                </Typography>
-                <Input
-                  value={productQty}
-                  onChange={(e) => setProductQty(e.target.value)}
-                  required
-                  label="Sonini kiriting"
-                  type="number"
-                  size="lg"
-                  error={productQtyError}
-                />
-                <Typography className="-mb-2" variant="h6">
-                  Qilingan to'lov
-                </Typography>
-                <Input
-                  value={payment}
-                  onChange={(e) => setPayment(e.target.value)}
-                  required
-                  label="Nomini kiriting"
-                  size="lg"
-                  error={paymentError}
-                />
-              </div>
-              <div className="flex items-start flex-col gap-2 w-80">
-                {title !== "Ombor" ? (
-                  <>
-                    <Typography className="-mb-2" variant="h6">
-                      {title} beruvchi(STIR)
-                    </Typography>
-                    <Input
-                      value={buyurtmaBeruvchi}
-                      onChange={(e) => setBuyurtmaBeruvchi(e.target.value)}
-                      required
-                      maxLength="9"
-                      label="Buyurtma beruvchi"
-                      type="number"
-                      size="lg"
-                      error={buyurtmaBeruvchiError}
-                    />
-
-                    <Typography className="-mb-2" variant="h6">
-                      {title} beruchi companiya nomi
-                    </Typography>
-                    <Input
-                      value={buyurtmachiCompany}
-                      onChange={(e) => setBuyurtmachiCompany(e.target.value)}
-                      required
-                      label="Buyurtma beruvchi company"
-                      type="text"
-                      size="lg"
-                      error={buyurtmachiCompanyError}
-                    />
-                  </>
-                ) : null}
                 <label
                   style={{
                     color: "black",
@@ -295,9 +228,69 @@ function AddProduct({ api, title, getApi }) {
                   onChange={(e) => setProductMeasurement(e.target.value)}
                 >
                   <StyledOption value="kg">Kilogram</StyledOption>
+                  <StyledOption value="piece">Dona</StyledOption>
                   <StyledOption value="m">Metr</StyledOption>
                   <StyledOption value="m/2">Metr/kvadrat</StyledOption>
                 </Select>
+                <Typography className="-mb-2" variant="h6">
+                  Sonini kiriting
+                </Typography>
+                <Input
+                  value={productQty}
+                  onChange={(e) => setProductQty(e.target.value)}
+                  required
+                  label="Sonini kiriting"
+                  type="number"
+                  size="lg"
+                  error={productQtyError}
+                />
+                <Typography className="-mb-2" variant="h6">
+                  Maxsulot narxi
+                </Typography>
+                <Input
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.target.value)}
+                  required
+                  label="Narx kiriting"
+                  type="number"
+                  size="lg"
+                  error={productPriceError}
+                />
+                
+                
+              </div>
+              <div className="flex items-start flex-col gap-2 w-80">
+                {title !== "Ombor" ? (
+                  <>
+                    <Typography className="-mb-2" variant="h6">
+                      {title} beruvchi(STIR)
+                    </Typography>
+                    <Input
+                      value={buyurtmaBeruvchi}
+                      onChange={(e) => setBuyurtmaBeruvchi(e.target.value)}
+                      required
+                      maxLength="9"
+                      label="Buyurtma beruvchi"
+                      type="number"
+                      size="lg"
+                      error={buyurtmaBeruvchiError}
+                    />
+                    
+                    <Typography className="-mb-2" variant="h6">
+                      {title} beruchi companiya nomi
+                    </Typography>
+                    <Input
+                      value={buyurtmachiCompany}
+                      onChange={(e) => setBuyurtmachiCompany(e.target.value)}
+                      required
+                      label="Buyurtma beruvchi company"
+                      type="text"
+                      size="lg"
+                      error={buyurtmachiCompanyError}
+                    />
+                  </>
+                ) : null}
+                
                 {title == "Ombor" ? (
                   <>
                     <label
@@ -325,9 +318,21 @@ function AddProduct({ api, title, getApi }) {
                     >
                       <StyledOption value="mahsulot">Mahsulot</StyledOption>
                       <StyledOption value="homashyo">Homashyo</StyledOption>
+                      <StyledOption value="finished_product">Tayyor mahsulot</StyledOption>
                     </Select>
                   </>
                 ) : null}
+                <Typography className="-mb-2" variant="h6">
+                  Qilingan to'lov
+                </Typography>
+                <Input
+                  value={payment}
+                  onChange={(e) => setPayment(e.target.value)}
+                  required
+                  label="Qilingan to'lov"
+                  size="lg"
+                  error={paymentError}
+                />
                 <Typography className="-mb-2" variant="h6">
                   Dollar kursi
                 </Typography>
@@ -342,13 +347,15 @@ function AddProduct({ api, title, getApi }) {
                 />
               </div>
             </div>
+            {title == 'Buyurtma' ?  <>
             <Typography className="-mb-2" variant="h6">
               Mahsulot tarifini kiriting
             </Typography>
             <Textarea
               onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
               label="Mahsulot tarifini kiriting"
-            ></Textarea>
+            ></Textarea> 
+            </>: null}
             <Button
               variant="gradient"
               color="green"
