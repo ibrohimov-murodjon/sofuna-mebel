@@ -458,6 +458,8 @@ input[type="checkbox"] {
 }
 .MainProductWrapper {
   margin-top: 10px;
+  max-width: 99%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

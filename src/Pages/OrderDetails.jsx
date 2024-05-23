@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // jwtDecode should not be destructured
 import OrderOneAbuot from "../components/OrderOneAbuot";
+import { toast } from "react-toastify";
+import { Dialog } from "@material-tailwind/react";
+import UserAddOrder from "../components/UserAddOrder";
 
 function OrderDetails() {
   const [users, setUsers] = useState([]);
-  const [senderId] = useState(
-    useSelector((state) => jwtDecode(state.userToken.token).user_id)
+  const [userId, setUserId] = useState("");
+  const senderId = useSelector(
+    (state) => jwtDecode(state.userToken.token).user_id
   );
   const { id } = useParams();
+  const [size, setSize] = useState(null);
+
+  const handleOpen = (userId) => {
+    setUserId(userId);
+    console.log(userId);
+    setSize("xs");
+  };
+
+  const deleteCloseFun = () => {
+    setSize(null);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,7 +43,13 @@ function OrderDetails() {
     fetchUsers();
   }, []);
 
+  const notify = () => toast.success("Buyutma biriktirildi");
+
   const handleSubmit = (userId) => {
+    handleOpen(userId);
+  };
+
+  const handleAddSubmit = async () => {
     const messageData = {
       sender: senderId,
       worker: userId,
@@ -36,16 +57,21 @@ function OrderDetails() {
       text: "hayr",
     };
 
-    fetch("https://custom.uz/products/message/api/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(messageData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Error sending message:", error));
+    try {
+      const response = await fetch("https://custom.uz/products/message/api/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messageData),
+      });
+      const data = await response.json();
+      console.log(data);
+      notify();
+      deleteCloseFun();
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   return (
@@ -53,7 +79,7 @@ function OrderDetails() {
       <div>
         <OrderOneAbuot />
       </div>
-      <table className="w-full text-left  border-l-2  table-auto min-w-max">
+      <table className="w-full text-left border-l-2 table-auto min-w-max">
         <thead className="bg-blue-600">
           <tr>
             <th className="px-4 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -73,7 +99,6 @@ function OrderDetails() {
             </th>
           </tr>
         </thead>
-
         <tbody>
           {users &&
             users.map((user, index) => (
@@ -112,6 +137,22 @@ function OrderDetails() {
             ))}
         </tbody>
       </table>
+      <Dialog
+        open={size === "xs"}
+        size={size || "md"}
+        onClose={deleteCloseFun}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <UserAddOrder
+          AddUser={handleAddSubmit}
+          handleClose={deleteCloseFun}
+          userId={userId}
+        />
+      </Dialog>
     </div>
   );
 }
