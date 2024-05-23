@@ -20,6 +20,9 @@ import OrderDetails from "./Pages/OrderDetails.jsx";
 import WorkerOrder from "./Pages/WorkerOrder.jsx";
 import StirCompany from "./Pages/StirCompany.jsx";
 import XodimProfil from "./Pages/XodimProfil.jsx";
+import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
+import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
+import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -231,14 +234,66 @@ function App() {
               }
             />
             <Route
-              path="/userprofile"
+              path="/allOrders"
               element={
                 <ProtectedRoute
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <UserProfile />
+                    <BarchaBuyurtma />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+             <Route
+              path="/allOrders/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <WorkerGetOrder />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/successfulyWorks"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <BajarilganIshlar/>
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/product"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                  <Product />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/message"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <Message />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

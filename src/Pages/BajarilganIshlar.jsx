@@ -1,9 +1,11 @@
-import styled from "styled-components";
-import { Logo } from "../assets";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import styled from "@emotion/styled";
 import { jwtDecode } from "jwt-decode";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Logo } from "../assets";
 
 const Wrapper = styled.div`
   max-width: 1280px;
@@ -52,14 +54,13 @@ const OrderCard = styled.div`
     color: white;
   }
 `;
-
-const Profile = () => {
+let a = "lorem sjj ks  sdskdskd sdks d skjd sk dsjdkskdsdsk";
+const BajarilganIshlar = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
-  let a = ` Lorem ipsum dolor spariatur corporis. Accusamus
-  id excepturi commodi blanditiis veritatis!fdsadadasdasdasdsadasdasdasdassadasssssssssssssssssssss`;
+  const [categoryData, setCategoryData] = useState([]);
   function handleNavigate(elId) {
     navigate(`/mahsulot/${elId}`);
   }
@@ -73,28 +74,32 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result);
-        console.log(data);
+        setData(
+          result.filter((order) => order.order.status == "SUCCESSFULLY")
+        );
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     };
-    fetchData()
-    console.log(data);
+    fetchData();
   }, []);
+  console.log(data)
   return (
     <Wrapper>
       {data.length > 0 &&
-      data.map((el, index) => {
+        data.map((el, index) => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
-              <h3>{el?.order?.name}</h3>
-              <p>{`${a.slice(0, 100)} ${a.length > 100 && "..."}`}</p>
-              <button onClick={() => {
-                handleNavigate(el.order.id)
-              }
-              }>Batafsil</button>
+              <h3>{el.order.name}</h3>
+              <p>{el.order.description}</p>
+              <button
+                onClick={() => {
+                  handleNavigate(el.order.id);
+                }}
+              >
+                Batafsil
+              </button>
             </OrderCard>
           );
         })}
@@ -102,4 +107,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default BajarilganIshlar;

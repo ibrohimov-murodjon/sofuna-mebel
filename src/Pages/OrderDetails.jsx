@@ -35,7 +35,6 @@ function OrderDetails() {
       order: id,
       text: "hayr",
     };
-
     fetch("https://custom.uz/products/message/api/", {
       method: "POST",
       headers: {
