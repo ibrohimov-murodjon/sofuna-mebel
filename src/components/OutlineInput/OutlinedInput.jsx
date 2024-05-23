@@ -65,8 +65,11 @@ const OutlinedInput = forwardRef(function OutlinedInput(
         type={type}
         value={value}
         {...props}
+        // onChange={(e) => {
+        //   onChange(e.target.value);
+        // }}
         onChange={(e) => {
-          onChange(e.target.value);
+          onChange(e);
         }}
         placeholder={placeholder}
         ref={ref}
