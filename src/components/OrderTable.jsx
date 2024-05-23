@@ -68,15 +68,16 @@ function OrderTable({ setUiData, uiData, api }) {
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Qty
-                  </p>
-                </th>
-                <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
                     Meauserement
                   </p>
                 </th>
+                <th className="p-4 border-b  bg-blue-600">
+                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    Qty
+                  </p>
+                </th>
+                
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
                     Price
@@ -145,15 +146,16 @@ function OrderTable({ setUiData, uiData, api }) {
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.qty}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                           {user.measurement}
                         </p>
                       </td>
+                      <td className="p-4 border-b border-blue-gray-50">
+                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          {user.qty}
+                        </p>
+                      </td>
+                      
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                           {user.price}

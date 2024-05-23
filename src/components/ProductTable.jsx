@@ -64,15 +64,16 @@ function ProductTable({ setUiData, uiData, api }) {
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Qty
-                  </p>
-                </th>
-                <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-center text-sm antialiased font-normal leading-none text-white">
                     Measurement
                   </p>
                 </th>
+                <th className="p-4 border-b bg-blue-600">
+                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    Qty
+                  </p>
+                </th>
+                
                 <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
                     Price
@@ -98,11 +99,11 @@ function ProductTable({ setUiData, uiData, api }) {
                     Dollar convert
                   </p>
                 </th>
-                <th className="p-4 border-b bg-blue-600">
+                {/* <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                     Company
                   </p>
-                </th>
+                </th> */}
                 <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
                     Qarzdorlik
@@ -134,15 +135,16 @@ function ProductTable({ setUiData, uiData, api }) {
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.qty}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                           {user.measurement}
                         </p>
                       </td>
+                      <td className="p-4 border-b border-blue-gray-50">
+                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          {user.qty}
+                        </p>
+                      </td>
+                      
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                           {user.price}
@@ -170,11 +172,11 @@ function ProductTable({ setUiData, uiData, api }) {
                             : user.dollor_convert?.toFixed(2)}
                         </p>
                       </td>
-                      <td className="p-4 border-b border-blue-gray-50 text-center">
+                      {/* <td className="p-4 border-b border-blue-gray-50 text-center">
                         <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
                           {user.company_name}
                         </p>
-                      </td>
+                      </td> */}
                       <td className="p-4 border-b border-blue-gray-50 text-center">
                         <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
                           {user.debt}
