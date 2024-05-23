@@ -105,7 +105,7 @@ function Xodimlar() {
   function searchFn(word) {
     setCategory(
       worker.filter((user) => {
-        return user.username.includes(word);
+        return user.first_name.toLowerCase().includes(word);
       })
     );
   }
