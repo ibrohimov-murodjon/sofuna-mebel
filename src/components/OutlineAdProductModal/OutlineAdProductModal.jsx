@@ -112,7 +112,7 @@ function OutlineAdProductModal({ handleClose }) {
                 border: "1px solid #EBEAED",
               }}
             >
-              <StyledOption>O'lchov birligini tanlang</StyledOption>
+              <StyledOption>O&apos;lchov birligini tanlang</StyledOption>
               <StyledOption>Kg</StyledOption>
               <StyledOption>Dona</StyledOption>
               <StyledOption>Litr</StyledOption>

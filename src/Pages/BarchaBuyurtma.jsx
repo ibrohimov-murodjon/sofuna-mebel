@@ -26,7 +26,7 @@ const OrderCard = styled.div`
   padding: 5px;
   width: 80%;
   padding-top: 0px;
-  border-top: 7px solid green;
+  border-top: 7px solid red;
   box-shadow: 0px 5px 10px black;
   background: #ffffff;
   img {
@@ -40,20 +40,23 @@ const OrderCard = styled.div`
     font-family: sans-serif;
     margin-top: 5px;
     margin-bottom: 7px;
+    height: 50px;
   }
   p {
     width: 90%;
+    height: 60px;
     text-align: center;
   }
   button {
     margin: 7px;
     width: 100%;
     padding: 7px;
-    background-color: green;
+    background-color: red;
     cursor: pointer;
     color: white;
   }
 `;
+
 let a = "lorem sjj ks  sdskdskd sdks d skjd sk dsjdkskdsdsk";
 const BarchaBuyurtma = () => {
   const navigate = useNavigate();
