@@ -66,6 +66,7 @@ function App() {
   return (
     <>
       <GlobalStyles />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />

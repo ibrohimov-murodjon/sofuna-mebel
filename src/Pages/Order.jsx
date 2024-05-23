@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Input, Spinner, Tab, Tabs, TabsHeader } from "@material-tailwind/react";
+import {
+  Input,
+  Spinner,
+  Tab,
+  Tabs,
+  TabsHeader,
+} from "@material-tailwind/react";
 
 import {
   Card,
@@ -7,9 +13,8 @@ import {
   Typography,
   CardBody,
 } from "@material-tailwind/react";
-import { AddProduct, CardUI, Pagination } from "../components";
+import { AddProduct, CardUI } from "../components";
 import Loader from "../components/Loader";
-
 
 const STATUS = [
   {
@@ -27,11 +32,11 @@ const STATUS = [
   {
     label: "Bajarilgan",
     value: "SUCCESSFULLY",
-  }
+  },
 ];
 function Order() {
   const [data, setData] = useState([]);
-  const [category,setCategory ] = useState([]);
+  const [category, setCategory] = useState([]);
   const [loader, setLoader] = useState(false);
   function categoryFilter(category) {
     setCategory(
@@ -58,7 +63,7 @@ function Order() {
       }
       const data = await response.json();
       setData(data);
-      setCategory(data)
+      setCategory(data);
       setLoader(false);
     } catch (error) {
       setLoader(false);
@@ -95,30 +100,30 @@ function Order() {
               </div>
             </div>
             <div className="flex items-center justify-between">
-            <Tabs value="all" className="w-full p-4 md:w-max">
-            <TabsHeader className="">
-              {STATUS.map(({ label, value }) => (
-                <Tab
-                  onClick={() => categoryFilter(value)}
-                  key={value}
-                  value={value}
-                >
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
-          <div className="w-full md:w-72">
-            <Input
-              onChange={(e) => searchFn(e.target.value)}
-              label="Search"
-              // icon={< className="h-5 w-5" />}
-            />
-          </div>
+              <Tabs value="all" className="w-full p-4 md:w-max">
+                <TabsHeader className="">
+                  {STATUS.map(({ label, value }) => (
+                    <Tab
+                      onClick={() => categoryFilter(value)}
+                      key={value}
+                      value={value}
+                    >
+                      &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                    </Tab>
+                  ))}
+                </TabsHeader>
+              </Tabs>
+              <div className="w-full md:w-72">
+                <Input
+                  onChange={(e) => searchFn(e.target.value)}
+                  label="Search"
+                  // icon={< className="h-5 w-5" />}
+                />
+              </div>
             </div>
           </CardHeader>
-          <CardBody className="overflow-scroll mt-[-30px] prdouct scrol px-0">
-            <div className="mt-4 w-full min-w-max table-auto text-left">
+          <CardBody className="p-0">
+            <div className=" w-full min-w-max table-auto text-left">
               <div className="flex flex-col gap-3">
                 {category.length > 0 ? (
                   <>
@@ -137,7 +142,6 @@ function Order() {
               </div>
             </div>
           </CardBody>
-          <Pagination />
         </Card>
       )}
     </>
