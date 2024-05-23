@@ -5,11 +5,13 @@ import { Header } from "../Section";
 import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
 import OutlineAdUserModal from "../components/OutlineAdUserModal/OutlineAdUserModal";
+import { useSelector } from "react-redux";
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);
   const [sidebarSize, setSidebarSize] = useState(true)
   const handleOpen = () => setOpen((cur) => !cur);
+  const role = useSelector((state) => state.userToken.role);
   const { handleSubmit, register, resetField } = useForm({
     defaultValues: {
       user_role: "worker",
@@ -65,12 +67,12 @@ function RoutesLayout({ children }) {
         />
         {children}
       </div>
-      <div
+      {role == 'admin' ? <div
         onClick={handleOpen}
         className="createBtn w-full max-w-16 text-[40px] cursor-pointer text-white h-16 rounded-full flex items-center justify-center absolute bottom-6 right-6 bg-[#0e95d8]"
       >
         <img width="25px" height="25px" src={adduserIcon} alt="" />
-      </div>
+      </div> : null}
       <Dialog
         size="md"
         open={open}
