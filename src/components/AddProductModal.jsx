@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardBody,
@@ -24,7 +24,7 @@ const StyledOption = styled.option`
   margin-top: 20px;
 `;
 
-function AddProduct({ api, title, getApi }) {
+function AddOrderModal({ api, title, getApi }) {
   const [open, setOpen] = React.useState(false);
   const [productType, setProductType] = useState("mahsulot");
   const [productMeasurement, setProductMeasurement] = useState("kg");
@@ -34,7 +34,6 @@ function AddProduct({ api, title, getApi }) {
   const [productDollarKurs, setProductDollarKurs] = useState("");
   const [buyurtmaBeruvchi, setBuyurtmaBeruvchi] = useState("");
   const [payment, setPayment] = useState("");
-  const [buyurtmaTasnifi, setBuyurtmaTasnifi] = useState("");
   const [buyurtmachiCompany, setBuyurtmachiCompany] = useState("");
   const [productNameError, setProductNameError] = useState(false);
   const [productPriceError, setProductPriceError] = useState(false);
@@ -71,67 +70,25 @@ function AddProduct({ api, title, getApi }) {
     } else {
       setPaymentError(false);
     }
-    // if (!buyurtmaBeruvchi) {
-    //   setBuyurtmaBeruvchiError(true);
-    //   return;
-    // } else {
-    //   setBuyurtmaBeruvchiError(false);
-    // }
+    if (!buyurtmaBeruvchi) {
+      setBuyurtmaBeruvchiError(true);
+      return;
+    } else {
+      setBuyurtmaBeruvchiError(false);
+    }
     if (!productDollarKurs) {
       setProductDollarKursError(true);
       return;
     } else {
       setProductDollarKursError(false);
     }
-    // if (!buyurtmachiCompany) {
-    //   setBuyurtmachiCompanyBeruvchiError(true);
-    //   return;
-    // } else {
-    //   setBuyurtmachiCompanyBeruvchiError(false);
-    // }
+    if (!buyurtmachiCompany) {
+      setBuyurtmachiCompanyBeruvchiError(true);
+      return;
+    } else {
+      setBuyurtmachiCompanyBeruvchiError(false);
+    }
     if (
-      productName &&
-      productPrice &&
-      productQty &&
-      buyurtmaBeruvchi &&
-      productDollarKurs &&
-      buyurtmaBeruvchi &&
-      buyurtmachiCompany &&
-      api == "https://custom.uz/products/order/api/"
-    ) {
-      const product = {
-        name: productName,
-        qty: Number(productQty),
-        price: Number(productPrice),
-        description: buyurtmaTasnifi,
-        dollor_course: Number(productDollarKurs),
-        order_name: buyurtmaBeruvchi,
-        measurement: productMeasurement,
-        STIR: buyurtmaBeruvchi,
-        company_name: buyurtmachiCompany,
-        payment: payment,
-      };
-      fetch(`https://custom.uz/products/order/api/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          notify();
-          getApi();
-        })
-        .catch((error) => {
-          alert("Login error:", error);
-        });
-      setProductName("");
-      setProductPrice("");
-      setProductQty("");
-      setOpen(false);
-    } else if (
       productName &&
       productPrice &&
       productQty &&
@@ -143,7 +100,7 @@ function AddProduct({ api, title, getApi }) {
         qty: Number(productQty),
         price: Number(productPrice),
         dollor_course: Number(productDollarKurs),
-        description: 'yaxshi',
+        description: "yaxshi",
         measurement: productMeasurement,
         category: productType,
         payment: payment,
@@ -158,7 +115,7 @@ function AddProduct({ api, title, getApi }) {
         .then((res) => res.json())
         .then((data) => {
           notify();
-          // getApi();
+          getApi();
         })
         .catch((error) => {
           console.error("Login error:", error);
@@ -172,16 +129,16 @@ function AddProduct({ api, title, getApi }) {
     }
   };
 
+
   return (
     <>
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
         <Button onClick={handleOpen} variant="gradient">
-          {title}ga qo'shish
+          Omborga qo'shish
         </Button>
       </div>
       <Dialog
         size="lg"
-        // style={{width:'500pxx'}}
         open={open}
         handler={handleOpen}
         className="bg-transparent shadow-none"
@@ -189,10 +146,39 @@ function AddProduct({ api, title, getApi }) {
         <Card className="mx-auto w-full max-w-[730px]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" className="text-center" color="blue-gray">
-              {title == 'Ombor' ? 'Mahsulot' : 'Buyurtma'} qo&apos;shish
+              Omborga qo&apos;shish
             </Typography>
             <div className="flex items-start justify-center gap-x-10 w-full">
               <div className="flex items-start flex-col gap-2 w-80">
+                <label
+                  style={{
+                    color: "black",
+                    fontSize: "17px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                    textAlign: "left",
+                    marginBottom: "-10px",
+                    marginTop: "5px",
+                  }}
+                >
+                  Buyurtma turini tanlang
+                </label>
+                <Select
+                  style={{
+                    width: "320px",
+                    padding: "13px 10px",
+                    marginTop: "3px",
+                    borderRadius: "7px",
+                    border: "1px solid #EBEAED",
+                  }}
+                  onChange={(e) => setProductType(e.target.value)}
+                >
+                  <StyledOption value="mahsulot">Mahsulot</StyledOption>
+                  <StyledOption value="homashyo">Homashyo</StyledOption>
+                  <StyledOption value="finished_product">
+                    Tayyor mahsulot
+                  </StyledOption>
+                </Select>
                 <Typography className="-mb-2" variant="h6">
                   Mahsulot nomi
                 </Typography>
@@ -228,7 +214,6 @@ function AddProduct({ api, title, getApi }) {
                   onChange={(e) => setProductMeasurement(e.target.value)}
                 >
                   <StyledOption value="kg">Kilogram</StyledOption>
-                  <StyledOption value="piece">Dona</StyledOption>
                   <StyledOption value="m">Metr</StyledOption>
                   <StyledOption value="m/2">Metr/kvadrat</StyledOption>
                 </Select>
@@ -254,74 +239,38 @@ function AddProduct({ api, title, getApi }) {
                   label="Narx kiriting"
                   type="number"
                   size="lg"
+
                   error={productPriceError}
                 />
-                
-                
               </div>
               <div className="flex items-start flex-col gap-2 w-80">
-                {title !== "Ombor" ? (
-                  <>
-                    <Typography className="-mb-2" variant="h6">
-                      {title} beruvchi(STIR)
-                    </Typography>
-                    <Input
-                      value={buyurtmaBeruvchi}
-                      onChange={(e) => setBuyurtmaBeruvchi(e.target.value)}
-                      required
-                      maxLength="9"
-                      label="Buyurtma beruvchi"
-                      type="number"
-                      size="lg"
-                      error={buyurtmaBeruvchiError}
-                    />
-                    
-                    <Typography className="-mb-2" variant="h6">
-                      {title} beruchi companiya nomi
-                    </Typography>
-                    <Input
-                      value={buyurtmachiCompany}
-                      onChange={(e) => setBuyurtmachiCompany(e.target.value)}
-                      required
-                      label="Buyurtma beruvchi company"
-                      type="text"
-                      size="lg"
-                      error={buyurtmachiCompanyError}
-                    />
-                  </>
-                ) : null}
-                
-                {title == "Ombor" ? (
-                  <>
-                    <label
-                      style={{
-                        color: "black",
-                        fontSize: "17px",
-                        fontWeight: "600",
-                        lineHeight: "20px",
-                        textAlign: "left",
-                        marginBottom: "-10px",
-                        marginTop: "5px",
-                      }}
-                    >
-                      Buyurtma turini tanlang
-                    </label>
-                    <Select
-                      style={{
-                        width: "320px",
-                        padding: "13px 10px",
-                        marginTop: "3px",
-                        borderRadius: "7px",
-                        border: "1px solid #EBEAED",
-                      }}
-                      onChange={(e) => setProductType(e.target.value)}
-                    >
-                      <StyledOption value="mahsulot">Mahsulot</StyledOption>
-                      <StyledOption value="homashyo">Homashyo</StyledOption>
-                      <StyledOption value="finished_product">Tayyor mahsulot</StyledOption>
-                    </Select>
-                  </>
-                ) : null}
+                <Typography className="-mb-2" variant="h6">
+                  {title} beruvchi(STIR)
+                </Typography>
+                <Input
+                  value={buyurtmaBeruvchi}
+                  onChange={(e) => setBuyurtmaBeruvchi(e.target.value)}
+                  required
+                  maxLength="9"
+                  label="Buyurtma beruvchi"
+                  type="number"
+                  size="lg"
+                  error={buyurtmaBeruvchiError}
+                />
+
+                <Typography className="-mb-2" variant="h6">
+                  Mahsulot oluvchi companiya nomi
+                </Typography>
+                <Input
+                  value={buyurtmachiCompany}
+                  onChange={(e) => setBuyurtmachiCompany(e.target.value)}
+                  required
+                  label="Buyurtma beruvchi company"
+                  type="text"
+                  size="lg"
+                  error={buyurtmachiCompanyError}
+                />
+
                 <Typography className="-mb-2" variant="h6">
                   Qilingan to'lov
                 </Typography>
@@ -347,15 +296,7 @@ function AddProduct({ api, title, getApi }) {
                 />
               </div>
             </div>
-            {title == 'Buyurtma' ?  <>
-            <Typography className="-mb-2" variant="h6">
-              Mahsulot tarifini kiriting
-            </Typography>
-            <Textarea
-              onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
-              label="Mahsulot tarifini kiriting"
-            ></Textarea> 
-            </>: null}
+
             <Button
               variant="gradient"
               color="green"
@@ -371,4 +312,4 @@ function AddProduct({ api, title, getApi }) {
   );
 }
 
-export default AddProduct;
+export default AddOrderModal;

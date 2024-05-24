@@ -1,4 +1,4 @@
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
@@ -63,60 +63,25 @@ function OrderTable({ setUiData, uiData, api }) {
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600 text-white">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
+                  <p
+                    style={{ cursor: "pointer" }}
+                    className="block font-sans text-sm antialiased font-normal leading-none text-white "
+                  >
                     Name
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
-                    Meauserement
+                    O&apos;lchov
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Qty
-                  </p>
-                </th>
-                
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Price
-                  </p>
-                </th>
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Total price
-                  </p>
-                </th>
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    NDS Price
-                  </p>
-                </th>
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                    Dollar curs
+                    Soni
                   </p>
                 </th>
 
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
-                    Dollar convert
-                  </p>
-                </th>
-                {api !== "https://custom.uz/products/api/" ? (
-                  <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
-                      Company
-                    </p>
-                  </th>
-                ) : null}
 
-                <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
-                    Qarzdorlik
-                  </p>
-                </th>
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
@@ -155,63 +120,7 @@ function OrderTable({ setUiData, uiData, api }) {
                           {user.qty}
                         </p>
                       </td>
-                      
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.total_price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.ndc_price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.dollor_course}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50 text-center ">
-                        <p
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {api == "https://custom.uz/products/api/"
-                            ? user.dollor_course_total?.toFixed(2)
-                            : user.dollor_convert.toFixed(2)}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50 text-center ">
-                        <p
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.company_name}
-                        </p>
-                      </td>
 
-                      <td className="p-4 border-b border-blue-gray-50 text-center ">
-                        <a
-                          href="#"
-                          className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
-                        >
-                          {user.debt}
-                        </a>
-                      </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <span className="flex items-center justify-end gap-5">
                           <button

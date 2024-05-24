@@ -15,6 +15,8 @@ import {
 } from "@material-tailwind/react";
 import { AddProduct, CardUI } from "../components";
 import Loader from "../components/Loader";
+import AddOrderModal from "../components/AddOrderModal";
+import OrderTable from "../components/OrderTable";
 
 const STATUS = [
   {
@@ -92,8 +94,7 @@ function Order() {
                 </Typography>
               </div>
               <div className="flex shrink-0 flex-col  gap-2 sm:flex-row">
-                <AddProduct
-                  title="Buyurtma"
+                <AddOrderModal
                   getApi={getApi}
                   api={"https://custom.uz/products/order/api/"}
                 />
@@ -127,7 +128,7 @@ function Order() {
               <div className="flex flex-col gap-3">
                 {category.length > 0 ? (
                   <>
-                    <CardUI
+                    <OrderTable
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}

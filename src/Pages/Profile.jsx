@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Loader from "../components/Loader";
 
+
 const Wrapper = styled.div`
   max-width: 1280px;
   padding: 10px;
@@ -78,7 +79,7 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result);
+        setData(result.filter(order => order.order.status == 'NO_ACTIVE'));
         console.log(result[1]);
         setLoader(false)
       } catch (error) {
