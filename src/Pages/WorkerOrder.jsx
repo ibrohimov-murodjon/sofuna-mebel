@@ -41,13 +41,13 @@ function WorkerOrder() {
 
   const Acceptance = async () => {
     setLoader(true);
-    let copied = { ...product, status: "PENDING" };
+    let copied = { status: "PENDING" };
 
     try {
       const response = await fetch(
         `https://custom.uz/products/order/api/${product.id}/`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -78,7 +78,7 @@ function WorkerOrder() {
       updatedWorkProses >= product.qty ? "SUCCESSFULLY" : "PENDING";
 
     const updatedProduct = {
-      ...product,
+      // ...product,
       work_proses: updatedWorkProses,
       status: updatedStatus,
     };
@@ -87,7 +87,7 @@ function WorkerOrder() {
       const response = await fetch(
         `https://custom.uz/products/order/api/${product.id}/`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },

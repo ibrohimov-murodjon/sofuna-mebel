@@ -9,11 +9,12 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { Spinner } from "@material-tailwind/react";
-import { AddProduct } from "../components";
 import { useState } from "react";
 import { useEffect } from "react";
 import Loader from "../components/Loader";
 import ProductTable from "../components/ProductTable";
+import AddProductModal from "../components/AddProductModal";
+
 const STATUS = [
   {
     label: "Barchasi",
@@ -89,8 +90,9 @@ function Product() {
                   </Typography>
                 </div>
 
+
                 <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
-                  <AddProduct
+                  <AddProductModal
                     title="Ombor"
                     getApi={getApi}
                     api={"https://custom.uz/products/api/"}

@@ -84,10 +84,10 @@ const BajarilganIshlar = () => {
         alert(error);
       }
     };
-    // fetchData();
-    setData([1,2])
+    fetchData();
+    // setData([1,2])
   }, []);
-  console.log(data)
+  // console.log(data)
   
   return (
     <Wrapper>
@@ -96,8 +96,8 @@ const BajarilganIshlar = () => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
-              <h3>{el?.order?.name ? el  : "name"}</h3>
-              <p>{el?.order?.description ? el :"Shkaf uchunn buyurtma "}</p>
+              <h3>{el.order?.name}</h3>
+              <p>{el?.order?.description }</p>
               <button
                 onClick={() => {
                   handleNavigate(el.order.id);
