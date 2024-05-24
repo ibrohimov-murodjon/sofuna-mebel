@@ -40,9 +40,11 @@ const OrderCard = styled.div`
     font-family: sans-serif;
     margin-top: 5px;
     margin-bottom: 7px;
+    height: 50px;
   }
   p {
     width: 90%;
+    height: 60px;
     text-align: center;
   }
   button {
@@ -54,6 +56,7 @@ const OrderCard = styled.div`
     color: white;
   }
 `;
+
 let a = "lorem sjj ks  sdskdskd sdks d skjd sk dsjdkskdsdsk";
 const BajarilganIshlar = () => {
   const navigate = useNavigate();
@@ -81,9 +84,11 @@ const BajarilganIshlar = () => {
         alert(error);
       }
     };
-    fetchData();
+    // fetchData();
+    setData([1,2])
   }, []);
   console.log(data)
+  
   return (
     <Wrapper>
       {data.length > 0 &&
@@ -91,8 +96,8 @@ const BajarilganIshlar = () => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
-              <h3>{el.order.name}</h3>
-              <p>{el.order.description}</p>
+              <h3>{el?.order?.name ? el  : "name"}</h3>
+              <p>{el?.order?.description ? el :"Shkaf uchunn buyurtma "}</p>
               <button
                 onClick={() => {
                   handleNavigate(el.order.id);

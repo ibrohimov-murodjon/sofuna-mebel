@@ -25,7 +25,7 @@ const OrderCard = styled.div`
   padding: 5px;
   width: 80%;
   padding-top: 0px;
-  border-top: 7px solid green;
+  border-top: 7px solid blue;
   box-shadow: 0px 5px 10px black;
   background: #ffffff;
   img {
@@ -39,16 +39,18 @@ const OrderCard = styled.div`
     font-family: sans-serif;
     margin-top: 5px;
     margin-bottom: 7px;
+    height: 50px;
   }
   p {
     width: 90%;
+    height: 60px;
     text-align: center;
   }
   button {
     margin: 7px;
     width: 100%;
     padding: 7px;
-    background-color: green;
+    background-color: blue;
     cursor: pointer;
     color: white;
   }
@@ -77,6 +79,7 @@ const Profile = () => {
         }
         const result = await response.json();
         setData(result);
+        console.log(result[1]);
         setLoader(false)
       } catch (error) {
         console.log(error);
@@ -96,7 +99,7 @@ const Profile = () => {
             <OrderCard key={index}>
               <img src={Logo} alt="" />
               <h3>{el?.order?.name}</h3>
-              <p>{`${a.slice(0, 100)} ${a.length > 100 && "..."}`}</p>
+              <p>{`${el.order.description.slice(0, 100)} ${el.order.description.length > 100 && "..."}`}</p>
               <button onClick={() => {
                 handleNavigate(el.order.id)
               }
