@@ -5,11 +5,13 @@ import { DeleteBtn, EditBTn } from "../assets";
 import Loader from "./Loader";
 import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
 import { useNavigate } from "react-router-dom";
+import { GetMeasurement } from "../hooks/GetMeasurement";
 
 function OrderTable({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
+  const [measurement, setMeasurement] = useState('')
   const navigate = useNavigate();
   const handleOpen = (value) => setSize(value);
 
@@ -43,11 +45,9 @@ function OrderTable({ setUiData, uiData, api }) {
         });
       });
   };
-
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
   }
-
   return (
     <>
       {loader ? (
@@ -80,8 +80,6 @@ function OrderTable({ setUiData, uiData, api }) {
                     Soni
                   </p>
                 </th>
-
-
                 <th className="p-4 border-b  bg-blue-600">
                   <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
@@ -92,6 +90,7 @@ function OrderTable({ setUiData, uiData, api }) {
             <tbody>
               {uiData &&
                 uiData.map((user, index) => {
+                  const { measurementName } = GetMeasurement(user.measurement)
                   return (
                     <tr
                       className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
@@ -112,7 +111,7 @@ function OrderTable({ setUiData, uiData, api }) {
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.measurement}
+                        {measurementName}
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">

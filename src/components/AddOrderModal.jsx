@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
+import { useEffect } from "react";
 
 const Select = styled.select`
   &:focus {
@@ -32,6 +33,7 @@ function AddProduct({ api, getApi }) {
   const [buyurtmaTasnifi, setBuyurtmaTasnifi] = useState("");
   const [productNameError, setProductNameError] = useState(false);
   const [productQtyError, setProductQtyError] = useState(false);
+  const [measurement, setMeasurement] = useState([]);
   const handleOpen = () => setOpen((cur) => !cur);
   const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
   const handleSubmit = () => {
@@ -67,7 +69,6 @@ function AddProduct({ api, getApi }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           notify();
           getApi();
         })
@@ -79,7 +80,11 @@ function AddProduct({ api, getApi }) {
       setOpen(false);
     }
   };
-
+  useEffect(() => {
+    fetch("https://custom.uz/products/measurement/")
+      .then((res) => res.json())
+      .then((result) => setMeasurement(result));
+  }, []);
   return (
     <>
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -103,8 +108,6 @@ function AddProduct({ api, getApi }) {
                 <Typography className="-mb-2" variant="h6">
                   Mahsulot nomi
                 </Typography>
-
-
                 <Input
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
@@ -136,18 +139,13 @@ function AddProduct({ api, getApi }) {
                   }}
                   onChange={(e) => setProductMeasurement(e.target.value)}
                 >
-                  <StyledOption value="363b771f-93e7-4dbf-bf46-223f821fb6bd">
-                    Kilogram
-                  </StyledOption>
-                  <StyledOption value="4bd57802-e02c-4fb5-976d-3a2e4a9c9d8b">
-                    Dona
-                  </StyledOption>
-                  <StyledOption value="e89b538c-a32c-4c7d-9495-8e9f6761b683">
-                    Metr
-                  </StyledOption>
-                  <StyledOption value="1c926322-849a-4098-8999-be7ef0a1d198">
-                    Metr/kvadrat
-                  </StyledOption>
+                  {measurement.map((meas) => {
+                    return (
+                      <StyledOption key={crypto.randomUUID()} value={meas.id}>
+                        {meas.name}
+                      </StyledOption>
+                    );
+                  })}
                 </Select>
                 <Typography className="-mb-2" variant="h6">
                   Sonini kiriting

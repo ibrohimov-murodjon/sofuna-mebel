@@ -150,7 +150,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/message"
               element={
                 <ProtectedRoute
@@ -159,6 +159,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <Message />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            /> */}
+            <Route
+              path="/xarajatlar"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <Xodimlar />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

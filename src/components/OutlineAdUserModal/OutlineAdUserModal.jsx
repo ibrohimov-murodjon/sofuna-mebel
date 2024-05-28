@@ -182,7 +182,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Firstname"
               type="text"
               value={firstName}
-              onChange={setFirstName}
+              onChange={(e) => setFirstName(e.target.value)}
               isError={errors.firstName}
             />
             <OutlinedInput
@@ -190,7 +190,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Lastname"
               type="text"
               value={lastName}
-              onChange={setLastName}
+              onChange={(e) => setLastName(e.target.value)}
               isError={errors.lastName}
             />
           </div>
@@ -207,7 +207,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="+998 (XX) XXX-XX-XX"
               type="tel"
               value={phoneNumber}
-              onChange={setPhoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               isError={errors.phoneNumber}
             />
 
@@ -241,7 +241,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Username"
               type="text"
               value={username}
-              onChange={setUsername}
+              onChange={(e) => setUsername(e.target.value)}
               isError={errors.username}
             />
             <OutlinedInput
@@ -249,7 +249,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Password"
               type="password"
               value={password}
-              onChange={setPassword}
+              onChange={(e) => setPassword(e.target.value)}
               isError={errors.password}
             />
           </div>
