@@ -6,8 +6,7 @@ import {
   Input,
   Button,
   Dialog,
-  Textarea,
-} from "@material-tailwind/react";
+  } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
 
