@@ -13,7 +13,6 @@ import {
   Typography,
   CardBody,
 } from "@material-tailwind/react";
-import { AddProduct, CardUI } from "../components";
 import Loader from "../components/Loader";
 import AddOrderModal from "../components/AddOrderModal";
 import OrderTable from "../components/OrderTable";

@@ -34,12 +34,6 @@ function Header({ activePage, setActivePage }) {
     const id = stirNum.current?.value;
     id !== "" ? navigate(`/stirCompany/${id}`) : null;
   }
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDataOfDay(new Date());
-    }, 60000); // 60000 milliseconds = 1 minute
-    return () => clearInterval(intervalId);
-  }, []);
 
   useEffect(() => {
     fetch(`https://custom.uz/users/${decodedToken.user_id}`)
@@ -129,6 +123,7 @@ function Header({ activePage, setActivePage }) {
                 </p>
               </Link>
               <button
+              onClick={handLogout}
                 role="menuitem"
                 className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
               >
@@ -147,7 +142,7 @@ function Header({ activePage, setActivePage }) {
                   ></path>
                 </svg>
                 <p
-                  onClick={handLogout}
+                  
                   className="block font-sans text-sm antialiased font-medium leading-normal text-inherit"
                 >
                   Sign Out
