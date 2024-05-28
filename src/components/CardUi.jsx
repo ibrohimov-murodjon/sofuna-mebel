@@ -75,12 +75,12 @@ function CardUI({ setUiData, uiData, api }) {
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                      Qty
+                      O'lchov
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
-                      Meauserement
+                      Soni
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
@@ -152,12 +152,12 @@ function CardUI({ setUiData, uiData, api }) {
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {user.qty}
+                            {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {user.measurement}
+                            {user.qty}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
@@ -259,12 +259,12 @@ function CardUI({ setUiData, uiData, api }) {
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
-                      Qty
+                      O'lchov
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
                     <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
-                      Meauserement
+                      Soni
                     </p>
                   </th>
 
@@ -333,12 +333,13 @@ function CardUI({ setUiData, uiData, api }) {
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {user.qty}
+                            {" "}
+                            {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {user.measurement}
+                            {user.qty}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">

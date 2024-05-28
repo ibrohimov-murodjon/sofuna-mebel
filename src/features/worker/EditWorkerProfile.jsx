@@ -66,6 +66,7 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
               placeholder="Ism"
               type="text"
               name="first_name"
+              returnValue
               value={formData.first_name || ""} // Set default value from user data
               onChange={(e) => handleChange(e)}
             />
@@ -75,6 +76,7 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
               placeholder="Familya"
               type="text"
               name="last_name"
+              returnValue
               value={formData.last_name || ""} // Set default value from user data
               onChange={(e) => handleChange(e)}
             />
@@ -84,6 +86,7 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
               placeholder="Username"
               type="text"
               name="username"
+              returnValue
               value={formData.username || ""} // Set default value from user data
               onChange={(e) => handleChange(e)}
             />
@@ -93,6 +96,7 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
               placeholder="Telefon Raqam"
               type="text"
               name="phone_number"
+              returnValue
               value={formData.phone_number || ""} // Set default value from user data
               onChange={(e) => handleChange(e)}
             />
