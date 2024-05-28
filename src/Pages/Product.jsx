@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import Loader from "../components/Loader";
 import ProductTable from "../components/ProductTable";
 import AddProductModal from "../components/AddProductModal";
+import { useSelector } from "react-redux";
+import WorkerProductTable from "../components/WorkerProductTable";
 
 const STATUS = [
   {
@@ -37,7 +39,7 @@ function Product() {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
   const [loader, setLoader] = useState(false);
-
+  const role = useSelector((state) => state.userToken.role);
   async function getApi() {
     try {
       setLoader(true);
@@ -90,7 +92,6 @@ function Product() {
                   </Typography>
                 </div>
 
-
                 <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
                   <AddProductModal
                     title="Ombor"
@@ -126,12 +127,21 @@ function Product() {
                 <div className="flex flex-col">
                   {category.length > 0 ? (
                     <>
-                      <ProductTable
-                        key={crypto.randomUUID()}
-                        setUiData={setCategory}
-                        uiData={category}
-                        api={"https://custom.uz/products/api/"}
-                      />
+                      {role == "worker" ? (
+                        <WorkerProductTable
+                          key={crypto.randomUUID()}
+                          setUiData={setCategory}
+                          uiData={category}
+                          api={"https://custom.uz/products/api/"}
+                        />
+                      ) : (
+                        <ProductTable
+                          key={crypto.randomUUID()}
+                          setUiData={setCategory}
+                          uiData={category}
+                          api={"https://custom.uz/products/api/"}
+                        />
+                      )}
                     </>
                   ) : (
                     <div className="loaderWrapper">

@@ -89,7 +89,7 @@ function AddProduct({ api, getApi }) {
     <>
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
         <Button onClick={handleOpen} variant="gradient">
-          Buyurtma qo'shish
+          Buyurtma qo&apos;shish
         </Button>
       </div>
       <Dialog
