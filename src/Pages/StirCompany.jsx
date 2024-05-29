@@ -15,7 +15,6 @@ const StirCompany = () => {
       })
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, [id]);
-  console.log(companySearch);
   return (
     <div>
       <div className="bg-white mt-2 ml-1 pl-10 py-10">

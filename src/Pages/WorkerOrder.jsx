@@ -56,7 +56,6 @@ function WorkerOrder() {
       );
 
       if (!response.ok) {
-        // Bu yerda xato holatini tekshirish
         throw new Error(`Server error: ${response.status}`);
       }
 

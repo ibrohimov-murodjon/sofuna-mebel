@@ -5,20 +5,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const months = [
-  "Yanvar",
-  "Fevral",
-  "Mart",
-  "Aprel",
-  "May",
-  "Iyun",
-  "Iyul",
-  "Avgust",
-  "Sentyabr",
-  "Oktyabr",
-  "Noyabr",
-  "Dekabr",
-];
 function Header({ activePage, setActivePage }) {
   const stirNum = useRef();
   const role = useSelector((state) => state.userToken.role);
@@ -27,7 +13,6 @@ function Header({ activePage, setActivePage }) {
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
   const handleOpen = () => setOpen((cur) => !cur);
-  const [dataOfDay, setDataOfDay] = useState(new Date());
   const decodedToken = jwtDecode(token);
   function searchFn(e) {
     e.preventDefault();
@@ -38,8 +23,12 @@ function Header({ activePage, setActivePage }) {
   useEffect(() => {
     fetch(`https://custom.uz/users/${decodedToken.user_id}`)
       .then((res) => res.json())
-      .then((data) => setUserData(data));
+      .then((data) => {
+        setUserData(data)
+      });
   }, [decodedToken.user_id]);
+
+
   function handLogout() {
     localStorage.clear();
     navigate("/login");
@@ -59,23 +48,7 @@ function Header({ activePage, setActivePage }) {
             />
           </form>
         ) : null}
-        {/* <div className="flex items-center gap-x-4 text-[18px] font-extralight">
-          <span className="flex items-center gap-x-2">
-            <p className="w-full">
-              {dataOfDay.getHours()} : {dataOfDay.getMinutes()}
-            </p>
-            {dataOfDay.getHours() > 12 ? (
-              <p className="text-gray-500">PM</p>
-            ) : (
-              <p className="text-gray-500">AM</p>
-            )}
-          </span>
-          <span className="flex items-center">
-            <p>{dataOfDay.getDate()}</p> -{" "}
-            <p className="mr-2">{months[dataOfDay.getMonth()]}</p>
-            <p className="text-gray-500">{dataOfDay.getFullYear()}</p>
-          </span>
-        </div> */}
+      
         <div
           onClick={handleOpen}
           className="flex cursor-pointer items-center gap-x-3"
@@ -83,7 +56,7 @@ function Header({ activePage, setActivePage }) {
           <div>
             <img
               alt="tania andrew"
-              src={`https://custom.uz${userData?.image}`}
+              src={`https://custom.uz/${userData?.image}`}
               className="relative inline-block object-cover object-center w-12 h-12 rounded-full"
               data-popover-target="profile-menu"
             />
