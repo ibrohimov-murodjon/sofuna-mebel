@@ -23,6 +23,7 @@ import XodimProfil from "./Pages/XodimProfil.jsx";
 import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
 import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
 import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
+import Expenses from "./Pages/Expenses.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -171,7 +172,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <Xodimlar />
+                    <Expenses />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -260,7 +261,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-             <Route
+            <Route
               path="/allOrders/:id"
               element={
                 <ProtectedRoute
@@ -281,7 +282,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <BajarilganIshlar/>
+                    <BajarilganIshlar />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -294,7 +295,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                  <Product />
+                    <Product />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

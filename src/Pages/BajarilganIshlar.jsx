@@ -83,9 +83,7 @@ const BajarilganIshlar = () => {
       }
     };
     fetchData();
-    // setData([1,2])
   }, []);
-  // console.log(data)
   
   return (
     <Wrapper>

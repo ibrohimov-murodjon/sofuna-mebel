@@ -69,7 +69,7 @@ function AddProduct({ api, getApi }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
+          console.log(data);
           notify();
           getApi();
         })
@@ -128,7 +128,7 @@ function AddProduct({ api, getApi }) {
                     marginTop: "5px",
                   }}
                 >
-                  O'lchov birligini tanlang
+                  O&apos;lchov birligini tanlang
                 </label>
                 <Select
                   style={{
@@ -166,15 +166,10 @@ function AddProduct({ api, getApi }) {
               Mahsulot tarifini kiriting
             </Typography>
             <Textarea
-                          onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
+              onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
               label="Mahsulot tarifini kiriting"
             ></Textarea>
-            <Button
-              variant="gradient"
-              color="green"
-              onClick={handleSubmit}
-              
-            >
+            <Button variant="gradient" color="green" onClick={handleSubmit}>
               Saqlash
             </Button>
           </CardBody>

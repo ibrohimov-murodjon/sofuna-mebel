@@ -6,7 +6,7 @@ import {
   Input,
   Button,
   Dialog,
-  } from "@material-tailwind/react";
+} from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
 
@@ -128,12 +128,11 @@ function AddOrderModal({ api, title, getApi }) {
     }
   };
 
-
   return (
     <>
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
         <Button onClick={handleOpen} variant="gradient">
-          Omborga qo'shish
+          Omborga qo&apos;shish
         </Button>
       </div>
       <Dialog
@@ -200,7 +199,7 @@ function AddOrderModal({ api, title, getApi }) {
                     marginTop: "5px",
                   }}
                 >
-                  O'lchov birligini tanlang
+                  O&apos;lchov birligini tanlang
                 </label>
                 <Select
                   style={{
@@ -238,7 +237,6 @@ function AddOrderModal({ api, title, getApi }) {
                   label="Narx kiriting"
                   type="number"
                   size="lg"
-
                   error={productPriceError}
                 />
               </div>
@@ -271,7 +269,7 @@ function AddOrderModal({ api, title, getApi }) {
                 />
 
                 <Typography className="-mb-2" variant="h6">
-                  Qilingan to'lov
+                  Qilingan to&apos;lov
                 </Typography>
                 <Input
                   value={payment}
