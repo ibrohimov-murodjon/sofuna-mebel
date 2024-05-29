@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
 import Loader from "./Loader";
-import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
+import {OutlineDeleteModal} from "../components";
 
 function ProductTable({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);

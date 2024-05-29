@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import EditWorkerProfile from "../features/worker/EditWorkerProfile";
+import {EditWorkerProfile} from "../components";
 import Button from "../ui/Button";
 import Tag from "../ui/Tag";
 import Modal from "../ui/Modal";

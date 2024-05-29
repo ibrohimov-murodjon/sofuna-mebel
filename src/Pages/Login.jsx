@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/userToken";
-import Loader from "../components/Loader/index";
 import { toast, ToastContainer } from "react-toastify";
-import OutlinedInput from "../components/OutlineInput";
+import { Loader } from "../components/index";
 import { Logo } from "../assets";
+import OutlinedInput from '../components/OutlinedInput'
+
 
 function Login() {
   const navigate = useNavigate();
