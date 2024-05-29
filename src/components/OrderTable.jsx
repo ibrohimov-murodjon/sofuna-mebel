@@ -2,8 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
-import Loader from "./Loader";
-import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
+import {Loader,OutlineDeleteModal } from "../components/index";
 import { useNavigate } from "react-router-dom";
 import { GetMeasurement } from "../hooks/GetMeasurement";
 

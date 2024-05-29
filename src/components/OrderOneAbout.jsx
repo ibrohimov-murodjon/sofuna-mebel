@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { GetMeasurement } from "../hooks/GetMeasurement";
 
-function OrderOneAbuot() {
+function OrderOneAbout() {
   const { id } = useParams();
   const [orderData, setOrderData] = useState("");
   const { measurementName } = GetMeasurement( orderData.measurement)
@@ -53,5 +53,4 @@ function OrderOneAbuot() {
     </div>
   );
 }
-
-export default OrderOneAbuot;
+export default OrderOneAbout;

@@ -10,7 +10,6 @@ export function useOutsideClick(handler, listenCapturing = true) {
           handler();
         }
       }
-
       document.addEventListener("click", handleClick, listenCapturing);
 
       return () =>

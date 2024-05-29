@@ -83,7 +83,7 @@ function Header({ activePage, setActivePage }) {
           <div>
             <img
               alt="tania andrew"
-              src={`https://custom.uz${userData?.image}`}
+              src={`https://custom.uz/${userData?.image}`}
               className="relative inline-block object-cover object-center w-12 h-12 rounded-full"
               data-popover-target="profile-menu"
             />
