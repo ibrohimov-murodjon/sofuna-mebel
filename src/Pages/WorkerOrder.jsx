@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../components/Loader";
+import { GetMeasurement } from "../hooks/GetMeasurement";
 const Wrapper = styled.div`
   max-width: 768px;
   gap: 40px;
@@ -56,7 +57,6 @@ function WorkerOrder() {
       );
 
       if (!response.ok) {
-        // Bu yerda xato holatini tekshirish
         throw new Error(`Server error: ${response.status}`);
       }
 
@@ -112,7 +112,7 @@ function WorkerOrder() {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
+  const { measurementName } = GetMeasurement(product.measurement);
   return (
     <Wrapper>
       <div style={{ display: loader ? "block" : "none" }}>
@@ -141,7 +141,7 @@ function WorkerOrder() {
         )}
         <h3 className="text-2xl text-gray-600">O&apos;lchov birligi: </h3>
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md  text-black text-3xl">
-          {product.measurement}
+          {measurementName}
         </h2>
         <h3 className="text-2xl text-gray-600">Qo&apos;shimcha</h3>
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md  text-black text-3xl">
@@ -156,7 +156,7 @@ function WorkerOrder() {
         />
       </div>
       <div className="flex flex-col md:flex-row flex-wrap items-center mt-4 text-white">
-        {product.status == "NO_ACTIVE" && (
+        {product.status == "ONE_PENDING" && (
           <button
             onClick={Acceptance}
             className="bg-red-400 p-2 mb-2 md:mb-0 md:mr-2"

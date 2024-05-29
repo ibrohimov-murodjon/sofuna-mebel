@@ -31,6 +31,7 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   function fetchUserRole() {
     if (token) {
       const decodedToken = jwtDecode(token);
@@ -50,6 +51,7 @@ function App() {
     fetchUserRole();
   }, [navigate, token]);
 
+
   function ProtectedRoute({
     children,
     redirectTo = "/login",
@@ -60,14 +62,12 @@ function App() {
         navigate(redirectTo);
       }
     }, [isAuthentication, navigate, redirectTo]);
-
     return children;
   }
 
   return (
     <>
       <GlobalStyles />
-
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />

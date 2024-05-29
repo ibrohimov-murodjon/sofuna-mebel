@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { DeleteBtn, EditBTn } from "../assets";
-import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
+import { OutlineDeleteModal } from "../components";
 import Loader from "../components/Loader";
 
 function Expenses() {

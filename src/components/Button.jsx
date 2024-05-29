@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
 
 const Button = styled.button`
-transition: all 0.3s;
-text-align: center;
-display: flex;
-justify-content: center;
-align-items: center;
-
+  transition: all 0.3s;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:hover {
     opacity: 0.8;
     transform: scale(1.1);

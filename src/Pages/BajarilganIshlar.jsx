@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { jwtDecode } from "jwt-decode";
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -63,7 +62,6 @@ const BajarilganIshlar = () => {
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
   function handleNavigate(elId) {
     navigate(`/mahsulot/${elId}`);
   }
@@ -85,9 +83,7 @@ const BajarilganIshlar = () => {
       }
     };
     fetchData();
-    // setData([1,2])
   }, []);
-  // console.log(data)
   
   return (
     <Wrapper>

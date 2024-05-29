@@ -73,14 +73,14 @@ const Profile = () => {
       setLoader(true)
       try {
         const response = await fetch(
-          `https://custom.uz/products/worker-orders/${decodedToken.user_id}`
+          `https://custom.uz/products/worker-work/${decodedToken.user_id}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result.filter(order => order.order.status == 'NO_ACTIVE'));
-        console.log(result[1]);
+        setData(result.filter(order => order.order.status !== 'SUCCESSFULLY'));
+        
         setLoader(false)
       } catch (error) {
         console.log(error);

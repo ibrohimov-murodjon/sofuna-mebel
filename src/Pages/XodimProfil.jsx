@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "../ui/Button";
 import Tag from "../ui/Tag";
 import Modal from "../ui/Modal";
-import EditWorkerProfile from "../features/worker/EditWorkerProfile";
+import {EditWorkerProfile} from "../components";
 
 const StyledTodayItem = styled.li`
   display: flex;

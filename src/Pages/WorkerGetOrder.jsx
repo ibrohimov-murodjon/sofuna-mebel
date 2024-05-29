@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
-import { jwtDecode } from 'jwt-decode';
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import styled from "@emotion/styled";
+import { jwtDecode } from "jwt-decode";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   max-width: 768px;
@@ -15,9 +15,9 @@ const Wrapper = styled.div`
 `;
 
 const WorkerGetOrder = () => {
-    const token = useSelector((state) => state.userToken.token);
-    const decodedToken = jwtDecode(token);
-    const [product, setProduct] = useState({});
+  const token = useSelector((state) => state.userToken.token);
+  const decodedToken = jwtDecode(token);
+  const [product, setProduct] = useState({});
   const { id } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -39,21 +39,34 @@ const WorkerGetOrder = () => {
   }, [id]);
   function addOrder(productId) {
     const messageData = {
-        sender: decodedToken.user_id,
-        worker: decodedToken.user_id,
-        order: productId,
-        text: "hayr",
-      };
-      fetch("https://custom.uz/products/message/api/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(messageData),
+      sender: decodedToken.user_id,
+      worker: decodedToken.user_id,
+      order: productId,
+      text: "hayr",
+    };
+    fetch("https://custom.uz/products/message/api/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageData),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error sending message:", error));
+    const edited = { status: "ONE_PENDING" };
+    fetch(`https://custom.uz/products/order/api/${productId}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(edited),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
       })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error("Error sending message:", error));
+      .catch((error) => console.error("Error sending message:", error));
   }
   return (
     <Wrapper>
@@ -79,12 +92,16 @@ const WorkerGetOrder = () => {
           {product.description}
         </h2>
         <div className="flex flex-col md:flex-row flex-wrap items-center mt-2 text-white">
-        
-          <button onClick={() => addOrder(product.id)} className="bg-green-600 p-2 px-5 w-full mt-1">Buyurtmalarimga qo'shish</button>
+          <button
+            onClick={() => addOrder(product.id)}
+            className="bg-green-600 p-2 px-5 w-full mt-1"
+          >
+            Buyurtmalarimga qo&apos;shish
+          </button>
         </div>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default WorkerGetOrder
+export default WorkerGetOrder;
