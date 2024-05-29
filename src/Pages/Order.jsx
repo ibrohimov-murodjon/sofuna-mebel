@@ -58,7 +58,7 @@ function Order() {
   async function getApi() {
     try {
       setLoader(true);
-      const response = await fetch("https://custom.uz/products/order/api/");
+      const response = await fetch("https://custom.uz/products/order-measurement/");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -71,6 +71,8 @@ function Order() {
       console.error("Error fetching data:", error);
     }
   }
+
+
   useEffect(() => {
     getApi();
   }, []);
@@ -131,6 +133,7 @@ function Order() {
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}
+                      getApi= {getApi}
                       api={"https://custom.uz/products/order/api/"}
                     />
                   </>

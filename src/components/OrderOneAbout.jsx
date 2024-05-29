@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { GetMeasurement } from "../hooks/GetMeasurement";
 
 function OrderOneAbout() {
   const { id } = useParams();
   const [orderData, setOrderData] = useState("");
-  const { measurementName } = GetMeasurement( orderData.measurement)
   useEffect(() => {
-    fetch(`https://custom.uz/products/order/api/${id}/`, {
+    fetch(`https://custom.uz/products/order-measurement/${id}/`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,8 +36,8 @@ function OrderOneAbout() {
               <p className="text-gray-700 mb-4">{orderData.name}</p>
               <p className="text-gray-900 font-bold">Buyutma Soni</p>
               <p className="text-gray-700 mb-4">{orderData.qty}</p>
-              <p className="text-gray-900 font-bold">Buyutmaning o'lchov birligi:</p>
-              <p className="text-gray-700 mb-4">{measurementName}</p>
+              <p className="text-gray-900 font-bold">Buyutmaning o&apos;lchov birligi:</p>
+              <p className="text-gray-700 mb-4">{orderData.measurement.name}</p>
               <p className="text-gray-900 font-bold">
                 Buyutma haqida ma&apos;lumot
               </p>

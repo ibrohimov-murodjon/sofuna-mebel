@@ -15,7 +15,6 @@ function Message() {
   const [orderMes, setOrderMes] = useState({});
   const [textMes, setTextMes] = useState("");
   const [workerMes, setWorkerMes] = useState("");
-  // const [orderMes, setOrderMes] = useState({})
   const messageData = {
     sender: "c8af4463-936f-4d8e-a384-d06e1f92ec91",
     worker: workerMes,
@@ -54,6 +53,7 @@ function Message() {
       })
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, []);
+
   useEffect(() => {
     fetch("https://custom.uz/products/order/api/")
       .then((res) => res.json())
@@ -106,7 +106,7 @@ function Message() {
 
   return (
     <div className="flex items-start gap-x-2 mt-2">
-      {/* LEFT_SECTION */}
+
       <div
         className={`w-full min-w-[250px] max-w-[250px] min-h-[80vh]  h-[85vh] overflow-y-auto flex rounded-md flex-col gap-y-3  px-5 bg-white  pt-4 scroll-m-1 box-border`}
       >
