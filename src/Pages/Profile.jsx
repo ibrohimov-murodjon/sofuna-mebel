@@ -79,7 +79,7 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result.filter(order => order.order.status == 'NO_ACTIVE'));
+        setData(result.filter(order => order.order.status !== 'SUCCESSFULLY'));
         console.log(result[1]);
         setLoader(false)
       } catch (error) {

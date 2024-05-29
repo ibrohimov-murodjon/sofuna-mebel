@@ -4,8 +4,8 @@ import { SideBar } from "../components";
 import { Header } from "../Section";
 import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
-import OutlineAdUserModal from "../components/OutlineAdUserModal/OutlineAdUserModal";
 import { useSelector } from "react-redux";
+import {OutlineAdUserModal} from '../components/index.js';
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);

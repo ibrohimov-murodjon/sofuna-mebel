@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
+import {OutlineDeleteModal} from "../components/index.js";
 import { useNavigate } from "react-router-dom";
 
 const TABS = [

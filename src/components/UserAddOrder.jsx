@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../assets/exit.svg";
-import Button from "./Button/Button";
+import Button from "./Button";
 
 const MainWrapper = styled.div`
   position: relative;
