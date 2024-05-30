@@ -1,50 +1,36 @@
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
-import { DeleteBtn,  } from "../assets";
-import {Loader,OutlineDeleteModal } from "../components/index";
+import { DeleteBtn, EditBTn } from "../assets";
+import {
+  Loader,
+  OutlineDeleteModal,
+  OrderUpdateModal,
+} from "../components/index";
 import { useNavigate } from "react-router-dom";
-
-import OrderUpdateModal from "./OrderUpdateModal";
-
-function OrderTable({ setUiData, uiData, getApi }) {
+import { GetMeasurement } from "../hooks/GetMeasurement";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
+function OrderTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
-  const [measurement, setMeasurement] = useState('')
+  const [measurement, setMeasurement] = useState("");
   const navigate = useNavigate();
   const handleOpen = (value) => setSize(value);
-
-  const deleteCloseFun = () => {
-    setSize(null);
-  };
-  const notify = () => toast.success("Maxsulot o'chirildi");
-
-  const deleteProduct = (id) => {
-    fetch(`https://custom.uz/products/order/api/${id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          notify();
-          toast.success("Maxsulot o'chirildi");
-          console.log("Order deleted successfully");
-          let copied = JSON.parse(JSON.stringify(uiData));
-          const updatedUiData = copied.filter((user) => user.id !== id);
-          setUiData(updatedUiData);
-          deleteCloseFun();
-        }
-      })
-      .catch((error) => {
-        console.error("Delete error:", error);
-        toast.error("Error deleting user", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (id) => deleteElement(id, api),
+    onSuccess: () => {
+      toast.success("Buyurtma muaffaqiyatli ochirildi");
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
       });
+    },
+    onError: (err) => alert("Buyurtma o'chirishdagi hatolik"),
+  });
+  const ModalCloseFun = () => {
+    setSize(null);
   };
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
@@ -89,57 +75,107 @@ function OrderTable({ setUiData, uiData, getApi }) {
               </tr>
             </thead>
             <tbody>
-              {uiData &&
-                uiData.map((user, index) => {
-                  console.log(user);
-                  // const { measurementName } = GetMeasurement(user.measurement)
-                  return (
-                    <tr
-                      className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
-                      key={crypto.randomUUID()}
-                    >
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {index + 1}
-                        </p>
-                      </td>
-                      <td
-                        onClick={() => handleRowClick(user.id)}
-                        className="p-4 border-b border-blue-gray-50"
+              {filteredData
+                ? filteredData.map((user, index) => {
+                    const { measurementName } = GetMeasurement(
+                      user.measurement
+                    );
+                    return (
+                      <tr
+                        className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
+                        key={crypto.randomUUID()}
                       >
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name?.charAt() + user.name?.slice(1)}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                        {user.measurement.name}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.qty}
-                        </p>
-                      </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td
+                          onClick={() => handleRowClick(user.id)}
+                          className="p-4 border-b border-blue-gray-50"
+                        >
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.measurement.name}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
 
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-5">
-                    
-                          <OrderUpdateModal product = {user} getApi={getApi} />
-                          <button
-                            className=""
-                            onClick={() => {
-                              setUserId(user.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <OrderUpdateModal product={user} />
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : uiData.map((user, index) => {
+                    const { measurementName } = GetMeasurement(
+                      user.measurement
+                    );
+                    return (
+                      <tr
+                        className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
+                        key={crypto.randomUUID()}
+                      >
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td
+                          onClick={() => handleRowClick(user.id)}
+                          className="p-4 border-b border-blue-gray-50"
+                        >
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {measurementName}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
+
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <OrderUpdateModal product={user} />
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
 
@@ -147,7 +183,7 @@ function OrderTable({ setUiData, uiData, getApi }) {
             open={size === "xs"}
             size={size || "md"}
             handler={handleOpen}
-            onClose={() => deleteCloseFun()}
+            onClose={() => ModalCloseFun()}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -155,15 +191,13 @@ function OrderTable({ setUiData, uiData, getApi }) {
             }}
           >
             <OutlineDeleteModal
-              handleClose={deleteCloseFun}
-              deleteUser={() => deleteProduct(userId)}
+              handleClose={ModalCloseFun}
+              deleteUser={() => mutate(userId)}
             />
           </Dialog>
         </div>
       )}
-      <ToastContainer/>
     </>
   );
 }
-
 export default OrderTable;

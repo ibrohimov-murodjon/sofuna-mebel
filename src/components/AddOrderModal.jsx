@@ -11,6 +11,8 @@ import {
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AddElement } from "../fetchMethods/AddMethod";
 
 const Select = styled.select`
   &:focus {
@@ -23,11 +25,10 @@ const StyledOption = styled.option`
   align-items: center;
   padding: 10px;
   margin-top: 20px;
-`;
-
-function AddProduct({ api, getApi }) {
+  `;
+function AddProduct({api}) {
   const [open, setOpen] = React.useState(false);
-  const [productMeasurement, setProductMeasurement] = useState("dona");
+  const [productMeasurement, setProductMeasurement] = useState("kg");
   const [productName, setProductName] = useState("");
   const [productQty, setProductQty] = useState("");
   const [buyurtmaTasnifi, setBuyurtmaTasnifi] = useState("");
@@ -36,6 +37,17 @@ function AddProduct({ api, getApi }) {
   const [measurement, setMeasurement] = useState([]);
   const handleOpen = () => setOpen((cur) => !cur);
   const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
+  const queryClient = useQueryClient()
+  const {mutate} = useMutation({
+    mutationFn: (newOrder) => AddElement(newOrder,api),
+    onSuccess: () => {
+      toast.success("Buyurtma qo'shildi")
+      queryClient.invalidateQueries({
+        queryKey:['orders']
+      })
+    },
+    onError: () => toast.error("Buyurtma qo'shishda muammo")
+  })
   const handleSubmit = () => {
     if (!productName.trim().length > 0) {
       setProductNameError(true);
@@ -51,31 +63,31 @@ function AddProduct({ api, getApi }) {
     }
     if (
       productName &&
-      productQty &&
-      api == "https://custom.uz/products/order/api/"
+      productQty 
     ) {
-      const product = {
+      const newOrder = {
         name: productName,
         qty: Number(productQty),
         description: buyurtmaTasnifi,
         measurement: productMeasurement,
       };
-      fetch(`https://custom.uz/products/order/api/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          notify();
-          getApi();
-        })
-        .catch((error) => {
-          alert("Login error:", error);
-        });
+      mutate(newOrder)
+      // console.log(mutate(newOrder ));
+      // fetch(`https://custom.uz/products/order/api/`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(product),
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     notify();
+      //     // getApi();
+      //   })
+      //   .catch((error) => {
+      //     alert("Login error:", error);
+      //   });
       setProductName("");
       setProductQty("");
       setOpen(false);
@@ -94,7 +106,7 @@ function AddProduct({ api, getApi }) {
         </Button>
       </div>
       <Dialog
-        size="xs"
+        size="lg"
         open={open}
         handler={handleOpen}
         className="bg-transparent shadow-none"
@@ -128,7 +140,7 @@ function AddProduct({ api, getApi }) {
                     marginTop: "5px",
                   }}
                 >
-                  O&apos;lchov birligini tanlang
+                  O'lchov birligini tanlang
                 </label>
                 <Select
                   style={{
@@ -169,7 +181,12 @@ function AddProduct({ api, getApi }) {
               onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
               label="Mahsulot tarifini kiriting"
             ></Textarea>
-            <Button variant="gradient" color="green" onClick={handleSubmit}>
+            <Button
+              variant="gradient"
+              color="green"
+              onClick={handleSubmit}
+              fullWidth
+            >
               Saqlash
             </Button>
           </CardBody>
