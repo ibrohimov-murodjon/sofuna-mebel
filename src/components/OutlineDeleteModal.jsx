@@ -73,7 +73,10 @@ function OutlineDeleteModal({ handleClose, deleteUser }) {
           </div>
           <div>
             <Button
-              onClick={deleteUser}
+              onClick={() => {
+                deleteUser()
+                handleClose()}
+              }
               width="130px"
               bgColor="#0E95D8"
               value="O'chirish"
