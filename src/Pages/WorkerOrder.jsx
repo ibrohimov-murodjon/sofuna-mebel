@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Loader from "../components/Loader";
 const Wrapper = styled.div`
   max-width: 768px;
+  gap: 40px;
   width: 90%;
   padding: 10px;
   margin: 40px auto;
@@ -28,6 +29,7 @@ function WorkerOrder() {
       const data = await response.json();
       setProduct(data);
       setLoader(false);
+      console.log(data);
     } catch (error) {
       setLoader(false);
       console.log(error);
@@ -39,13 +41,13 @@ function WorkerOrder() {
 
   const Acceptance = async () => {
     setLoader(true);
-    let copied = JSON.parse(JSON.stringify(product));
-    copied.status = "PENDING";
+    let copied = { status: "PENDING" };
+
     try {
       const response = await fetch(
         `https://custom.uz/products/order/api/${product.id}/`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -54,7 +56,8 @@ function WorkerOrder() {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Bu yerda xato holatini tekshirish
+        throw new Error(`Server error: ${response.status}`);
       }
 
       const responseData = await response.json();
@@ -62,7 +65,7 @@ function WorkerOrder() {
       setLoader(false);
     } catch (error) {
       setLoader(false);
-      console.log(error);
+      console.error("PUT so'rovi xatosi:", error);
     }
   };
 
@@ -75,7 +78,7 @@ function WorkerOrder() {
       updatedWorkProses >= product.qty ? "SUCCESSFULLY" : "PENDING";
 
     const updatedProduct = {
-      ...product,
+      // ...product,
       work_proses: updatedWorkProses,
       status: updatedStatus,
     };
@@ -84,7 +87,7 @@ function WorkerOrder() {
       const response = await fetch(
         `https://custom.uz/products/order/api/${product.id}/`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -144,36 +147,45 @@ function WorkerOrder() {
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md  text-black text-3xl">
           {product.description}
         </h2>
-        <div className="flex flex-col md:flex-row flex-wrap items-center mt-2 text-white">
-          {product.status == "NO_ACTIVE" && (
+
+        <h3 className="text-2xl text-gray-600">Mahsulot surati: </h3>
+        <img
+          width={200}
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKKeLEyZtLk2VXwR5eGqhAAI-npYYH4pHxqt_4AsRqw&s"
+          alt="mahsulot surati unda stul tasvirlangan oddiy dam olish stuli"
+        />
+      </div>
+      <div className="flex flex-col md:flex-row flex-wrap items-center mt-4 text-white">
+        {product.status == "NO_ACTIVE" && (
+          <button
+            onClick={Acceptance}
+            className="bg-red-400 p-2 mb-2 md:mb-0 md:mr-2"
+          >
+            Qabul qilish
+          </button>
+        )}
+        {product.status == "PENDING" && (
+          <>
+            <input
+              type="number"
+              className="placeholder-styled border p-2 block mb-2 md:mb-0 md:mr-2 text-black"
+              placeholder="Bajarilgan mahsulot sonini kiriting placeholder-black"
+              value={inputValue}
+              onChange={handleInputChange}
+            />
             <button
-              onClick={Acceptance}
-              className="bg-red-400 p-2 mb-2 md:mb-0 md:mr-2"
+              onClick={AcceptanceUpdate}
+              className="bg-blue-600 p-2 px-5 mb-2 md:mb-0 md:mr-2"
             >
-              Qabul qilish
+              Bajarildi
             </button>
-          )}
-          {product.status == "PENDING" && (
-            <>
-              <input
-                type="number"
-                className="placeholder-styled border p-2 block mb-2 md:mb-0 md:mr-2 text-black"
-                placeholder="Bajarilgan mahsulot sonini kiriting placeholder-black"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <button
-                onClick={AcceptanceUpdate}
-                className="bg-blue-600 p-2 px-5 mb-2 md:mb-0 md:mr-2"
-              >
-                Bajarildi
-              </button>
-            </>
-          )}
-          {product.status == "SUCCESSFULLY" && (
-            <h2 className="bg-green-300 p-2 px-5 w-full text-center mx-auto ">Yakunlandi</h2>
-          )}
-        </div>
+          </>
+        )}
+        {product.status == "SUCCESSFULLY" && (
+          <h2 className="bg-green-300 p-2 px-5 w-full text-center mx-auto ">
+            Yakunlandi
+          </h2>
+        )}
       </div>
     </Wrapper>
   );

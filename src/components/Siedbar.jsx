@@ -1,13 +1,17 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { RegisterValidate } from "../Functions/Function";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { EmployeeBlack, EmployeeWhite, HomeBlack, HomeWhite, Logo, MessageBlack, MessageWhite, OrderBlack, OrderWhite, WarehouseBlack, WarehouseWhite } from "../assets";
+import { CostImg, EmployeeBlack, EmployeeWhite, HomeBlack, HomeWhite, Logo, MessageBlack, MessageWhite, OrderBlack, OrderWhite, WarehouseBlack, WarehouseWhite } from "../assets";
 import { useSelector } from "react-redux";
 
 const AdminMenuItems = [
-  { id: 1, name: "Asosiy", unActive: HomeBlack, active: HomeWhite, link: "/" },
+  { 
+    id: 1, name: "Asosiy", 
+    unActive: HomeBlack, 
+    active: HomeWhite, 
+    link: "/" 
+  },
   {
     id: 2,
     name: "Ombor",
@@ -22,13 +26,13 @@ const AdminMenuItems = [
     active: OrderWhite,
     link: "/order",
   },
-  {
-    id: 4,
-    name: "Message",
-    unActive: MessageBlack,
-    active: MessageWhite,
-    link: "/message",
-  },
+  // {
+  //   id: 4,
+  //   name: "Message",
+  //   unActive: MessageBlack,
+  //   active: MessageWhite,
+  //   link: "/message",
+  // },
   {
     id: 5,
     name: "Xodimlar",
@@ -36,9 +40,20 @@ const AdminMenuItems = [
     active: EmployeeWhite,
     link: "/xodimlar",
   },
+  {
+    id: 6,
+    name: "Xarajatlar",
+    unActive: CostImg,
+    active: CostImg,
+    link: "/xarajatlar",
+  },
 ];
 const WorkerMenuItems = [
-  { id: 1, name: "Buyurtmalarim", unActive: HomeBlack, active: HomeWhite, link: "/" },
+  { id: 1, name: "Buyurtmalarim",
+    unActive: HomeBlack, 
+    active: HomeWhite, 
+    link: "/" 
+  },
   {
     id: 2,
     name: "Qoshimcha ish",

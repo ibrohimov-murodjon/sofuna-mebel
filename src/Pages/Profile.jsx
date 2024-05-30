@@ -25,7 +25,7 @@ const OrderCard = styled.div`
   padding: 5px;
   width: 80%;
   padding-top: 0px;
-  border-top: 7px solid green;
+  border-top: 7px solid blue;
   box-shadow: 0px 5px 10px black;
   background: #ffffff;
   img {
@@ -39,16 +39,18 @@ const OrderCard = styled.div`
     font-family: sans-serif;
     margin-top: 5px;
     margin-bottom: 7px;
+    height: 50px;
   }
   p {
     width: 90%;
+    height: 60px;
     text-align: center;
   }
   button {
     margin: 7px;
     width: 100%;
     padding: 7px;
-    background-color: green;
+    background-color: blue;
     cursor: pointer;
     color: white;
   }
@@ -59,7 +61,7 @@ const Profile = () => {
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
-  const [loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   let a = ` Lorem ipsum dolor spariatur corporis. Accusamus
   id excepturi commodi blanditiis veritatis!fdsadadasdasdasdsadasdasdasdassadasssssssssssssssssssss`;
   function handleNavigate(elId) {
@@ -67,7 +69,7 @@ const Profile = () => {
   }
   useEffect(() => {
     const fetchData = async () => {
-      setLoader(true)
+      setLoader(true);
       try {
         const response = await fetch(
           `https://custom.uz/products/worker-orders/${decodedToken.user_id}`
@@ -76,31 +78,37 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result);
-        setLoader(false)
+        setData(result.filter((order) => order.order.status == "NO_ACTIVE"));
+        console.log(result[1]);
+        setLoader(false);
       } catch (error) {
         console.log(error);
-        setLoader(false)
+        setLoader(false);
       }
     };
-    fetchData()
+    fetchData();
   }, []);
   return (
     <Wrapper>
-      <div style={{display:loader ? "block"  :"none"}}>
-        <Loader/>
+      <div style={{ display: loader ? "block" : "none" }}>
+        <Loader />
       </div>
       {data.length > 0 &&
-      data.map((el, index) => {
+        data.map((el, index) => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
               <h3>{el?.order?.name}</h3>
-              <p>{`${a.slice(0, 100)} ${a.length > 100 && "..."}`}</p>
-              <button onClick={() => {
-                handleNavigate(el.order.id)
-              }
-              }>Batafsil</button>
+              <p>{`${el.order.description.slice(0, 100)} ${
+                el.order.description.length > 100 && "..."
+              }`}</p>
+              <button
+                onClick={() => {
+                  handleNavigate(el.order.id);
+                }}
+              >
+                Batafsil
+              </button>
             </OrderCard>
           );
         })}

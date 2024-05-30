@@ -66,6 +66,7 @@ function App() {
   return (
     <>
       <GlobalStyles />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
@@ -104,9 +105,9 @@ function App() {
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
-                  <RoutesLayout>
-                    <Order />
-                  </RoutesLayout>
+                    <RoutesLayout>
+                      <Order />
+                    </RoutesLayout>
                 </ProtectedRoute>
               }
             />
@@ -149,7 +150,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/message"
               element={
                 <ProtectedRoute
@@ -158,6 +159,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <Message />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            /> */}
+            <Route
+              path="/xarajatlar"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <Xodimlar />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -246,7 +260,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-             <Route
+            <Route
               path="/allOrders/:id"
               element={
                 <ProtectedRoute
@@ -267,7 +281,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <BajarilganIshlar/>
+                    <BajarilganIshlar />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -280,7 +294,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                  <Product />
+                    <Product />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

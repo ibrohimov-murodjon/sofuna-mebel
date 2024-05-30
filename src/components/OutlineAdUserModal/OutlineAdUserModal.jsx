@@ -1,5 +1,4 @@
-
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/exit.svg";
 import Button from "../Button/Button";
@@ -84,6 +83,7 @@ function OutlineAdUserModal({ handleClose }) {
     username: false,
     password: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   function validationFunction() {
     const newErrors = { ...errors };
@@ -130,6 +130,7 @@ function OutlineAdUserModal({ handleClose }) {
 
   function handleAddUser() {
     if (validationFunction()) {
+      setIsLoading(true);
       const newUser = {
         username: username,
         first_name: firstName,
@@ -137,36 +138,35 @@ function OutlineAdUserModal({ handleClose }) {
         phone_number: phoneNumber,
         user_roles: selectRef.current?.value,
         image: null,
-        password: password
-      }
+        password: password,
+      };
       fetch(`https://custom.uz/users/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
-      })
-        .then((res) => res.json())
+      }).then((res) => res.json());
+      handleClose()
         .then((data) => {
           toast.success(data.message, {
             position: "top-right",
             autoClose: 1500,
           });
-          alert('success')
+          handleClose();
         })
         .catch((error) => {
           alert("error:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-      console.log("Form submitted successfully");
-      setFirstName("");
-      setLastName("");
-      setPhoneNumber("");
-      setUsername("");
-      setPassword("");
+
     } else {
       console.log("Form validation failed");
     }
   }
+
 
   return (
     <MainWrapper>
@@ -182,7 +182,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Firstname"
               type="text"
               value={firstName}
-              onChange={setFirstName}
+              onChange={(e) => setFirstName(e.target.value)}
               isError={errors.firstName}
             />
             <OutlinedInput
@@ -190,7 +190,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Lastname"
               type="text"
               value={lastName}
-              onChange={setLastName}
+              onChange={(e) => setLastName(e.target.value)}
               isError={errors.lastName}
             />
           </div>
@@ -207,7 +207,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="+998 (XX) XXX-XX-XX"
               type="tel"
               value={phoneNumber}
-              onChange={setPhoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               isError={errors.phoneNumber}
             />
 
@@ -241,7 +241,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Username"
               type="text"
               value={username}
-              onChange={setUsername}
+              onChange={(e) => setUsername(e.target.value)}
               isError={errors.username}
             />
             <OutlinedInput
@@ -249,7 +249,7 @@ function OutlineAdUserModal({ handleClose }) {
               placeholder="Password"
               type="password"
               value={password}
-              onChange={setPassword}
+              onChange={(e) => setPassword(e.target.value)}
               isError={errors.password}
             />
           </div>

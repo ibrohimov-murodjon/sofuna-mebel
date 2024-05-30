@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "@emotion/styled";
-import CloseIcon from "../../assets/exit.svg";
-import Button from "../Button/Button";
+import CloseIcon from "../assets/exit.svg";
+import Button from "./Button/Button";
 
 const MainWrapper = styled.div`
   position: relative;
@@ -53,7 +53,7 @@ const CloseModalIcon = styled.img`
   position: absolute;
 `;
 
-function OutlineDeleteModal({ handleClose, deleteUser }) {
+function UserAddOrder({ handleClose, AddUser }) {
   const modalRef = useRef(null);
   return (
     <MainWrapper ref={modalRef}>
@@ -61,7 +61,7 @@ function OutlineDeleteModal({ handleClose, deleteUser }) {
         <CloseModalIcon src={CloseIcon}></CloseModalIcon>
       </CloseModal>
       <ModalWrapper>
-        <ModalHeading>Rosdan ham o&apos;chirmoqchimisiz</ModalHeading>
+        <ModalHeading>Rosdan ham biriktirmoqchimisiz</ModalHeading>
         <div className="btn-part">
           <div>
             <Button
@@ -73,10 +73,10 @@ function OutlineDeleteModal({ handleClose, deleteUser }) {
           </div>
           <div>
             <Button
-              onClick={deleteUser}
+              onClick={AddUser}
               width="130px"
               bgColor="#0E95D8"
-              value="O'chirish"
+              value="Qo'shish"
             />
           </div>
         </div>
@@ -85,4 +85,4 @@ function OutlineDeleteModal({ handleClose, deleteUser }) {
   );
 }
 
-export default OutlineDeleteModal;
+export default UserAddOrder;

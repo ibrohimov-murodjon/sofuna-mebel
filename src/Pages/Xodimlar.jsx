@@ -262,7 +262,6 @@ console.log(worker);
             </tbody>
           </table>
         </div>
-        <Pagination />
       </Card>
       <Dialog
         open={size === "xs"}

@@ -103,7 +103,8 @@ function Login() {
                 <OutlinedInput
                   bgColor="white"
                   value={username}
-                  onChange={setUsername}
+                  onChange={(e) => setUsername(e.target.value)
+                  }
                   placeholder="Username..."
                   isError={errors.username}
                   id="email"
@@ -115,7 +116,7 @@ function Login() {
                   type="password"
                   bgColor="white"
                   value={password}
-                  onChange={setPassword}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password..."
                   isError={errors.password}
                   id="password"
