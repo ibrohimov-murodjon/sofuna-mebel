@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -10,103 +10,96 @@ import {
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AddElement } from "../fetchMethods/AddMethod";
+import { EditBTn } from "../assets";
+import { GetMeasurement } from "../hooks/GetMeasurement";
 
 const Select = styled.select`
   &:focus {
     outline: none;
     border-color: #0e95d8;
   }
+  width: 320px;
+  padding: 13px 10px;
+  margin-top: 3px;
+  border-radius: 7px;
+  border: 1px solid #ebeaed;
 `;
+
 const StyledOption = styled.option`
   display: flex;
   align-items: center;
   padding: 10px;
   margin-top: 20px;
-  `;
-function AddProduct({api}) {
-  const [open, setOpen] = React.useState(false);
-  const [productMeasurement, setProductMeasurement] = useState("kg");
-  const [productName, setProductName] = useState("");
-  const [productQty, setProductQty] = useState("");
-  const [buyurtmaTasnifi, setBuyurtmaTasnifi] = useState("");
+  width: 300px !important;
+`;
+
+const OrderUpdateModal = ({ product }) => {
+  const productId = product.id;
+  const { measurementName } = GetMeasurement(product.measurement);
+  const [open, setOpen] = useState(false);
+  const [productMeasurement, setProductMeasurement] = useState(measurementName);
+  const [productName, setProductName] = useState(product.name);
+  const [productQty, setProductQty] = useState(product.qty);
+  const [buyurtmaTasnifi, setBuyurtmaTasnifi] = useState(product.description);
   const [productNameError, setProductNameError] = useState(false);
   const [productQtyError, setProductQtyError] = useState(false);
   const [measurement, setMeasurement] = useState([]);
-  const handleOpen = () => setOpen((cur) => !cur);
+
+  const handleOpen = () => setOpen(!open);
   const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
-  const queryClient = useQueryClient()
-  const {mutate} = useMutation({
-    mutationFn: (newOrder) => AddElement(newOrder,api),
-    onSuccess: () => {
-      toast.success("Buyurtma qo'shildi")
-      queryClient.invalidateQueries({
-        queryKey:['orders']
-      })
-    },
-    onError: () => toast.error("Buyurtma qo'shishda muammo")
-  })
+
   const handleSubmit = () => {
-    if (!productName.trim().length > 0) {
+    if (!productName.trim()) {
       setProductNameError(true);
       return;
-    } else {
-      setProductNameError(false);
     }
+    setProductNameError(false);
+
     if (!productQty) {
       setProductQtyError(true);
       return;
-    } else {
-      setProductQtyError(false);
     }
-    if (
-      productName &&
-      productQty 
-    ) {
-      const newOrder = {
-        name: productName,
-        qty: Number(productQty),
-        description: buyurtmaTasnifi,
-        measurement: productMeasurement,
-      };
-      mutate(newOrder)
-      // console.log(mutate(newOrder ));
-      // fetch(`https://custom.uz/products/order/api/`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(product),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     notify();
-      //     // getApi();
-      //   })
-      //   .catch((error) => {
-      //     alert("Login error:", error);
-      //   });
-      setProductName("");
-      setProductQty("");
-      setOpen(false);
-    }
+    setProductQtyError(false);
+
+    const updatedProduct = {
+      name: productName,
+      qty: Number(productQty),
+      description: buyurtmaTasnifi,
+      measurement: productMeasurement,
+    };
+
+    fetch(`https://custom.uz/products/order/api/${productId}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProduct),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        notify();
+        setProductName("");
+        setProductQty("");
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
   useEffect(() => {
     fetch("https://custom.uz/products/measurement/")
       .then((res) => res.json())
       .then((result) => setMeasurement(result));
   }, []);
+
   return (
     <>
-      <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-        <Button onClick={handleOpen} variant="gradient">
-          Buyurtma qo&apos;shish
-        </Button>
-      </div>
+      <button onClick={handleOpen}>
+        <img src={EditBTn} alt="edit btn" />
+      </button>
       <Dialog
-        size="lg"
+        size="xs"
         open={open}
         handler={handleOpen}
         className="bg-transparent shadow-none"
@@ -114,7 +107,7 @@ function AddProduct({api}) {
         <Card className="mx-auto w-full max-w-[730px]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" className="text-center" color="blue-gray">
-              Buyurtma qo&apos;shish
+              Buyurtmani Tahrirlash
             </Typography>
             <div className="flex items-start justify-center gap-x-10 w-full">
               <div className="flex items-start flex-col gap-2 w-80">
@@ -125,7 +118,6 @@ function AddProduct({api}) {
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
                   required
-                  label="Nomini kiriting"
                   size="lg"
                   error={productNameError}
                 />
@@ -143,22 +135,13 @@ function AddProduct({api}) {
                   O'lchov birligini tanlang
                 </label>
                 <Select
-                  style={{
-                    width: "320px",
-                    padding: "13px 10px",
-                    marginTop: "3px",
-                    borderRadius: "7px",
-                    border: "1px solid #EBEAED",
-                  }}
                   onChange={(e) => setProductMeasurement(e.target.value)}
                 >
-                  {measurement.map((meas) => {
-                    return (
-                      <StyledOption key={crypto.randomUUID()} value={meas.id}>
-                        {meas.name}
-                      </StyledOption>
-                    );
-                  })}
+                  {measurement.map((meas) => (
+                    <StyledOption key={meas.id} value={meas.id}>
+                      {meas.name}
+                    </StyledOption>
+                  ))}
                 </Select>
                 <Typography className="-mb-2" variant="h6">
                   Sonini kiriting
@@ -167,7 +150,6 @@ function AddProduct({api}) {
                   value={productQty}
                   onChange={(e) => setProductQty(e.target.value)}
                   required
-                  label="Sonini kiriting"
                   type="number"
                   size="lg"
                   error={productQtyError}
@@ -178,15 +160,10 @@ function AddProduct({api}) {
               Mahsulot tarifini kiriting
             </Typography>
             <Textarea
+              value={buyurtmaTasnifi}
               onChange={(e) => setBuyurtmaTasnifi(e.target.value)}
-              label="Mahsulot tarifini kiriting"
-            ></Textarea>
-            <Button
-              variant="gradient"
-              color="green"
-              onClick={handleSubmit}
-              fullWidth
-            >
+            />
+            <Button variant="gradient" color="blue" onClick={handleSubmit}>
               Saqlash
             </Button>
           </CardBody>
@@ -194,6 +171,6 @@ function AddProduct({api}) {
       </Dialog>
     </>
   );
-}
+};
 
-export default AddProduct;
+export default OrderUpdateModal;
