@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn,  } from "../assets";
@@ -29,12 +29,13 @@ function OrderTable({ setUiData, uiData, getApi }) {
     })
       .then((res) => {
         if (res.ok) {
+          notify();
+          toast.success("Maxsulot o'chirildi");
           console.log("Order deleted successfully");
           let copied = JSON.parse(JSON.stringify(uiData));
           const updatedUiData = copied.filter((user) => user.id !== id);
           setUiData(updatedUiData);
           deleteCloseFun();
-          notify();
         }
       })
       .catch((error) => {
@@ -160,6 +161,7 @@ function OrderTable({ setUiData, uiData, getApi }) {
           </Dialog>
         </div>
       )}
+      <ToastContainer/>
     </>
   );
 }

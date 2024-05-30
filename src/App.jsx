@@ -24,6 +24,7 @@ import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
 import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
 import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
+import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -296,6 +297,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <Product />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/product/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                  <WorkerProductDetail />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

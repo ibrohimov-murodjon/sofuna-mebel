@@ -1,12 +1,11 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
-import { Dialog } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 function WorkerProductTable({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
+const navigate = useNavigate()
   return (
     <>
       {loader ? (
@@ -74,7 +73,9 @@ function WorkerProductTable({ setUiData, uiData, api }) {
                       </td>
 
                       <td className="p-4 border-b border-blue-gray-50">
-                        <span onClick={handleOpen} className="bg-blue-800 text-white p-3 cursor-pointer">
+                        <span onClick={() => {
+                          navigate(`/product/${user.id}`)
+                        }} className="bg-blue-800 text-white p-3 cursor-pointer">
                           Mahsulot Olish
                         </span>
                       </td>
@@ -85,17 +86,7 @@ function WorkerProductTable({ setUiData, uiData, api }) {
           </table>
         </div>
       )}
-      <Dialog
-        size="xs"
-        open={open}
-        handler={handleOpen}
-        className="bg-transparent shadow-none"
-      >
-        <div className="bg-white p-3  mx-auto w-full max-w-[730px] h-25     ">
-            <input type="text" className="text-black border border-black p-2 w-full mb-2 d-block" placeholder="Miqdorni kiriting" />
-            <button className="bg-blue-800 text-white p-2 w-full" >Yuborish</button>
-        </div>
-      </Dialog>
+   
     </>
   );
 }
