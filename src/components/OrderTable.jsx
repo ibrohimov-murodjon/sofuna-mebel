@@ -33,6 +33,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
   }
+  console.log(filteredData, "filteredData");
   return (
     <>
       {loader ? (

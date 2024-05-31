@@ -15,6 +15,7 @@ import {
 } from "@material-tailwind/react";
 
 import { AddOrderModal, DatePicker, Loader, OrderTable, } from "../components";
+import { ToastContainer } from "react-toastify";
 
 const STATUS = [
   {
@@ -122,7 +123,7 @@ function Order() {
             </div>
           </CardHeader>
           <div className="absolute right-[35%] top-[17%] z-[100] w-[21%]">
-            <DatePicker filterDateData={handleFilterData} />
+            <DatePicker data={category} setUiData={setCategory} filterDateData={handleFilterData} />
           </div>
           <CardBody className="p-0">
             <div className=" w-full min-w-max table-auto text-left">
@@ -147,6 +148,7 @@ function Order() {
           </CardBody>
         </Card>
       )}
+      <ToastContainer/>
     </>
   );
 }

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode"; // jwtDecode should not be destructured
 import {OrderOneAbout, UserAddOrder} from "../components";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Dialog } from "@material-tailwind/react";
 
 function OrderDetails() {
@@ -152,6 +152,7 @@ function OrderDetails() {
           userId={userId}
         />
       </Dialog>
+      <ToastContainer/>
     </div>
   );
 }

@@ -29,6 +29,9 @@ import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
 import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
+import WorkerGetProducts from "./Pages/WorkerGetProducts.jsx";
+import { ToastContainer } from "react-toastify";
+
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
@@ -137,6 +140,7 @@ function App() {
               path="/stirCompany/:id"
               element={
                 <ProtectedRoute
+
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
@@ -238,6 +242,7 @@ function App() {
                 </ProtectedRoute>
               }
             /> */}
+
 
             <Route
               path="/profile"
@@ -342,7 +347,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <Message />
+                    <WorkerGetProducts />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -373,6 +378,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/get-products"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <WorkerGetProducts />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
           </>
         )}
       </Routes>
@@ -396,6 +414,7 @@ function App() {
           },
         }}
       />
+      <ToastContainer/>
     </QueryClientProvider>
   );
 }

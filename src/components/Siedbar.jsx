@@ -92,10 +92,10 @@ const WorkerMenuItems = [
   },
   {
     id: 4,
-    name: "Message",
+    name: "Olingan Tovarlar",
     unActive: MessageBlack,
     active: MessageWhite,
-    link: "/message",
+    link: "/get-products",
   },
   {
     id: 5,
