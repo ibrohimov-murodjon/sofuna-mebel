@@ -106,11 +106,7 @@ function ProductTable({ setUiData, uiData, api }) {
 
                   </p>
                 </th> */}
-                <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
-                    Qarzdorlik
-                  </p>
-                </th>
+            
                 <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
@@ -179,13 +175,6 @@ function ProductTable({ setUiData, uiData, api }) {
                           {user.company_name}
                         </p>
                       </td> */}
-
-
-<td className="p-4 border-b border-blue-gray-50 text-center">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
-                          {user.debt}
-                        </p>
-                      </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <span className="flex items-center justify-end gap-2">
                           <button

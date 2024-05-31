@@ -37,17 +37,20 @@ function XodimProfil({ onCloseModal }) {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Fetch error:", error);
       });
   };
+ 
   useEffect(() => {
     getUser();
   }, [id]);
+
   const handleEditClick = () => {
-    if (!users) return; // Prevent opening modal if data not loaded
-    onCloseModal("edit", users); // Call onCloseModal with modal name and user data
+    if (!users) return; 
+    onCloseModal("edit", users); 
   };
   if (!users) {
     return <div>Loading...</div>;

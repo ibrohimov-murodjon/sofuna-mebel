@@ -35,7 +35,6 @@ function DatePicker({ filterDateData, setUiData, data }) {
       filterDateData(data);
     }
   };
-
   return (
     <Datepicker
       classNames="z-10"
@@ -55,5 +54,4 @@ function DatePicker({ filterDateData, setUiData, data }) {
     />
   );
 }
-
 export default DatePicker;
