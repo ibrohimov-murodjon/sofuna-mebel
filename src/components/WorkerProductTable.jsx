@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function WorkerProductTable({ setUiData, uiData, api }) {
   const [loader, setLoader] = useState(false);
-const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   return (
     <>
       {loader ? (
@@ -36,11 +38,13 @@ const navigate = useNavigate()
                   </p>
                 </th>
 
-                <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm text-left antialiased font-normal leading-none text-white">
-                    Actions
-                  </p>
-                </th>
+                {pathname === "/product" && (
+                  <th className="p-4 border-b bg-blue-600">
+                    <p className="block font-sans text-sm text-left antialiased font-normal leading-none text-white">
+                      Actions
+                    </p>
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -58,7 +62,7 @@ const navigate = useNavigate()
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
                         <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name?.charAt() + user.name?.slice(1)}
+                          {user.name?.charAt(0).toUpperCase() + user.name?.slice(1)}
                         </p>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
@@ -72,13 +76,18 @@ const navigate = useNavigate()
                         </p>
                       </td>
 
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <span onClick={() => {
-                          navigate(`/product/${user.id}`)
-                        }} className="bg-blue-800 text-white p-3 cursor-pointer">
-                          Mahsulot Olish
-                        </span>
-                      </td>
+                      {pathname === "/product" && (
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span
+                            onClick={() => {
+                              navigate(`/product/${user.id}`);
+                            }}
+                            className="bg-blue-800 text-white p-3 cursor-pointer"
+                          >
+                            Mahsulot Olish
+                          </span>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
@@ -86,7 +95,6 @@ const navigate = useNavigate()
           </table>
         </div>
       )}
-   
     </>
   );
 }
