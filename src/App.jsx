@@ -1,10 +1,10 @@
-import {ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import RoutesLayout from "./Layout/RoutesLayout.jsx";
 import { jwtDecode } from "jwt-decode";
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from "react-hot-toast";
 import {
   ErrorPage,
   Home,
@@ -27,6 +27,7 @@ import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
 import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
 import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
+import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
 
 function App() {
@@ -34,7 +35,6 @@ function App() {
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   function fetchUserRole() {
     if (token) {
@@ -55,7 +55,6 @@ function App() {
     fetchUserRole();
   }, [navigate, token]);
 
-
   function ProtectedRoute({
     children,
     redirectTo = "/login",
@@ -74,10 +73,10 @@ function App() {
         staleTime: 60 * 1000,
       },
     },
-  })
+  });
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false}/>
+      <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyles />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -158,6 +157,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/maxsulotQoshish"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <MaxsulotQoshish />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -319,7 +331,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                  <WorkerProductDetail />
+                    <WorkerProductDetail />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -366,24 +378,25 @@ function App() {
           </>
         )}
       </Routes>
-      <Toaster position='top-right' 
-      gutter={12}
-      containerStyle={{margin:'8px'}}
-      toastOptions={{
-        success:{
-          duration:3000
-        },
-        error:{
-          duration:5000
-        },
-        style:{
-          fontSize:"16px",
-          maxWidth: "500px",
-          padding: "16px 24px",
-          backgroundColor: "grey",
-          color:"black"
-        }
-      }}
+      <Toaster
+        position="top-right"
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            backgroundColor: "grey",
+            color: "black",
+          },
+        }}
       />
     </QueryClientProvider>
   );
