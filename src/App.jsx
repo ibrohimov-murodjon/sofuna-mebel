@@ -24,13 +24,13 @@ import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
 import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
 import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
+import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   function fetchUserRole() {
     if (token) {
@@ -50,7 +50,6 @@ function App() {
     }
     fetchUserRole();
   }, [navigate, token]);
-
 
   function ProtectedRoute({
     children,
@@ -147,6 +146,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <UserProfile />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/maxsulotQoshish"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <MaxsulotQoshish />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
