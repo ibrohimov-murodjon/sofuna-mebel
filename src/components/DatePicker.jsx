@@ -6,11 +6,9 @@ function DatePicker({ filterDateData }) {
     start_date: null,
     end_date: null,
   });
-
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
-
+    console.log(value);
     fetch(`https://custom.uz/products/order/filter-date/`, {
       method: "POST",
       headers: {
@@ -25,10 +23,8 @@ function DatePicker({ filterDateData }) {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        // You can add error handling here, like displaying a message to the user
       });
   };
-
   return (
     <Datepicker
       classNames="z-10"
@@ -48,5 +44,4 @@ function DatePicker({ filterDateData }) {
     />
   );
 }
-
 export default DatePicker;

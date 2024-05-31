@@ -1,4 +1,5 @@
 import { Button, Dialog } from "@material-tailwind/react";
+import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,7 +11,6 @@ import Loader from "../components/Loader";
 function Expenses() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [data, setData] = useState("");
   const priceInputRef = useRef(null);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
@@ -18,14 +18,20 @@ function Expenses() {
   const [loader, setLoader] = useState(false);
   const [updateView, setUpdateView] = useState(false);
   const handleOpen = (value) => setSize(value);
-
   const token = useSelector((state) => state.userToken.token);
-  const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
 
   const deleteCloseFun = () => {
     setSize(null);
   };
-
+  const getExpensesFn = async () => {
+    const request = await fetch("https://custom.uz/products/cost/")
+    const response = await request.json()
+    return response
+  }
+  const {data, isLoading } = useQuery({
+    queryKey:["expenses"],
+    queryFn:getExpensesFn
+  })
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -45,27 +51,26 @@ function Expenses() {
       price: price,
       description: description,
     };
-
     setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setData((prevData) => [...prevData, data]);
-        notify();
-        setValueReset();
-      }
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    } finally {
-      setLoader(false);
-    }
+    // try {
+    //   const response = await fetch(`https://custom.uz/products/cost/`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(requestData),
+    //   });
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     setData((prevData) => [...prevData, data]);
+    //     notify();
+    //     setValueReset();
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting data:", error);
+    // } finally {
+    //   setLoader(false);
+    // }
   };
 
   const handleUpdate = (item) => {
@@ -75,79 +80,61 @@ function Expenses() {
     setUpdateView(true);
   };
 
-  async function updateExpense(id) {
-    setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          price: price,
-          description: description,
-        }),
-      });
+  // async function updateExpense(id) {
+  //   setLoader(true);
+  //   try {
+  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         price: price,
+  //         description: description,
+  //       }),
+  //     });
 
-      if (response.ok) {
-        notify();
-        setValueReset();
-      } else {
-        console.error("Update error:", response.status);
-      }
-    } catch (error) {
-      console.error("Update error:", error);
-    } finally {
-      setLoader(false);
-    }
-  }
+  //     if (response.ok) {
+  //       notify();
+  //       setValueReset();
+  //     } else {
+  //       console.error("Update error:", response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error("Update error:", error);
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
 
-  async function deleteProduct(id) {
-    setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  // async function deleteProduct(id) {
+  //   setLoader(true);
+  //   try {
+  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      if (response.ok) {
-        let copied = JSON.parse(JSON.stringify(data));
-        const updatedUiData = copied.filter((user) => user.id !== id);
-        setData(updatedUiData);
-        deleteCloseFun();
-        notify();
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      toast.error("Error deleting user", {
-        position: "top-center",
-        autoClose: 1500,
-      });
-    } finally {
-      setLoader(false);
-    }
-  }
-
-  useEffect(() => {}, [data]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("https://custom.uz/products/cost/");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, [data]);
-
+  //     if (response.ok) {
+  //       let copied = JSON.parse(JSON.stringify(data));
+  //       const updatedUiData = copied.filter((user) => user.id !== id);
+  //       setData(updatedUiData);
+  //       deleteCloseFun();
+  //       notify();
+  //     }
+  //   } catch (error) {
+  //     console.error("Delete error:", error);
+  //     toast.error("Error deleting user", {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
+  
   const setValueReset = () => {
     setPrice("");
     setDescription("");

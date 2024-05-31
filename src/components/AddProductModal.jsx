@@ -9,7 +9,8 @@ import {
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import styled from "@emotion/styled";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AddElement } from "../fetchMethods/AddMethod";
 const Select = styled.select`
   &:focus {
     outline: none;
@@ -32,18 +33,27 @@ function AddOrderModal({ api, title, getApi }) {
   const [productQty, setProductQty] = useState("");
   const [productDollarKurs, setProductDollarKurs] = useState("");
   const [buyurtmaBeruvchi, setBuyurtmaBeruvchi] = useState("");
-  const [payment, setPayment] = useState("");
   const [buyurtmachiCompany, setBuyurtmachiCompany] = useState("");
   const [productNameError, setProductNameError] = useState(false);
   const [productPriceError, setProductPriceError] = useState(false);
   const [productQtyError, setProductQtyError] = useState(false);
-  const [paymentError, setPaymentError] = useState(false);
   const [productDollarKursError, setProductDollarKursError] = useState(false);
   const [buyurtmaBeruvchiError, setBuyurtmaBeruvchiError] = useState(false);
   const [buyurtmachiCompanyError, setBuyurtmachiCompanyBeruvchiError] =
     useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
+  const queryClient = useQueryClient()
+  const {mutate} = useMutation({
+    mutationFn: (newOrder) => AddElement(newOrder,api),
+    onSuccess: () => {
+      toast.success("Buyurtma qo'shildi")
+      queryClient.invalidateQueries({
+        queryKey:['products']
+      })
+    },
+    onError: () => toast.error("Buyurtma qo'shishda muammo")
+  })
   const handleSubmit = () => {
     if (!productName.trim().length > 0) {
       setProductNameError(true);
@@ -62,12 +72,6 @@ function AddOrderModal({ api, title, getApi }) {
       return;
     } else {
       setProductQtyError(false);
-    }
-    if (!payment) {
-      setPaymentError(true);
-      return;
-    } else {
-      setPaymentError(false);
     }
     if (!buyurtmaBeruvchi) {
       setBuyurtmaBeruvchiError(true);
@@ -91,10 +95,9 @@ function AddOrderModal({ api, title, getApi }) {
       productName &&
       productPrice &&
       productQty &&
-      productDollarKurs &&
-      api == "https://custom.uz/products/api/"
+      productDollarKurs 
     ) {
-      const product = {
+      const newProduct = {
         name: productName,
         qty: Number(productQty),
         price: Number(productPrice),
@@ -102,29 +105,12 @@ function AddOrderModal({ api, title, getApi }) {
         description: "yaxshi",
         measurement: productMeasurement,
         category: productType,
-        payment: payment,
       };
-      fetch(`${api}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          notify();
-          getApi();
-        })
-        .catch((error) => {
-          console.error("Login error:", error);
-        });
+      mutate(newProduct)
       setProductName("");
       setProductPrice("");
       setProductQty("");
       setOpen(false);
-    } else {
-      console.log(1212121);
     }
   };
 
@@ -227,7 +213,9 @@ function AddOrderModal({ api, title, getApi }) {
                   size="lg"
                   error={productQtyError}
                 />
-                <Typography className="-mb-2" variant="h6">
+              </div>
+              <div className="flex items-start flex-col gap-2 w-80">
+              <Typography className="-mb-2" variant="h6">
                   Maxsulot narxi
                 </Typography>
                 <Input
@@ -239,8 +227,6 @@ function AddOrderModal({ api, title, getApi }) {
                   size="lg"
                   error={productPriceError}
                 />
-              </div>
-              <div className="flex items-start flex-col gap-2 w-80">
                 <Typography className="-mb-2" variant="h6">
                   {title} beruvchi(STIR)
                 </Typography>
@@ -266,18 +252,6 @@ function AddOrderModal({ api, title, getApi }) {
                   type="text"
                   size="lg"
                   error={buyurtmachiCompanyError}
-                />
-
-                <Typography className="-mb-2" variant="h6">
-                  Qilingan to&apos;lov
-                </Typography>
-                <Input
-                  value={payment}
-                  onChange={(e) => setPayment(e.target.value)}
-                  required
-                  label="Qilingan to'lov"
-                  size="lg"
-                  error={paymentError}
                 />
                 <Typography className="-mb-2" variant="h6">
                   Dollar kursi

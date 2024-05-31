@@ -72,22 +72,6 @@ function AddProduct({api}) {
         measurement: productMeasurement,
       };
       mutate(newOrder)
-      // console.log(mutate(newOrder ));
-      // fetch(`https://custom.uz/products/order/api/`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(product),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     notify();
-      //     // getApi();
-      //   })
-      //   .catch((error) => {
-      //     alert("Login error:", error);
-      //   });
       setProductName("");
       setProductQty("");
       setOpen(false);
