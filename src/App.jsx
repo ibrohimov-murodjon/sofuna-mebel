@@ -32,13 +32,11 @@ import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
 import WorkerGetProducts from "./Pages/WorkerGetProducts.jsx";
 import { ToastContainer } from "react-toastify";
 
-
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   function fetchUserRole() {
     if (token) {
       const decodedToken = jwtDecode(token);
