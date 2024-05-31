@@ -68,7 +68,6 @@ function Order() {
       })
     );
   }
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["orders"],
     queryFn: fetchOrderData,

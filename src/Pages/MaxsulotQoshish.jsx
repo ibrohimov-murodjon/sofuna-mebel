@@ -3,21 +3,22 @@ import { DeleteBtn, EditBTn } from "../assets";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { Loader, OutlineDeleteModal } from "../components";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
+import { AddElement } from "../fetchMethods/AddMethod";
 
 function MaxsulotQoshish() {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [data, setData] = useState([]);
   const nameInputRef = useRef(null);
   const priceInputRef = useRef(null);
-  const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [updateView, setUpdateView] = useState(false);
   const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
 
+  
   const setValueReset = () => {
     setPrice("");
     setName("");
@@ -25,7 +26,37 @@ function MaxsulotQoshish() {
     setOpenAddModal(false);
     setOpenDeleteModal(false);
   };
-
+  const API = "https://custom.uz/products/company-product/" 
+  const queryClient = useQueryClient()
+  const getAddProductFn = async () => {
+    const request = await fetch(API)
+    const response = await request.json()
+    return response
+  }
+  const {data, isLoading} = useQuery({
+    queryKey: ["addProducts"],
+    queryFn: getAddProductFn
+  })
+  const {mutate:deleteMutate } = useMutation({
+    mutationFn: (id) => deleteElement(id, API),
+    onSuccess: () => {
+      toast.success("Masulot muaffaqiyatli o'chirildi")
+      queryClient.invalidateQueries({
+        queryKey:["addProducts"]
+      })
+    },
+    onError: () => toast.success("Mahsulot o'chirishdagi xatolik!")
+  })
+  const {mutate: addMutate} = useMutation({
+    mutationFn: (newData) => AddElement(newData, API),
+    onSuccess: () => {
+      toast.success("Malumot muaffaqiyatli qo'shildi")
+      queryClient.invalidateQueries({
+        queryKey:["addProducts"]
+      })
+    },
+    onError: () => toast.error("Malumot qo'shishdagi xatolik!")
+  })
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -38,89 +69,48 @@ function MaxsulotQoshish() {
       nameInputRef.current.focus();
       return;
     }
-    const requestData = {
+    const newData = {
       price: price,
       name: name,
     };
     setOpenAddModal(false);
-    setLoader(true);
-    try {
-      const response = await fetch(
-        `https://custom.uz/products/company-product/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData((prevData) => [...prevData, data]);
-        notify();
-        setValueReset();
-        console.log(data);
-      }
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    } finally {
-      setLoader(false);
-    }
+    addMutate(newData)
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          "https://custom.uz/products/company-product/"
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, [data]);
 
-  async function deleteProduct(id) {
-    setLoader(true);
-    try {
-      const response = await fetch(
-        `https://custom.uz/products/company-product/${id}/`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  // async function deleteProduct(id) {
+  //   try {
+  //     const response = await fetch(
+  //       `https://custom.uz/products/company-product/${id}/`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-      if (response.ok) {
-        let copied = JSON.parse(JSON.stringify(data));
-        const updatedUiData = copied.filter((user) => user.id !== id);
-        setData(updatedUiData);
-        setOpenDeleteModal(false);
-        notify();
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      toast.error("Error deleting user", {
-        position: "top-center",
-        autoClose: 1500,
-      });
-    } finally {
-      setLoader(false);
-    }
-  }
+  //     if (response.ok) {
+  //       let copied = JSON.parse(JSON.stringify(data));
+  //       const updatedUiData = copied.filter((user) => user.id !== id);
+  //       setData(updatedUiData);
+  //       setOpenDeleteModal(false);
+  //       notify();
+  //     }
+  //   } catch (error) {
+  //     console.error("Delete error:", error);
+  //     toast.error("Error deleting user", {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
 
   return (
     <>
-      {loader && <Loader />}
+      {isLoading && <Loader />}
       <div
         style={{
           padding: "20px",
@@ -340,12 +330,11 @@ function MaxsulotQoshish() {
         >
           <OutlineDeleteModal
             handleClose={() => setOpenDeleteModal(false)}
-            deleteUser={() => deleteProduct(userId)}
+            deleteUser={() => deleteMutate(userId)}
           />
         </Dialog>
       </div>
     </>
   );
 }
-
 export default MaxsulotQoshish;

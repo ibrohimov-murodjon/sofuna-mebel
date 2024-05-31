@@ -29,13 +29,11 @@ import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
 import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
-
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   function fetchUserRole() {
     if (token) {
       const decodedToken = jwtDecode(token);

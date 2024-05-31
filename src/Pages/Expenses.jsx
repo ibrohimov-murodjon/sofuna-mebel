@@ -1,5 +1,5 @@
 import { Button, Dialog } from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,7 +7,10 @@ import { toast } from "react-toastify";
 import { DeleteBtn, EditBTn } from "../assets";
 import { OutlineDeleteModal } from "../components";
 import Loader from "../components/Loader";
+import { AddElement } from "../fetchMethods/AddMethod";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
 
+const API = 'https://custom.uz/products/cost/'
 function Expenses() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -22,8 +25,9 @@ function Expenses() {
   const deleteCloseFun = () => {
     setSize(null);
   };
+  //!Get expenses
   const getExpensesFn = async () => {
-    const request = await fetch("https://custom.uz/products/cost/")
+    const request = await fetch(API)
     const response = await request.json()
     return response
   }
@@ -31,6 +35,29 @@ function Expenses() {
     queryKey:["expenses"],
     queryFn:getExpensesFn
   })
+  //! DELETE
+  const queryClient = useQueryClient()
+  const {mutate: deleteMutate} = useMutation({
+    mutationFn: (id) => deleteElement(id, API),
+    onSuccess: () => {
+      toast.success("Xarajat muaffaqiyatli o'chirildi")
+      queryClient.invalidateQueries({
+        queryKey:['expenses']
+      })
+    },
+    onError: () => alert("Xarajat o'chirishdagi muammo")
+  })
+
+    const { mutate: addMutate } = useMutation({
+      mutationFn: (newExpenses) => AddElement(newExpenses, API),
+      onSuccess: () => {
+        toast.success("Muaffiqiyatli qo'shildi")
+        queryClient.invalidateQueries({
+          queryKey: ["expenses"]
+        })
+      },
+      onError: () => toast.success("Malumot qo'shishda xatolik!")
+    })
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -43,33 +70,14 @@ function Expenses() {
       descriptionInputRef.current.focus();
       return;
     }
-
     const decodedToken = jwtDecode(token);
-    const requestData = {
+      //! Add expenses
+    const newExpenses = {
       user: decodedToken.user_id,
       price: price,
       description: description,
     };
-    setLoader(true);
-    // try {
-    //   const response = await fetch(`https://custom.uz/products/cost/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestData),
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setData((prevData) => [...prevData, data]);
-    //     notify();
-    //     setValueReset();
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting data:", error);
-    // } finally {
-    //   setLoader(false);
-    // }
+    addMutate(newExpenses)
   };
 
   const handleUpdate = (item) => {
@@ -105,39 +113,13 @@ function Expenses() {
   //     setLoader(false);
   //   }
   // }
-
-  // async function deleteProduct(id) {
-  //   setLoader(true);
-  //   try {
-  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       let copied = JSON.parse(JSON.stringify(data));
-  //       const updatedUiData = copied.filter((user) => user.id !== id);
-  //       setData(updatedUiData);
-  //       deleteCloseFun();
-  //       notify();
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete error:", error);
-  //     toast.error("Error deleting user", {
-  //       position: "top-center",
-  //       autoClose: 1500,
-  //     });
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // }
+  
   
   const setValueReset = () => {
     setPrice("");
     setDescription("");
     setUpdateView(false);
+    deleteCloseFun()
   };
 
   return (
@@ -149,6 +131,8 @@ function Expenses() {
         <div>
           <button
             onClick={() => {
+              setDescription('')
+              setPrice('')
               setUpdateView(false);
               handleOpen('sm')
             }}
@@ -284,7 +268,7 @@ function Expenses() {
         >
           <OutlineDeleteModal
             handleClose={deleteCloseFun}
-            deleteUser={() => deleteProduct(userId)}
+            deleteUser={() => deleteMutate(userId)}
           />
         </Dialog>
       </div>
