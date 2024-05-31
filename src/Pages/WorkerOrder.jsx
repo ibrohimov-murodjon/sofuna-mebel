@@ -164,7 +164,7 @@ function WorkerOrder() {
             Qabul qilish
           </button>
         )}
-        {product.status == "PENDING" && (
+        {product.status == "pending" && (
           <>
             <input
               type="number"

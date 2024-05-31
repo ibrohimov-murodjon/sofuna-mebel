@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // remove curly braces
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -56,15 +56,16 @@ const OrderCard = styled.div`
   }
 `;
 
-let a = "lorem sjj ks  sdskdskd sdks d skjd sk dsjdkskdsdsk";
 const BajarilganIshlar = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
+
   function handleNavigate(elId) {
     navigate(`/mahsulot/${elId}`);
   }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,8 +76,10 @@ const BajarilganIshlar = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
+        
+        console.log(result); 
         setData(
-          result.filter((order) => order.order.status == "SUCCESSFULLY")
+          result.filter((order) => order.order && order.order.status === "SUCCESSFULLY")
         );
       } catch (error) {
         alert(error);
@@ -84,7 +87,7 @@ const BajarilganIshlar = () => {
     };
     fetchData();
   }, []);
-  
+
   return (
     <Wrapper>
       {data.length > 0 &&
@@ -93,7 +96,7 @@ const BajarilganIshlar = () => {
             <OrderCard key={index}>
               <img src={Logo} alt="" />
               <h3>{el.order?.name}</h3>
-              <p>{el?.order?.description }</p>
+              <p>{el?.order?.description}</p>
               <button
                 onClick={() => {
                   handleNavigate(el.order.id);

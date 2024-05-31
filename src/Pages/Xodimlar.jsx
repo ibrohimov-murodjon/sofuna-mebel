@@ -232,14 +232,7 @@ function Xodimlar() {
                     </td>
                     <td className="py-2 px-4 border-b border-blue-gray-50">
                       <span className="flex items-center justify-center gap-5">
-                        <button
-                          className=""
-                          onClick={() => {
-                            handleOpen("xs");
-                          }}
-                        >
-                          <img src={EditBTn} alt="edit btn" />
-                        </button>
+                     
                         <button
                           className=""
                           onClick={() => {
