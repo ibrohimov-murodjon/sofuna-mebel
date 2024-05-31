@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Loader from "../components/Loader";
+import { ToastContainer } from "react-toastify";
 
 const Wrapper = styled.div`
   max-width: 1280px;
@@ -76,9 +77,9 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(
-          result.filter((order) => order.order.status !== "SUCCESSFULLY")
-        );
+
+        let data = result.orders;
+        setData(data.filter((order) => order.status !== "SUCCESSFULLY"));
 
         setLoader(false);
       } catch (error) {
@@ -89,6 +90,9 @@ const Profile = () => {
     fetchData();
   }, []);
 
+  function handleNavigate(elId) {
+    navigate(`/mahsulot/${elId}`);
+  }
   return (
     <Wrapper>
       <div style={{ display: loader ? "block" : "none" }}>
@@ -99,13 +103,13 @@ const Profile = () => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
-              <h3>{el?.order?.name}</h3>
-              <p>{`${el.order.description.slice(0, 100)} ${
-                el.order.description.length > 100 ? "..." : ""
+              <h3>{el?.name}</h3>
+              <p>{`${el.description.slice(0, 100)} ${
+                el.description.length > 100 ? "..." : ""
               }`}</p>
               <button
                 onClick={() => {
-                  handleNavigate(el.order.id);
+                  handleNavigate(el.id);
                 }}
               >
                 Batafsil
@@ -113,6 +117,7 @@ const Profile = () => {
             </OrderCard>
           );
         })}
+        <ToastContainer/>
     </Wrapper>
   );
 };

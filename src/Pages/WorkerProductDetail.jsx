@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 const Wrapper = styled.div`
   max-width: 768px;
   gap: 40px;
@@ -70,7 +70,10 @@ function WorkerProductDetail() {
       fetchData();
       setInputValue('')
       setLoader(false);
-      toast.success("Mahsulot olindi")
+      toast.success("Mahsulot olindi",{
+        position:"top-center",
+        autoClose:1500
+      })
     } catch (error) {
       setLoader(false);
       toast.error("Mahsulot olinmadi qatya urining")
@@ -126,6 +129,7 @@ function WorkerProductDetail() {
           </button>
         </>
       </div>
+      <ToastContainer/>
     </Wrapper>
   );
 }

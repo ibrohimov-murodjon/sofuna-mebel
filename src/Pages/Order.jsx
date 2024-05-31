@@ -15,6 +15,7 @@ import {
 } from "@material-tailwind/react";
 
 import { AddOrderModal, DatePicker, Loader, OrderTable, } from "../components";
+import { ToastContainer } from "react-toastify";
 
 const STATUS = [
   {
@@ -148,6 +149,7 @@ function Order() {
           </CardBody>
         </Card>
       )}
+      <ToastContainer/>
     </>
   );
 }
