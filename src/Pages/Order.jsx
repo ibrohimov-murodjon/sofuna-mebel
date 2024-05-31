@@ -36,7 +36,7 @@ const STATUS = [
 ];
 function Order() {
   const queryClient = useQueryClient()
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState([]); 
   const [filteredData, setFilteredData] = useState([]);
   const fetchOrderData = async () => {
     const response = await fetch(
@@ -44,13 +44,14 @@ function Order() {
     );
     const data = await response.json();
     setCategory(data);
+    setFilteredData(data)
     return data;
   };
+  console.log();
   function handleFilterData(filteredData) {
     // Update the filteredData state with the received data
     setFilteredData(filteredData);
   }
-
   function categoryFilter(category) {
     setCategory(
       data.filter((order) => {
@@ -77,26 +78,6 @@ function Order() {
     //   })
     // }
   });
-  // async function getApi() {
-  //   try {
-  //     setLoader(true);
-  //     const response = await fetch("https://custom.uz/products/order/api/");
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     const data = await response.json();
-  //     setData(data);
-  //     setCategory(data);
-  //     setLoader(false);
-  //   } catch (error) {
-  //     setLoader(false);
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   getApi();
-  // }, []);
-
   return (
     <>
       {isLoading ? (

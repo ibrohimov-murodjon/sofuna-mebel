@@ -11,8 +11,9 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import {OutlineDeleteModal} from "../components/index.js";
+import {Loader, OutlineDeleteModal} from "../components/index.js";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const TABS = [
   {
@@ -34,7 +35,6 @@ const TABS = [
 ];
 
 function Xodimlar() {
-  const [worker, setWorker] = useState([]);
   const [category, setCategory] = useState([]);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
@@ -88,7 +88,7 @@ function Xodimlar() {
 
   function categoryFilter(category) {
     setCategory(
-      worker.filter((user) => {
+      data.filter((user) => {
         if (category === "all") return user.user_roles;
         else return user.user_roles === category;
       })
@@ -97,30 +97,31 @@ function Xodimlar() {
 
   function searchFn(word) {
     setCategory(
-      worker.filter((user) => {
+      data.filter((user) => {
         return user.first_name.toLowerCase().includes(word);
       })
     );
   }
 
-  useEffect(() => {
-    fetch("https://custom.uz/users/")
-      .then((res) => res.json())
-      .then((data) => {
-        setWorker(data);
-        setCategory(data);
-      })
-      .catch((error) => console.error("malumot olishda xatolik:", error));
-  }, []);
-
-  
+  const getStackFn = async () => {
+    const response = await fetch("https://custom.uz/users/")
+    const data = await response.json()
+    setCategory(data)
+    return data
+  }
+  const {data, isLoading} = useQuery({
+    queryKey:["stack"],
+    queryFn: getStackFn
+  })
   function handleSubmit(id) {
     navigate(`/xodimlar/${id}`);
   }
 
   return (
     <>
-      <Card style={{ width: "99%" }} className="rounded-md mt-2 relative">
+    {isLoading ? <Loader/> :
+    <>
+    <Card style={{ width: "99%" }} className="rounded-md mt-2 relative">
         <CardHeader
           style={{ width: "96%" }}
           floated={false}
@@ -267,6 +268,9 @@ function Xodimlar() {
         />
       </Dialog>
       <ToastContainer />
+    </>
+    }
+      
     </>
   );
 }
