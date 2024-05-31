@@ -30,6 +30,7 @@ import Expenses from "./Pages/Expenses.jsx";
 import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
 
+
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
@@ -139,6 +140,7 @@ function App() {
               path="/stirCompany/:id"
               element={
                 <ProtectedRoute
+
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
@@ -240,6 +242,7 @@ function App() {
                 </ProtectedRoute>
               }
             /> */}
+
 
             <Route
               path="/profile"
