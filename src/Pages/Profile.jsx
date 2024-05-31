@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import Loader from "../components/Loader";
 
-
 const Wrapper = styled.div`
   max-width: 1280px;
   padding: 10px;
@@ -62,15 +61,13 @@ const Profile = () => {
   const token = useSelector((state) => state.userToken.token);
   const decodedToken = jwtDecode(token);
   const [data, setData] = useState([]);
-  const [loader,setLoader] = useState(false)
-  let a = ` Lorem ipsum dolor spariatur corporis. Accusamus
-  id excepturi commodi blanditiis veritatis!fdsadadasdasdasdsadasdasdasdassadasssssssssssssssssssss`;
-  function handleNavigate(elId) {
+  const [loader, setLoader] = useState(false);
+  -function handleNavigate(elId) {
     navigate(`/mahsulot/${elId}`);
-  }
+  };
   useEffect(() => {
     const fetchData = async () => {
-      setLoader(true)
+      setLoader(true);
       try {
         const response = await fetch(
           `https://custom.uz/products/worker-work/${decodedToken.user_id}`
@@ -79,32 +76,40 @@ const Profile = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        setData(result.filter(order => order.order.status !== 'SUCCESSFULLY'));
-        
-        setLoader(false)
+        setData(
+          result.filter((order) => order.order.status !== "SUCCESSFULLY")
+        );
+
+        setLoader(false);
       } catch (error) {
         console.log(error);
-        setLoader(false)
+        setLoader(false);
       }
     };
-    fetchData()
+    fetchData();
   }, []);
+
   return (
     <Wrapper>
-      <div style={{display:loader ? "block"  :"none"}}>
-        <Loader/>
+      <div style={{ display: loader ? "block" : "none" }}>
+        <Loader />
       </div>
       {data.length > 0 &&
-      data.map((el, index) => {
+        data.map((el, index) => {
           return (
             <OrderCard key={index}>
               <img src={Logo} alt="" />
               <h3>{el?.order?.name}</h3>
-              <p>{`${el.order.description.slice(0, 100)} ${el.order.description.length > 100 && "..."}`}</p>
-              <button onClick={() => {
-                handleNavigate(el.order.id)
-              }
-              }>Batafsil</button>
+              <p>{`${el.order.description.slice(0, 100)} ${
+                el.order.description.length > 100 ? "..." : ""
+              }`}</p>
+              <button
+                onClick={() => {
+                  handleNavigate(el.order.id);
+                }}
+              >
+                Batafsil
+              </button>
             </OrderCard>
           );
         })}
