@@ -33,7 +33,7 @@ const StyledOption = styled.option`
   width: 300px !important;
 `;
 
-const OrderUpdateModal = ({ getApi, product }) => {
+const OrderUpdateModal = ({ product }) => {
   const productId = product.id;
   const { measurementName } = GetMeasurement(product.measurement);
   const [open, setOpen] = useState(false);
@@ -78,7 +78,6 @@ const OrderUpdateModal = ({ getApi, product }) => {
       .then((res) => res.json())
       .then(() => {
         notify();
-        getApi();
         setProductName("");
         setProductQty("");
         setOpen(false);

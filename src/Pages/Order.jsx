@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
   Input,
@@ -6,16 +7,14 @@ import {
   Tabs,
   TabsHeader,
 } from "@material-tailwind/react";
-
 import {
   Card,
   CardHeader,
   Typography,
   CardBody,
 } from "@material-tailwind/react";
-import Loader from "../components/Loader";
-import AddOrderModal from "../components/AddOrderModal";
-import OrderTable from "../components/OrderTable";
+
+import { AddOrderModal, DatePicker, Loader, OrderTable, } from "../components";
 
 const STATUS = [
   {
@@ -36,9 +35,22 @@ const STATUS = [
   },
 ];
 function Order() {
-  const [data, setData] = useState([]);
+  const queryClient = useQueryClient()
   const [category, setCategory] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const fetchOrderData = async () => {
+    const response = await fetch(
+      "https://custom.uz/products/order-measurement/"
+    );
+    const data = await response.json();
+    setCategory(data);
+    return data;
+  };
+  function handleFilterData(filteredData) {
+    // Update the filteredData state with the received data
+    setFilteredData(filteredData);
+  }
+
   function categoryFilter(category) {
     setCategory(
       data.filter((order) => {
@@ -55,34 +67,42 @@ function Order() {
       })
     );
   }
-  async function getApi() {
-    try {
-      setLoader(true);
-      const response = await fetch("https://custom.uz/products/order-measurement/");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setData(data);
-      setCategory(data);
-      setLoader(false);
-    } catch (error) {
-      setLoader(false);
-      console.error("Error fetching data:", error);
-    }
-  }
 
-
-  useEffect(() => {
-    getApi();
-  }, []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrderData,
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({
+    //     queryKey:['orders'],
+    //   })
+    // }
+  });
+  // async function getApi() {
+  //   try {
+  //     setLoader(true);
+  //     const response = await fetch("https://custom.uz/products/order/api/");
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+  //     const data = await response.json();
+  //     setData(data);
+  //     setCategory(data);
+  //     setLoader(false);
+  //   } catch (error) {
+  //     setLoader(false);
+  //     console.error("Error fetching data:", error);
+  //   }
+  // }
+  // useEffect(() => {
+  //   getApi();
+  // }, []);
 
   return (
     <>
-      {loader ? (
+      {isLoading ? (
         <Loader />
       ) : (
-        <Card className=" mt-2 rounded-md w-full">
+        <Card className=" mt-2 rounded-md w-full relative">
           <CardHeader
             floated={false}
             shadow={false}
@@ -95,10 +115,7 @@ function Order() {
                 </Typography>
               </div>
               <div className="flex shrink-0 flex-col  gap-2 sm:flex-row">
-                <AddOrderModal
-                  getApi={getApi}
-                  api={"https://custom.uz/products/order/api/"}
-                />
+                <AddOrderModal api='https://custom.uz/products/order/api/'/>
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -106,7 +123,7 @@ function Order() {
                 <TabsHeader className="">
                   {STATUS.map(({ label, value }) => (
                     <Tab
-                      onClick={() => categoryFilter(value)}
+                       onClick={() => categoryFilter(value)}
                       key={value}
                       value={value}
                     >
@@ -124,6 +141,9 @@ function Order() {
               </div>
             </div>
           </CardHeader>
+          <div className="absolute right-[35%] top-[17%] z-[100] w-[21%]">
+            <DatePicker filterDateData={handleFilterData} />
+          </div>
           <CardBody className="p-0">
             <div className=" w-full min-w-max table-auto text-left">
               <div className="flex flex-col gap-3">
@@ -133,8 +153,8 @@ function Order() {
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}
-                      getApi= {getApi}
                       api={"https://custom.uz/products/order/api/"}
+                      filteredData={filteredData}
                     />
                   </>
                 ) : (
