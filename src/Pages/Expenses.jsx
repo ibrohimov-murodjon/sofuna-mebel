@@ -19,7 +19,6 @@ function Expenses() {
   const [updateView, setUpdateView] = useState(false);
   const handleOpen = (value) => setSize(value);
   const token = useSelector((state) => state.userToken.token);
-
   const deleteCloseFun = () => {
     setSize(null);
   };
@@ -147,95 +146,16 @@ function Expenses() {
       <div
         style={{ padding: "10px", backgroundColor: "white", margin: "10px" }}
       >
-        <div
-          style={{
-            marginTop: "30px",
-            backgroundColor: "#eeecec",
-            boxShadow: "20px 20px 60px  #d6d3d3, -20px -20px 60px #ffffff",
-            borderRadius: "10px",
-            padding: "20px",
-            width: "50%",
-            margin: "0px auto",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <h2
-            style={{
-              margin: " auto",
-              marginBottom: "10px",
-              textAlign: "center",
-              fontSize: "30px",
-              fontWeight: "bold",
-            }}
-          >
-            Harajat qo&lsquo;shish
-          </h2>
-          <form
-            onSubmit={handleSubmit}
-            style={{ width: "100%", margin: "0px auto" }}
-          >
-            <div className="relative w-full min-w-[200px] h-10">
-              <input
-                style={{ background: "#f5f5f5" }}
-                ref={priceInputRef}
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                type="number"
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
-                placeholder=" "
-              />
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                Harajat narxini kiriting
-              </label>
-            </div>
-            <div className="relative w-full min-w-[200px] h-28   mt-6">
-              <textarea
-                ref={descriptionInputRef}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                style={{ resize: "none", background: "#f5f5f5" }}
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
-                placeholder=""
-              ></textarea>
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                Nima uchun qo&apos;shilganini ko&apos;rsating
-              </label>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                marginTop: "20px",
-              }}
-            >
-              {updateView ? (
-                <>
-                  <Button
-                    onClick={setValueReset}
-                    style={{ width: "30%", marginRight: "10px" }}
-                    color="red"
-                  >
-                    Tozalash
-                  </Button>
-                  <Button
-                    onClick={() => updateExpense(userId)}
-                    style={{ width: "30%" }}
-                    color="blue"
-                  >
-                    O&apos;zgartirish
-                  </Button>
-                </>
-              ) : (
-                <Button type="submit" style={{ width: "30%" }} color="blue">
-                  Qo&apos;shish
-                </Button>
-              )}
-            </div>
-          </form>
-        </div>
         <div>
+          <button
+            onClick={() => {
+              setUpdateView(false);
+              handleOpen('sm')
+            }}
+            className="bg-blue-600 py-2 px-8 text-white rounded cursor-pointer"
+          >
+            Harajat Qo&apos;shish
+          </button>
           <h3
             style={{
               textAlign: "center",
@@ -246,6 +166,7 @@ function Expenses() {
           >
             HARAJATLAR JADVALI
           </h3>
+
           <table
             style={{
               width: "90%",
@@ -328,6 +249,7 @@ function Expenses() {
                             className=""
                             onClick={() => {
                               handleUpdate(item);
+                              handleOpen("sm");
                             }}
                           >
                             <img src={EditBTn} alt="edit btn" />
@@ -366,6 +288,97 @@ function Expenses() {
           />
         </Dialog>
       </div>
+      <Dialog open={size === "sm"} size={size || "sm"} handler={handleOpen}>
+        <div
+          style={{
+            marginTop: "30px",
+            backgroundColor: "#eeecec",
+            borderRadius: "10px",
+            padding: "20px",
+            margin: "0px auto",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <h2
+            style={{
+              margin: " auto",
+              marginBottom: "10px",
+              textAlign: "center",
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >
+            {updateView ? "Harajatni tahrirlash" : "Harajat qo'shish"}
+          </h2>
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", margin: "0px auto" }}
+          >
+            <div className="relative w-full min-w-[200px] h-10">
+              <input
+                style={{ background: "#f5f5f5" }}
+                ref={priceInputRef}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                type="number"
+                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
+                placeholder=" "
+              />
+              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
+                Harajat narxini kiriting
+              </label>
+            </div>
+            <div className="relative w-full min-w-[200px] h-28   mt-6">
+              <textarea
+                ref={descriptionInputRef}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                style={{ resize: "none", background: "#f5f5f5" }}
+                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
+                placeholder=""
+              ></textarea>
+              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
+                Nima uchun qo&apos;shilganini ko&apos;rsating
+              </label>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                marginTop: "20px",
+              }}
+            >
+              {updateView ? (
+                <>
+                  <Button
+                    onClick={setValueReset}
+                    style={{ width: "30%", marginRight: "10px" }}
+                    color="red"
+                  >
+                    Tozalash
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      updateExpense(userId);
+                      deleteCloseFun();
+                    }}
+                    style={{ width: "30%" }}
+                    color="blue"
+                  >
+                    O&apos;zgartirish
+                  </Button>
+                </>
+              ) : (
+                <Button type="submit" style={{ width: "30%" }} color="blue">
+                  Qo&apos;shish
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
+      </Dialog>
     </div>
   );
 }

@@ -2,7 +2,11 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
-import { Loader, OutlineDeleteModal, OrderUpdateModal } from "../components/index";
+import {
+  Loader,
+  OutlineDeleteModal,
+  OrderUpdateModal,
+} from "../components/index";
 import { useNavigate } from "react-router-dom";
 import { GetMeasurement } from "../hooks/GetMeasurement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -106,20 +110,19 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         </td>
 
                         <td className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-5">
-                    
-                          <OrderUpdateModal product = {user}  />
-                          <button
-                            className=""
-                            onClick={() => {
-                              setUserId(user.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </td>
+                          <span className="flex items-center justify-end gap-5">
+                            <OrderUpdateModal product={user} />
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
                       </tr>
                     );
                   })
@@ -157,20 +160,19 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         </td>
 
                         <td className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-5">
-                    
-                          <OrderUpdateModal product={user}  />
-                          <button
-                            className=""
-                            onClick={() => {
-                              setUserId(user.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </td>
+                          <span className="flex items-center justify-end gap-5">
+                            <OrderUpdateModal product={user} />
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
                       </tr>
                     );
                   })}
