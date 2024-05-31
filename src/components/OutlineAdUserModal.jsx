@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import styled from "@emotion/styled";
-import CloseIcon from "../../assets/exit.svg";
-import Button from "../Button/Button";
-import OutlinedInput from "../OutlineInput";
+import {CloseIcon} from "../assets";
+import {Button} from "../components";
 import { toast, ToastContainer } from "react-toastify";
+import OutlinedInput from './OutlinedInput'
 
 const MainWrapper = styled.div`
   position: relative;

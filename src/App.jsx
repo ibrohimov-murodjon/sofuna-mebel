@@ -1,7 +1,10 @@
+import {ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import RoutesLayout from "./Layout/RoutesLayout.jsx";
 import { jwtDecode } from "jwt-decode";
+import {Toaster} from 'react-hot-toast'
 import {
   ErrorPage,
   Home,
@@ -23,12 +26,14 @@ import XodimProfil from "./Pages/XodimProfil.jsx";
 import BarchaBuyurtma from "./Pages/BarchaBuyurtma.jsx";
 import BajarilganIshlar from "./Pages/BajarilganIshlar.jsx";
 import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
+import Expenses from "./Pages/Expenses.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   function fetchUserRole() {
     if (token) {
@@ -49,6 +54,7 @@ function App() {
     fetchUserRole();
   }, [navigate, token]);
 
+
   function ProtectedRoute({
     children,
     redirectTo = "/login",
@@ -59,14 +65,19 @@ function App() {
         navigate(redirectTo);
       }
     }, [isAuthentication, navigate, redirectTo]);
-
     return children;
   }
-
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  })
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false}/>
       <GlobalStyles />
-
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
@@ -105,9 +116,9 @@ function App() {
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
-                    <RoutesLayout>
-                      <Order />
-                    </RoutesLayout>
+                  <RoutesLayout>
+                    <Order />
+                  </RoutesLayout>
                 </ProtectedRoute>
               }
             />
@@ -128,6 +139,7 @@ function App() {
               path="/stirCompany/:id"
               element={
                 <ProtectedRoute
+
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
@@ -171,7 +183,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <Xodimlar />
+                    <Expenses />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -216,6 +228,7 @@ function App() {
                 </ProtectedRoute>
               }
             /> */}
+
 
             <Route
               path="/profile"
@@ -341,7 +354,26 @@ function App() {
           </>
         )}
       </Routes>
-    </>
+      <Toaster position='top-right' 
+      gutter={12}
+      containerStyle={{margin:'8px'}}
+      toastOptions={{
+        success:{
+          duration:3000
+        },
+        error:{
+          duration:5000
+        },
+        style:{
+          fontSize:"16px",
+          maxWidth: "500px",
+          padding: "16px 24px",
+          backgroundColor: "grey",
+          color:"black"
+        }
+      }}
+      />
+    </QueryClientProvider>
   );
 }
 

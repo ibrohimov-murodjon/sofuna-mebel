@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode"; // jwtDecode should not be destructured
-import OrderOneAbuot from "../components/OrderOneAbuot";
+import {OrderOneAbout, UserAddOrder} from "../components";
 import { toast } from "react-toastify";
 import { Dialog } from "@material-tailwind/react";
-import UserAddOrder from "../components/UserAddOrder";
 
 function OrderDetails() {
   const [users, setUsers] = useState([]);
@@ -77,7 +76,7 @@ function OrderDetails() {
   return (
     <div style={{ width: "98%", marginBottom: "50px" }}>
       <div>
-        <OrderOneAbuot />
+        <OrderOneAbout />
       </div>
       <table className="w-full text-left border-l-2 table-auto min-w-max">
         <thead className="bg-blue-600">

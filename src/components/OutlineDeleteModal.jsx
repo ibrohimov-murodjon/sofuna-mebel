@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "@emotion/styled";
-import CloseIcon from "../../assets/exit.svg";
-import Button from "../Button/Button";
+import {CloseIcon} from "../assets";
+import {Button} from "../components";
 
 const MainWrapper = styled.div`
   position: relative;
@@ -73,7 +73,10 @@ function OutlineDeleteModal({ handleClose, deleteUser }) {
           </div>
           <div>
             <Button
-              onClick={deleteUser}
+              onClick={() => {
+                deleteUser()
+                handleClose()}
+              }
               width="130px"
               bgColor="#0E95D8"
               value="O'chirish"

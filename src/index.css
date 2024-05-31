@@ -752,5 +752,5 @@ input[type="checkbox"] {
 }
 .placeholder-styled::placeholder {
   opacity: 1; /* Transparency */
-  color:#000000
+  color:#000000;
 }

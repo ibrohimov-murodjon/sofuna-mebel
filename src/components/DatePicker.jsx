@@ -1,32 +1,39 @@
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
-function DatePicker({ filterDateData }) {
+function DatePicker({ filterDateData, setUiData, data }) {
   const [value, setValue] = useState({
-    start_date: null,
-    end_date: null,
+    startDate: null,
+    endDate: null,
   });
 
+  console.log("newValue:", value);
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
-
-    fetch(`https://custom.uz/products/order/filter-date/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newValue),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        filterDateData(data);
+    console.log(newValue, "newValue:");
+    if (newValue.startDate !== null && newValue.endDate !== null) {
+      setValue(newValue);
+      fetch(`https://custom.uz/products/order/filter-date/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newValue),
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        // You can add error handling here, like displaying a message to the user
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          filterDateData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } else {
+      setValue({
+        startDate: null,
+        endDate: null,
       });
+      filterDateData(data);
+    }
   };
 
   return (

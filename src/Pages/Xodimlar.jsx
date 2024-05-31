@@ -1,4 +1,3 @@
-// Toastify
 import "react-toastify/dist/ReactToastify.css";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
@@ -11,9 +10,8 @@ import {
   Tab,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
 import { toast, ToastContainer } from "react-toastify";
-import OutlineDeleteModal from "../components/OutlineDeleteModal/OutlineDeleteModal";
+import {OutlineDeleteModal} from "../components/index.js";
 import { useNavigate } from "react-router-dom";
 
 const TABS = [
@@ -43,11 +41,6 @@ function Xodimlar() {
   const handleOpen = (value) => setSize(value);
   const navigate = useNavigate();
 
-  // const [value, setValue] = useState({
-  //   username: "",
-  //   password: "",
-  //   user_roles: "",
-  // });
 
   const deleteCloseFun = () => {
     setSize(null);
@@ -119,7 +112,8 @@ function Xodimlar() {
       })
       .catch((error) => console.error("malumot olishda xatolik:", error));
   }, []);
-console.log(worker);
+
+  
   function handleSubmit(id) {
     navigate(`/xodimlar/${id}`);
   }

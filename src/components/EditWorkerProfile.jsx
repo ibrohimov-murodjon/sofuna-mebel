@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import OutlinedInput from "../../components/OutlineInput";
-import Heading from "../../ui/Heading";
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
+import Heading from "../ui/Heading";
+import Button from "../ui/Button";
+import FileInput from "../ui/FileInput";
+import OutlinedInput from "./OutlinedInput";
 
 const FileForm = styled.div`
   border: 2px dashed var(--color-grey-300);
@@ -46,13 +46,10 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
         console.log(data);
         onCloseModal();
         getUser();
-        //  toast.success("Javobingiz yuborildi ", { position: "top-center" });
       })
       .catch((error) => {
-        //  toast.error("Javobingiz yuborilmadi ", { position: "top-center" });
         console.error("Error:", error);
       });
-    //    .finally(() => setLoading(false));
   };
   return (
     <>

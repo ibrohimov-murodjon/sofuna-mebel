@@ -1,54 +1,41 @@
-import { useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
-import Loader from "./Loader";
-import OutlineDeleteModal from "./OutlineDeleteModal/OutlineDeleteModal";
+import {
+  Loader,
+  OutlineDeleteModal,
+  OrderUpdateModal,
+} from "../components/index";
+import { useNavigate } from "react-router-dom";
 import { GetMeasurement } from "../hooks/GetMeasurement";
-
-function OrderTable({ setUiData, uiData, filteredData }) {
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
+function OrderTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
   const [measurement, setMeasurement] = useState("");
   const navigate = useNavigate();
-  console.log(uiData, "uiData");
-  console.log(filteredData, "filteredData");
   const handleOpen = (value) => setSize(value);
-  const deleteCloseFun = () => {
-    setSize(null);
-  };
-  const notify = () => toast.success("Maxsulot o'chirildi");
-
-  const deleteProduct = (id) => {
-    fetch(`https://custom.uz/products/order/api/${id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log("Order deleted successfully");
-          let copied = JSON.parse(JSON.stringify(uiData));
-          const updatedUiData = copied.filter((user) => user.id !== id);
-          setUiData(updatedUiData);
-          deleteCloseFun();
-          notify();
-        }
-      })
-      .catch((error) => {
-        console.error("Delete error:", error);
-        toast.error("Error deleting user", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (id) => deleteElement(id, api),
+    onSuccess: () => {
+      toast.success("Buyurtma muaffaqiyatli ochirildi");
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
       });
+    },
+    onError: (err) => alert("Buyurtma o'chirishdagi hatolik"),
+  });
+  const ModalCloseFun = () => {
+    setSize(null);
   };
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
   }
+  console.log(filteredData, "filteredData");
   return (
     <>
       {loader ? (
@@ -114,7 +101,7 @@ function OrderTable({ setUiData, uiData, filteredData }) {
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {measurementName}
+                            {user.measurement.name}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
@@ -125,14 +112,7 @@ function OrderTable({ setUiData, uiData, filteredData }) {
 
                         <td className="p-4 border-b border-blue-gray-50">
                           <span className="flex items-center justify-end gap-5">
-                            <button
-                              className=""
-                              onClick={() => {
-                                handleOpen("xs");
-                              }}
-                            >
-                              <img src={EditBTn} alt="edit btn" />
-                            </button>
+                            <OrderUpdateModal product={user} />
                             <button
                               className=""
                               onClick={() => {
@@ -182,14 +162,7 @@ function OrderTable({ setUiData, uiData, filteredData }) {
 
                         <td className="p-4 border-b border-blue-gray-50">
                           <span className="flex items-center justify-end gap-5">
-                            <button
-                              className=""
-                              onClick={() => {
-                                handleOpen("xs");
-                              }}
-                            >
-                              <img src={EditBTn} alt="edit btn" />
-                            </button>
+                            <OrderUpdateModal product={user} />
                             <button
                               className=""
                               onClick={() => {
@@ -211,7 +184,7 @@ function OrderTable({ setUiData, uiData, filteredData }) {
             open={size === "xs"}
             size={size || "md"}
             handler={handleOpen}
-            onClose={() => deleteCloseFun()}
+            onClose={() => ModalCloseFun()}
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -219,8 +192,8 @@ function OrderTable({ setUiData, uiData, filteredData }) {
             }}
           >
             <OutlineDeleteModal
-              handleClose={deleteCloseFun}
-              deleteUser={() => deleteProduct(userId)}
+              handleClose={ModalCloseFun}
+              deleteUser={() => mutate(userId)}
             />
           </Dialog>
         </div>
@@ -228,5 +201,4 @@ function OrderTable({ setUiData, uiData, filteredData }) {
     </>
   );
 }
-
 export default OrderTable;
