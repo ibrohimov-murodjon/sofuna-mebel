@@ -1,18 +1,16 @@
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 
-function DatePicker({ filterDateData, setUiData, data }) {
+function DatePicker({ filterDateData,  data, api }) {
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
 
-  console.log("newValue:", value);
   const handleValueChange = (newValue) => {
-    console.log(newValue, "newValue:");
     if (newValue.startDate !== null && newValue.endDate !== null) {
       setValue(newValue);
-      fetch(`https://custom.uz/products/order/filter-date/`, {
+      fetch(api, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +19,6 @@ function DatePicker({ filterDateData, setUiData, data }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           filterDateData(data);
         })
         .catch((error) => {

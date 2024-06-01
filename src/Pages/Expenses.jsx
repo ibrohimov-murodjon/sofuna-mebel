@@ -1,17 +1,20 @@
+import { useEffect, useRef, useState } from "react";
 import { Button, Dialog } from "@material-tailwind/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { DeleteBtn, EditBTn } from "../assets";
-import { OutlineDeleteModal } from "../components";
+import { OutlineDeleteModal, DatePicker } from "../components";
 import Loader from "../components/Loader";
+import Tag from "../ui/Tag";
+import { formatCurrency } from "../utils/helpers";
 import { AddElement } from "../fetchMethods/AddMethod";
 import { deleteElement } from "../fetchMethods/DeleteMethod";
 
 const API = 'https://custom.uz/products/cost/'
 function Expenses() {
+  const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const priceInputRef = useRef(null);
@@ -29,6 +32,7 @@ function Expenses() {
   const getExpensesFn = async () => {
     const request = await fetch(API)
     const response = await request.json()
+    setFilteredData(response);
     return response
   }
   const {data, isLoading } = useQuery({
@@ -58,6 +62,7 @@ function Expenses() {
       },
       onError: () => toast.success("Malumot qo'shishda xatolik!")
     })
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -79,6 +84,10 @@ function Expenses() {
     };
     addMutate(newExpenses)
   };
+  function handleFilterData(filteredData) {
+    // Update the filteredData state with the received data
+    setFilteredData(filteredData);
+  }
 
   const handleUpdate = (item) => {
     setUserId(item.id);
@@ -113,33 +122,53 @@ function Expenses() {
   //     setLoader(false);
   //   }
   // }
-  
-  
   const setValueReset = () => {
     setPrice("");
     setDescription("");
     setUpdateView(false);
     deleteCloseFun()
   };
-
+  const totalPrice = () => {
+    let sum = 0;
+    filteredData
+      ? filteredData.forEach((item) => (sum += item.price))
+      : data.forEach((item) => {
+          sum += item.price;
+        });
+    return sum;
+  };
   return (
     <div>
       {loader && <Loader />}
       <div
-        style={{ padding: "10px", backgroundColor: "white", margin: "10px" }}
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          margin: "10px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <div>
-          <button
-            onClick={() => {
+          <div className="flex items-center gap-24">
+            <button
+              onClick={() => {
               setDescription('')
               setPrice('')
               setUpdateView(false);
               handleOpen('sm')
             }}
-            className="bg-blue-600 py-2 px-8 text-white rounded cursor-pointer"
-          >
-            Harajat Qo&apos;shish
-          </button>
+              className="bg-blue-600 py-2 w-[30%] px-8 text-white rounded cursor-pointer"
+            >
+              Harajat Qo&apos;shish
+            </button>
+            <DatePicker
+              filterDateData={handleFilterData}
+              api={"https://custom.uz/products/cost/filter-date/"}
+            />
+          </div>
+
           <h3
             style={{
               textAlign: "center",
@@ -195,65 +224,126 @@ function Expenses() {
                 </th>
               </tr>
             </thead>
-            {data &&
-              data.map((item, index) => {
-                return (
-                  <>
-                    <tbody key={index}>
-                      <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
-                        <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
-                          {index + 1}
-                        </p>
-                      </th>
-                      <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
-                        <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.user.first_name}
-                        </p>
-                      </th>
-                      <th className="py-4 px-2 border-b border-blue-gray-50">
-                        <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.user.last_name}
-                        </p>
-                      </th>
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.price}
-                        </p>
-                      </th>
+            {filteredData
+              ? filteredData.map((item, index) => {
+                  return (
+                    <>
+                      <tbody key={index}>
+                        <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
+                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
+                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.first_name}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50">
+                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.last_name}
+                          </p>
+                        </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {formatCurrency(item.price)}
+                          </p>
+                        </th>
 
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.description}
-                        </p>
-                      </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.description}
+                          </p>
+                        </th>
 
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-5">
-                          <button
-                            className=""
-                            onClick={() => {
-                              handleUpdate(item);
-                              handleOpen("sm");
-                            }}
-                          >
-                            <img src={EditBTn} alt="edit btn" />
-                          </button>
-                          <button
-                            className=""
-                            onClick={() => {
-                              setUserId(item.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </th>
-                    </tbody>
-                  </>
-                );
-              })}
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <button
+                              className=""
+                              onClick={() => {
+                                handleUpdate(item);
+                                handleOpen("sm");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(item.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </th>
+                      </tbody>
+                    </>
+                  );
+                })
+              : data.map((item, index) => {
+                  return (
+                    <>
+                      <tbody key={index}>
+                        <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
+                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
+                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.first_name}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50">
+                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.last_name}
+                          </p>
+                        </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {formatCurrency(item.price)}
+                          </p>
+                        </th>
+
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.description}
+                          </p>
+                        </th>
+
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <button
+                              className=""
+                              onClick={() => {
+                                handleUpdate(item);
+                                handleOpen("sm");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(item.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </th>
+                      </tbody>
+                    </>
+                  );
+                })}
           </table>
+        </div>
+        <div className="ml-auto mr-[60px] flex items-center gap-12">
+          <span className="font-bold">Balans: </span>
+          <Tag type="green">{formatCurrency(totalPrice())}</Tag>
         </div>
         <Dialog
           open={size === "xs"}

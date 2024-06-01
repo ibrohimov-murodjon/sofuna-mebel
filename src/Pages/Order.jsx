@@ -13,7 +13,6 @@ import {
   Typography,
   CardBody,
 } from "@material-tailwind/react";
-
 import { AddOrderModal, DatePicker, Loader, OrderTable, } from "../components";
 import { ToastContainer } from "react-toastify";
 
@@ -36,8 +35,8 @@ const STATUS = [
   },
 ];
 function Order() {
-  const queryClient = useQueryClient()
-  const [category, setCategory] = useState([]); 
+  const queryClient = useQueryClient();
+  const [category, setCategory] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const fetchOrderData = async () => {
     const response = await fetch(
@@ -45,7 +44,7 @@ function Order() {
     );
     const data = await response.json();
     setCategory(data);
-    setFilteredData(data)
+    setFilteredData(data);
     return data;
   };
   console.log();
@@ -96,7 +95,7 @@ function Order() {
                 </Typography>
               </div>
               <div className="flex shrink-0 flex-col  gap-2 sm:flex-row">
-                <AddOrderModal api='https://custom.uz/products/order/api/'/>
+                <AddOrderModal api="https://custom.uz/products/order/api/" />
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -104,7 +103,7 @@ function Order() {
                 <TabsHeader className="">
                   {STATUS.map(({ label, value }) => (
                     <Tab
-                       onClick={() => categoryFilter(value)}
+                      onClick={() => categoryFilter(value)}
                       key={value}
                       value={value}
                     >
@@ -122,8 +121,12 @@ function Order() {
               </div>
             </div>
           </CardHeader>
-          <div className="absolute right-[35%] top-[17%] z-[100] w-[21%]">
-            <DatePicker data={category} setUiData={setCategory} filterDateData={handleFilterData} />
+          <div className="absolute right-[35%] top-[12%] z-[100] w-[21%]">
+            <DatePicker
+              data={category}
+              filterDateData={handleFilterData}
+              api={"https://custom.uz/products/order/filter-date/"}
+            />
           </div>
           <CardBody className="p-0">
             <div className=" w-full min-w-max table-auto text-left">
@@ -134,6 +137,7 @@ function Order() {
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}
+
                       api={"https://custom.uz/products/order/api/"}
                       filteredData={filteredData}
                     />
