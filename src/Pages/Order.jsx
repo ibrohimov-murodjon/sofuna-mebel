@@ -13,8 +13,8 @@ import {
   Typography,
   CardBody,
 } from "@material-tailwind/react";
-
-import { AddOrderModal, DatePicker, Loader, OrderTable } from "../components";
+import { AddOrderModal, DatePicker, Loader, OrderTable, } from "../components";
+import { ToastContainer } from "react-toastify";
 
 const STATUS = [
   {
@@ -68,7 +68,6 @@ function Order() {
       })
     );
   }
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["orders"],
     queryFn: fetchOrderData,
@@ -138,6 +137,7 @@ function Order() {
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}
+
                       api={"https://custom.uz/products/order/api/"}
                       filteredData={filteredData}
                     />
@@ -152,6 +152,7 @@ function Order() {
           </CardBody>
         </Card>
       )}
+      <ToastContainer/>
     </>
   );
 }

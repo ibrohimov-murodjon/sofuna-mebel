@@ -8,14 +8,12 @@ import {
   OrderUpdateModal,
 } from "../components/index";
 import { useNavigate } from "react-router-dom";
-import { GetMeasurement } from "../hooks/GetMeasurement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteElement } from "../fetchMethods/DeleteMethod";
 function OrderTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
-  const [measurement, setMeasurement] = useState("");
   const navigate = useNavigate();
   const handleOpen = (value) => setSize(value);
   const queryClient = useQueryClient();
@@ -35,6 +33,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
   }
+  console.log(filteredData, "filteredData");
   return (
     <>
       {loader ? (
@@ -77,9 +76,6 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
             <tbody>
               {filteredData
                 ? filteredData.map((user, index) => {
-                    const { measurementName } = GetMeasurement(
-                      user.measurement
-                    );
                     return (
                       <tr
                         className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}
@@ -127,9 +123,6 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                     );
                   })
                 : uiData.map((user, index) => {
-                    const { measurementName } = GetMeasurement(
-                      user.measurement
-                    );
                     return (
                       <tr
                         className={`${index % 2 == 0 ? "bg-blue-50" : ""}`}

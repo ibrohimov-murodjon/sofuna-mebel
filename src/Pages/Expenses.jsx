@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Dialog } from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -9,7 +9,10 @@ import { OutlineDeleteModal, DatePicker } from "../components";
 import Loader from "../components/Loader";
 import Tag from "../ui/Tag";
 import { formatCurrency } from "../utils/helpers";
+import { AddElement } from "../fetchMethods/AddMethod";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
 
+const API = 'https://custom.uz/products/cost/'
 function Expenses() {
   const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState("");
@@ -25,16 +28,41 @@ function Expenses() {
   const deleteCloseFun = () => {
     setSize(null);
   };
+  //!Get expenses
   const getExpensesFn = async () => {
-    const request = await fetch("https://custom.uz/products/cost/");
-    const response = await request.json();
+    const request = await fetch(API)
+    const response = await request.json()
     setFilteredData(response);
-    return response;
-  };
-  const { data, isLoading } = useQuery({
-    queryKey: ["expenses"],
-    queryFn: getExpensesFn,
-  });
+    return response
+  }
+  const {data, isLoading } = useQuery({
+    queryKey:["expenses"],
+    queryFn:getExpensesFn
+  })
+  //! DELETE
+  const queryClient = useQueryClient()
+  const {mutate: deleteMutate} = useMutation({
+    mutationFn: (id) => deleteElement(id, API),
+    onSuccess: () => {
+      toast.success("Xarajat muaffaqiyatli o'chirildi")
+      queryClient.invalidateQueries({
+        queryKey:['expenses']
+      })
+    },
+    onError: () => alert("Xarajat o'chirishdagi muammo")
+  })
+
+    const { mutate: addMutate } = useMutation({
+      mutationFn: (newExpenses) => AddElement(newExpenses, API),
+      onSuccess: () => {
+        toast.success("Muaffiqiyatli qo'shildi")
+        queryClient.invalidateQueries({
+          queryKey: ["expenses"]
+        })
+      },
+      onError: () => toast.success("Malumot qo'shishda xatolik!")
+    })
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -47,33 +75,14 @@ function Expenses() {
       descriptionInputRef.current.focus();
       return;
     }
-
     const decodedToken = jwtDecode(token);
-    const requestData = {
+      //! Add expenses
+    const newExpenses = {
       user: decodedToken.user_id,
       price: price,
       description: description,
     };
-    setLoader(true);
-    // try {
-    //   const response = await fetch(`https://custom.uz/products/cost/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestData),
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setData((prevData) => [...prevData, data]);
-    //     notify();
-    //     setValueReset();
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting data:", error);
-    // } finally {
-    //   setLoader(false);
-    // }
+    addMutate(newExpenses)
   };
   function handleFilterData(filteredData) {
     // Update the filteredData state with the received data
@@ -113,39 +122,11 @@ function Expenses() {
   //     setLoader(false);
   //   }
   // }
-
-  // async function deleteProduct(id) {
-  //   setLoader(true);
-  //   try {
-  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       let copied = JSON.parse(JSON.stringify(data));
-  //       const updatedUiData = copied.filter((user) => user.id !== id);
-  //       setData(updatedUiData);
-  //       deleteCloseFun();
-  //       notify();
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete error:", error);
-  //     toast.error("Error deleting user", {
-  //       position: "top-center",
-  //       autoClose: 1500,
-  //     });
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // }
-
   const setValueReset = () => {
     setPrice("");
     setDescription("");
     setUpdateView(false);
+    deleteCloseFun()
   };
   const totalPrice = () => {
     let sum = 0;
@@ -173,9 +154,11 @@ function Expenses() {
           <div className="flex items-center gap-24">
             <button
               onClick={() => {
-                setUpdateView(false);
-                handleOpen("sm");
-              }}
+              setDescription('')
+              setPrice('')
+              setUpdateView(false);
+              handleOpen('sm')
+            }}
               className="bg-blue-600 py-2 w-[30%] px-8 text-white rounded cursor-pointer"
             >
               Harajat Qo&apos;shish
@@ -185,6 +168,7 @@ function Expenses() {
               api={"https://custom.uz/products/cost/filter-date/"}
             />
           </div>
+
           <h3
             style={{
               textAlign: "center",
@@ -374,7 +358,7 @@ function Expenses() {
         >
           <OutlineDeleteModal
             handleClose={deleteCloseFun}
-            deleteUser={() => deleteProduct(userId)}
+            deleteUser={() => deleteMutate(userId)}
           />
         </Dialog>
       </div>
