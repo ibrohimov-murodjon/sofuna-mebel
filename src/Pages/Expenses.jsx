@@ -1,16 +1,19 @@
-import { Button, Dialog } from "@material-tailwind/react";
-import { jwtDecode } from "jwt-decode";
 import { useEffect, useRef, useState } from "react";
+import { Button, Dialog } from "@material-tailwind/react";
+import { useQuery } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { DeleteBtn, EditBTn } from "../assets";
-import { OutlineDeleteModal } from "../components";
+import { OutlineDeleteModal, DatePicker } from "../components";
 import Loader from "../components/Loader";
+import Tag from "../ui/Tag";
+import { formatCurrency } from "../utils/helpers";
 
 function Expenses() {
+  const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [data, setData] = useState("");
   const priceInputRef = useRef(null);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
@@ -18,14 +21,20 @@ function Expenses() {
   const [loader, setLoader] = useState(false);
   const [updateView, setUpdateView] = useState(false);
   const handleOpen = (value) => setSize(value);
-
   const token = useSelector((state) => state.userToken.token);
-  const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi",{autoClose:1200});
-
   const deleteCloseFun = () => {
     setSize(null);
   };
-
+  const getExpensesFn = async () => {
+    const request = await fetch("https://custom.uz/products/cost/");
+    const response = await request.json();
+    setFilteredData(response);
+    return response;
+  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["expenses"],
+    queryFn: getExpensesFn,
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -45,29 +54,31 @@ function Expenses() {
       price: price,
       description: description,
     };
-
     setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setData((prevData) => [...prevData, data]);
-        notify();
-        setValueReset();
-        deleteCloseFun()
-      }
-    } catch (error) {
-      console.error("Error submitting data:", error);
-    } finally {
-      setLoader(false);
-    }
+    // try {
+    //   const response = await fetch(`https://custom.uz/products/cost/`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(requestData),
+    //   });
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     setData((prevData) => [...prevData, data]);
+    //     notify();
+    //     setValueReset();
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting data:", error);
+    // } finally {
+    //   setLoader(false);
+    // }
   };
+  function handleFilterData(filteredData) {
+    // Update the filteredData state with the received data
+    setFilteredData(filteredData);
+  }
 
   const handleUpdate = (item) => {
     setUserId(item.id);
@@ -76,101 +87,104 @@ function Expenses() {
     setUpdateView(true);
   };
 
-  async function updateExpense(id) {
-    setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          price: price,
-          description: description,
-        }),
-      });
+  // async function updateExpense(id) {
+  //   setLoader(true);
+  //   try {
+  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         price: price,
+  //         description: description,
+  //       }),
+  //     });
 
-      if (response.ok) {
-        notify();
-        setValueReset();
-      } else {
-        console.error("Update error:", response.status);
-      }
-    } catch (error) {
-      console.error("Update error:", error);
-    } finally {
-      setLoader(false);
-    }
-  }
+  //     if (response.ok) {
+  //       notify();
+  //       setValueReset();
+  //     } else {
+  //       console.error("Update error:", response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error("Update error:", error);
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
 
-  async function deleteProduct(id) {
-    setLoader(true);
-    try {
-      const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  // async function deleteProduct(id) {
+  //   setLoader(true);
+  //   try {
+  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      if (response.ok) {
-        let copied = JSON.parse(JSON.stringify(data));
-        const updatedUiData = copied.filter((user) => user.id !== id);
-        setData(updatedUiData);
-        deleteCloseFun();
-        notify();
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      toast.error("Error deleting user", {
-        position: "top-center",
-        autoClose: 1500,
-      });
-    } finally {
-      setLoader(false);
-    }
-  }
-
-  useEffect(() => {}, [data]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("https://custom.uz/products/cost/");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, [data]);
+  //     if (response.ok) {
+  //       let copied = JSON.parse(JSON.stringify(data));
+  //       const updatedUiData = copied.filter((user) => user.id !== id);
+  //       setData(updatedUiData);
+  //       deleteCloseFun();
+  //       notify();
+  //     }
+  //   } catch (error) {
+  //     console.error("Delete error:", error);
+  //     toast.error("Error deleting user", {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //     });
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // }
 
   const setValueReset = () => {
     setPrice("");
     setDescription("");
     setUpdateView(false);
   };
-
+  const totalPrice = () => {
+    let sum = 0;
+    filteredData
+      ? filteredData.forEach((item) => (sum += item.price))
+      : data.forEach((item) => {
+          sum += item.price;
+        });
+    return sum;
+  };
   return (
     <div>
       {loader && <Loader />}
       <div
-        style={{ padding: "10px", backgroundColor: "white", margin: "10px" }}
+        style={{
+          padding: "10px",
+          backgroundColor: "white",
+          margin: "10px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <div>
-          <button
-            onClick={() => {
-              setUpdateView(false);
-              handleOpen('sm')
-            }}
-            className="bg-blue-600 py-2 px-8 text-white rounded cursor-pointer"
-          >
-            Harajat Qo&apos;shish
-          </button>
+          <div className="flex items-center gap-24">
+            <button
+              onClick={() => {
+                setUpdateView(false);
+                handleOpen("sm");
+              }}
+              className="bg-blue-600 py-2 w-[30%] px-8 text-white rounded cursor-pointer"
+            >
+              Harajat Qo&apos;shish
+            </button>
+            <DatePicker
+              filterDateData={handleFilterData}
+              api={"https://custom.uz/products/cost/filter-date/"}
+            />
+          </div>
           <h3
             style={{
               textAlign: "center",
@@ -226,65 +240,126 @@ function Expenses() {
                 </th>
               </tr>
             </thead>
-            {data &&
-              data.map((item, index) => {
-                return (
-                  <>
-                    <tbody key={index}>
-                      <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
-                        <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
-                          {index + 1}
-                        </p>
-                      </th>
-                      <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
-                        <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.user.first_name}
-                        </p>
-                      </th>
-                      <th className="py-4 px-2 border-b border-blue-gray-50">
-                        <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.user.last_name}
-                        </p>
-                      </th>
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.price}
-                        </p>
-                      </th>
+            {filteredData
+              ? filteredData.map((item, index) => {
+                  return (
+                    <>
+                      <tbody key={index}>
+                        <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
+                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
+                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.first_name}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50">
+                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.last_name}
+                          </p>
+                        </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {formatCurrency(item.price)}
+                          </p>
+                        </th>
 
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                          {item.description}
-                        </p>
-                      </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.description}
+                          </p>
+                        </th>
 
-                      <th className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-5">
-                          <button
-                            className=""
-                            onClick={() => {
-                              handleUpdate(item);
-                              handleOpen("sm");
-                            }}
-                          >
-                            <img src={EditBTn} alt="edit btn" />
-                          </button>
-                          <button
-                            className=""
-                            onClick={() => {
-                              setUserId(item.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </th>
-                    </tbody>
-                  </>
-                );
-              })}
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <button
+                              className=""
+                              onClick={() => {
+                                handleUpdate(item);
+                                handleOpen("sm");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(item.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </th>
+                      </tbody>
+                    </>
+                  );
+                })
+              : data.map((item, index) => {
+                  return (
+                    <>
+                      <tbody key={index}>
+                        <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
+                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
+                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.first_name}
+                          </p>
+                        </th>
+                        <th className="py-4 px-2 border-b border-blue-gray-50">
+                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.user.last_name}
+                          </p>
+                        </th>
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {formatCurrency(item.price)}
+                          </p>
+                        </th>
+
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                            {item.description}
+                          </p>
+                        </th>
+
+                        <th className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-5">
+                            <button
+                              className=""
+                              onClick={() => {
+                                handleUpdate(item);
+                                handleOpen("sm");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              className=""
+                              onClick={() => {
+                                setUserId(item.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </th>
+                      </tbody>
+                    </>
+                  );
+                })}
           </table>
+        </div>
+        <div className="ml-auto mr-[60px] flex items-center gap-12">
+          <span className="font-bold">Balans: </span>
+          <Tag type="green">{formatCurrency(totalPrice())}</Tag>
         </div>
         <Dialog
           open={size === "xs"}

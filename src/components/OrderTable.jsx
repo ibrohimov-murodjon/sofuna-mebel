@@ -35,7 +35,6 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
   function handleRowClick(id) {
     navigate(`/orders/${id}`);
   }
-  console.log(filteredData, "filteredData");
   return (
     <>
       {loader ? (
@@ -101,7 +100,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {user.measurement.name}
+                            {user?.measurement.name}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
@@ -151,7 +150,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {measurementName}
+                            {user.measurement.name}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">

@@ -37,6 +37,7 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
     newFormData.append("last_name", formData.last_name);
     newFormData.append("phone_number", formData.phone_number);
     newFormData.append("username", formData.username);
+    newFormData.append("password", formData.password);
     fetch(`https://custom.uz/users/${formData.id}/`, {
       method: "PUT",
       body: newFormData,
@@ -82,6 +83,15 @@ function EditWorkerProfile({ onCloseModal, initialUserData, getUser }) {
               type="text"
               name="username"
               value={formData.username || ""} // Set default value from user data
+              onChange={(e) => handleChange(e)}
+            />
+            <br />
+            <OutlinedInput
+              label="Password"
+              placeholder="password"
+              type="text"
+              name="password"
+              value={formData.password || ""} // Set default value from user data
               onChange={(e) => handleChange(e)}
             />
             <br />
