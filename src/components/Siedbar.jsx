@@ -61,7 +61,7 @@ const AdminMenuItems = [
     link: "/xarajatlar",
   },
   {
-    id: 6,
+    id: 7,
     name: "Qo'shish",
     unActive: CostImg,
     active: CostImg,
