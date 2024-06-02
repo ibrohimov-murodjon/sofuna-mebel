@@ -251,7 +251,7 @@ function Sold() {
             <Typography variant="h4" className="text-center" color="blue-gray">
               Sotishga qo&apos;shish
             </Typography>
-            <div className="flex items-start justify-center gap-x-10 w-full">
+            <div className="flex items-start justify-center gap-x-10 w-full relative">
               <div className="flex items-start flex-col gap-2 w-full">
                 <Typography className="-mb-2" variant="h6">
                   Mahsulot nomi
@@ -268,8 +268,8 @@ function Sold() {
                   size="sm"
                   error={productNameError}
                 />
-                {filteredProducts.length > 0 ? (
-                  <ul style={{ listStyle: "none", padding: 0 }}>
+                {filteredProducts.length > 0 && productName !== "" && (
+                  <ul className="shadow-xl w-full bg-white z-50 top-[80px] flex flex-col py-3 px-6 absolute ">
                     {filteredProducts.map((product) => (
                       <li
                         key={product.id}
@@ -278,16 +278,20 @@ function Sold() {
                           cursor: "pointer",
                           padding: "8px 0",
                           borderBottom: "1px solid #ddd",
+                          width: "100%",
+                          margin: "0 auto",
                         }}
                       >
                         {product.name}
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p>No product data found</p>
                 )}
-
+                {filteredProducts.length === 0 && !selectedProduct && (
+                  <ul className="shadow-xl w-full bg-white z-50 top-[80px] flex flex-col py-3 px-6 absolute">
+                    <li>Afsuski, mahsulot topilmadi</li>
+                  </ul>
+                )}
                 <Typography className="-mb-2" variant="h6">
                   Sonini kiriting
                 </Typography>
