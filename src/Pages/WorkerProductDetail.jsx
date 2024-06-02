@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
@@ -21,6 +21,7 @@ function WorkerProductDetail() {
   const token = useSelector((state) => state.userToken.token);
   const { id } = useParams();
   const decodedToken = jwtDecode(token);
+  const navigate = useNavigate()
   const fetchData = async () => {
     setLoader(true);
     try {
@@ -74,10 +75,15 @@ function WorkerProductDetail() {
         position:"top-center",
         autoClose:1500
       })
+      navigate('/product')
     } catch (error) {
       setLoader(false);
-      toast.error("Mahsulot olinmadi qatya urining")
+      toast.error("Mahsulot olinmadi qatya urining",{
+        position:"top-center",
+        autoClose:1500
+      })
       console.log(error);
+      setInputValue('')
     }
   };
 
@@ -129,7 +135,6 @@ function WorkerProductDetail() {
           </button>
         </>
       </div>
-      <ToastContainer/>
     </Wrapper>
   );
 }

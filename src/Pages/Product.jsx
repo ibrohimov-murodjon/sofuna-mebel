@@ -19,6 +19,7 @@ import WorkerProductTable from "../components/WorkerProductTable";
 import { useQuery } from "@tanstack/react-query";
 import { DatePicker } from "../components";
 import { useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const STATUS = [
   {
@@ -155,6 +156,7 @@ function Product() {
           </Card>
         </div>
       )}
+      <ToastContainer/>
     </>
   );
 }
