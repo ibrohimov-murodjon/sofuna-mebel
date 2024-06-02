@@ -105,7 +105,8 @@ function Xodimlar() {
 
   const getStackFn = async () => {
     const response = await fetch("https://custom.uz/users/")
-    const data = await response.json()
+    let data = await response.json()
+    data = data.reverse()
     setCategory(data)
     return data
   }
