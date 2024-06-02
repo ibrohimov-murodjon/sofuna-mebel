@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
 import { useSelector } from "react-redux";
 import {OutlineAdUserModal} from '../components/index.js';
+import { ToastContainer } from "react-toastify";
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);
@@ -80,6 +81,7 @@ function RoutesLayout({ children }) {
       >
       <OutlineAdUserModal handleClose={handleOpen}/>
       </Dialog>
+      <ToastContainer/>
     </div>
   );
 }

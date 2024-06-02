@@ -33,6 +33,7 @@ import WorkerGetProducts from "./Pages/WorkerGetProducts.jsx";
 import { ToastContainer } from "react-toastify";
 import OlinganMaxsulotlar from "./Pages/OlinganMaxsulotlar.jsx";
 import OlinganlarHaqida from "./Pages/OlinganlarHaqida.jsx";
+import Sold from "./Pages/Sold.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -199,6 +200,19 @@ function App() {
                 >
                   <RoutesLayout>
                     <OlinganlarHaqida />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sotuv"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <Sold />
                   </RoutesLayout>
                 </ProtectedRoute>
               }

@@ -146,8 +146,7 @@ function OutlineAdUserModal({ handleClose }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
-      }).then((res) => res.json());
-      handleClose()
+      }).then((res) => res.json())
         .then((data) => {
           toast.success(data.message, {
             position: "top-right",

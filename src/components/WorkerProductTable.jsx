@@ -1,19 +1,21 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
-  console.log(filteredData, "filteredData");
+
+  const { pathname } = useLocation();
+
   return (
     <>
       {loader ? (
         <Loader />
       ) : (
         <div className="relative flex flex-col w-full h-full text-gray-700 bg-white">
-          <table className="text-left border-l-2 table-auto min-w-max">
+          <table className="text-left border-l-2 table-auto min-w-max mx-auto sm:w-full md:w-4/5">
             <thead>
               <tr>
                 <th className="p-4 w-2 border-b bg-blue-600 text-white">
@@ -37,11 +39,13 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
                   </p>
                 </th>
 
-                <th className="p-4 border-b bg-blue-600">
-                  <p className="block text-sm text-left antialiased font-normal leading-none text-white">
-                    Actions
-                  </p>
-                </th>
+                {pathname == "/product" && (
+                  <th className="p-4 border-b bg-blue-600">
+                    <p className="block font-sans text-sm text-left antialiased font-normal leading-none text-white">
+                      Actions
+                    </p>
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -73,16 +77,18 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
                           </p>
                         </td>
 
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <span
-                            onClick={() => {
-                              navigate(`/product/${user.id}`);
-                            }}
-                            className="bg-blue-800 text-white p-3 cursor-pointer"
-                          >
-                            Mahsulot Olish
-                          </span>
-                        </td>
+                        {pathname == "/product" && (
+                          <td className="p-4 border-b border-blue-gray-50">
+                            <span
+                              onClick={() => {
+                                navigate(`/product/${user.id}`);
+                              }}
+                              className="bg-blue-800 text-white p-3 cursor-pointer"
+                            >
+                              Mahsulot Olish
+                            </span>
+                          </td>
+                        )}
                       </tr>
                     );
                   })
@@ -113,16 +119,18 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
                           </p>
                         </td>
 
-                        <td className="p-4 border-b border-blue-gray-50">
-                          <span
-                            onClick={() => {
-                              navigate(`/product/${user.id}`);
-                            }}
-                            className="bg-blue-800 text-white p-3 cursor-pointer"
-                          >
-                            Mahsulot Olish
-                          </span>
-                        </td>
+                        {pathname == "/product" && (
+                          <td className="p-4 border-b border-blue-gray-50">
+                            <span
+                              onClick={() => {
+                                navigate(`/product/${user.id}`);
+                              }}
+                              className="bg-blue-800 text-white p-3 cursor-pointer"
+                            >
+                              Mahsulot Olish
+                            </span>
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
