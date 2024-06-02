@@ -53,7 +53,7 @@ const FileInputComponent = ({ onChange, imgFileName }) => {
     <ButtonContainer>
       <FileInput id="file-input" accept="image/*" onChange={handleFileChange} />
       <Button htmlFor="file-input">
-        {fileName || "Profil Rasmini yuklang"}
+        {fileName || "Rasmni yuklang"}
       </Button>
       {/* {fileName && (
         <FileLink href={`https://custom.uz/${imgFileName}`} target="_blank">

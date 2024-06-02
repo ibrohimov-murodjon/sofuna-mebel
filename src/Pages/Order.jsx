@@ -122,7 +122,7 @@ function Order() {
               </div>
             </div>
           </CardHeader>
-          <div className="absolute right-[35%] top-[12%] z-[100] w-[21%]">
+          <div className="fixed right-[28%] top-[20.7%] z-[100] w-[21%]">
             <DatePicker
               data={category}
               filterDateData={handleFilterData}

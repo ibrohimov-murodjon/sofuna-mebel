@@ -49,7 +49,7 @@ function Product() {
     return data;
   };
   function categoryFilter(category) {
-    setCategory(
+    setFilteredData(
       data.filter((order) => {
         if (category == "all") return order.category;
         else return order.category == category;
@@ -57,7 +57,7 @@ function Product() {
     );
   }
   function searchFn(word) {
-    setCategory(
+    setFilteredData(
       data.filter((order) => {
         return order.name.toLowerCase().includes(word);
       })
@@ -76,7 +76,7 @@ function Product() {
         <Loader />
       ) : (
         <div className="MainProductWrapper ">
-          <Card className="w-full rounded-md mt-[-3px]">
+          <Card className="w-full rounded-md mt-[-3px] relative">
             <CardHeader floated={false} shadow={false} className="rounded-none">
               <div className="mb-2 flex items-center justify-between">
                 <div>
@@ -86,9 +86,7 @@ function Product() {
                 </div>
 
                 <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
-                  <AddProductModal
-                    api={"https://custom.uz/products/api/"}
-                  />
+                  <AddProductModal api={"https://custom.uz/products/api/"} />
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -105,6 +103,13 @@ function Product() {
                     ))}
                   </TabsHeader>
                 </Tabs>
+                <div className="fixed right-[28%] top-[20.7%] z-[100] w-[21%]">
+                  <DatePicker
+                    data={category}
+                    filterDateData={handleFilterData}
+                    api={"https://custom.uz/products/filter-date/"}
+                  />
+                </div>
                 <div className="w-full md:w-72">
                   <Input
                     onChange={(e) => searchFn(e.target.value)}
@@ -113,7 +118,7 @@ function Product() {
                 </div>
               </div>
             </CardHeader>
-            <DatePicker filterDateData={handleFilterData} />
+
             <CardBody className="p-0 mt-8">
               <div className="text-left">
                 <div className="flex flex-col">
@@ -125,6 +130,7 @@ function Product() {
                           setUiData={setCategory}
                           uiData={category}
                           api={"https://custom.uz/products/api/"}
+                          filteredData={filteredData}
                         />
                       ) : (
                         <ProductTable
@@ -132,6 +138,7 @@ function Product() {
                           setUiData={setCategory}
                           uiData={category}
                           api={"https://custom.uz/products/api/"}
+                          filteredData={filteredData}
                         />
                       )}
                     </>
