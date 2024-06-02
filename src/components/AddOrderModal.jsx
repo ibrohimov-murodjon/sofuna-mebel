@@ -116,7 +116,6 @@ function AddProduct({ api }) {
     setFilteredProducts([]); // Clear filtered products
   };
 
-
   return (
     <>
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -230,7 +229,6 @@ function AddProduct({ api }) {
             >
               Saqlash
             </Button>
-
           </CardBody>
         </Card>
       </Dialog>
