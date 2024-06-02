@@ -18,19 +18,19 @@ import {
 import { useSelector } from "react-redux";
 
 const AdminMenuItems = [
-  {
-    id: 1,
-    name: "Asosiy",
-    unActive: HomeBlack,
-    active: HomeWhite,
-    link: "/",
-  },
+  // {
+  //   id: 1,
+  //   name: "Asosiy",
+  //   unActive: HomeBlack,
+  //   active: HomeWhite,
+  //   link: "/",
+  // },
   {
     id: 2,
     name: "Ombor",
     unActive: WarehouseBlack,
     active: WarehouseWhite,
-    link: "/product",
+    link: "/",
   },
   {
     id: 3,
@@ -61,7 +61,7 @@ const AdminMenuItems = [
     link: "/xarajatlar",
   },
   {
-    id: 6,
+    id: 7,
     name: "Qo'shish",
     unActive: CostImg,
     active: CostImg,

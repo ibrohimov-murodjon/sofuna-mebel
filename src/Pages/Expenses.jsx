@@ -61,6 +61,7 @@ function Expenses() {
   };
   //!Get expenses
   const getExpensesFn = async () => {
+
     const request = await fetch(API);
     const data = await request.json();
     setCategory(data);
@@ -79,6 +80,7 @@ function Expenses() {
         else return order.status == category;
       })
     );
+ 
   }
 console.log(filteredData)
   const queryClient = useQueryClient();

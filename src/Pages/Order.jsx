@@ -42,19 +42,20 @@ function Order() {
     const response = await fetch(
       "https://custom.uz/products/order-measurement/"
     );
-    const data = await response.json();
+    let data = await response.json();
+    data = data.reverse()
     setCategory(data);
     setFilteredData(data);
     return data;
   };
-  console.log();
   function handleFilterData(filteredData) {
     // Update the filteredData state with the received data
     setFilteredData(filteredData);
   }
   function categoryFilter(category) {
-    setCategory(
+    setFilteredData(
       data.filter((order) => {
+        console.log(order);
         if (category == "all") return order.status;
         else return order.status == category;
       })
@@ -62,7 +63,7 @@ function Order() {
   }
 
   function searchFn(word) {
-    setCategory(
+    setFilteredData(
       data.filter((order) => {
         return order.name.toLowerCase().includes(word);
       })

@@ -84,7 +84,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
         {token && role === "admin" && (
           <>
-            <Route
+            {/* <Route
               path="/"
               element={
                 <ProtectedRoute
@@ -96,9 +96,9 @@ function App() {
                   </RoutesLayout>
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
-              path="/product"
+              path="/"
               element={
                 <ProtectedRoute
                   isAuthentication={token ? true : false}

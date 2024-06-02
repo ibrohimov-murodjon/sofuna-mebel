@@ -12,6 +12,10 @@ import { toast } from "react-toastify";
 import styled from "@emotion/styled";
 import { EditBTn } from "../assets";
 import { GetMeasurement } from "../hooks/GetMeasurement";
+import {useMutation, useQueryClient } from '@tanstack/react-query'
+import { UpdateElement } from "../fetchMethods/UpdateMethod";
+ 
+
 
 const Select = styled.select`
   &:focus {
@@ -34,6 +38,7 @@ const StyledOption = styled.option`
 `;
 
 const OrderUpdateModal = ({ product }) => {
+  const API = 'https://custom.uz/products/order/api/'
   const productId = product.id;
   const { measurementName } = GetMeasurement(product.measurement);
   const [open, setOpen] = useState(false);
@@ -44,10 +49,18 @@ const OrderUpdateModal = ({ product }) => {
   const [productNameError, setProductNameError] = useState(false);
   const [productQtyError, setProductQtyError] = useState(false);
   const [measurement, setMeasurement] = useState([]);
-
   const handleOpen = () => setOpen(!open);
-  const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
-
+  const queryClient = useQueryClient()
+  const {mutate: updateMutate} = useMutation({
+    mutationFn: ( updateElement) => UpdateElement(updateElement, API, productId),
+    onSuccess: () => {
+      toast.success("Muaffaqiyatli o'zgartirildi")
+      queryClient.invalidateQueries({
+        queryKey:["orders"]
+      })
+    },
+    onError: () => toast.error("Amalyot muaffiqiyatsiz!")
+  })
   const handleSubmit = () => {
     if (!productName.trim()) {
       setProductNameError(true);
@@ -65,26 +78,9 @@ const OrderUpdateModal = ({ product }) => {
       name: productName,
       qty: Number(productQty),
       description: buyurtmaTasnifi,
-      measurement: productMeasurement,
+      measurement: productMeasurement || 'eb65c09d-013e-4019-a0c0-d3328a765cd9',
     };
-
-    fetch(`https://custom.uz/products/order/api/${productId}/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedProduct),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        notify();
-        setProductName("");
-        setProductQty("");
-        setOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    updateMutate(updatedProduct)
   };
 
   useEffect(() => {
