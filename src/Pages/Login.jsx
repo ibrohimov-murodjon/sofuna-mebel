@@ -1,49 +1,52 @@
-import { useRef, useState } from "react";
-import { Typography } from "@material-tailwind/react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/userToken";
-import Loader from "../components/Loader/index";
 import { toast, ToastContainer } from "react-toastify";
-import OutlinedInput from "../components/OutlineInput";
+import { Loader } from "../components/index";
 import { Logo } from "../assets";
+import OutlinedInput from "../components/OutlinedInput";
 
 function Login() {
   const navigate = useNavigate();
-  const [username,setUsername] = useState('');
-  const [ password,setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    username: false,
+    password: false,
+  });
   const dispatch = useDispatch();
   const minPasswordLength = 5;
+
   function handleValidation() {
     const newErrors = {};
 
     if (!username.trim().length > 0) {
       newErrors.username = true;
-      return false
-    }else{
-      newErrors.username = false
+    } else {
+      newErrors.username = false;
     }
-    if (!password.trim().length >= 1) {
+
+    if (
+      !(password.trim().length >= 1 && password.length >= minPasswordLength)
+    ) {
       newErrors.password = true;
-      return false
-    } else if (password.length < minPasswordLength) {
-      newErrors.password = true;
-      return false
-    }else{
-      newErrors.password = false
+    } else {
+      newErrors.password = false;
     }
 
     setErrors(newErrors);
-    return true;
+
+    return Object.values(newErrors).every((error) => !error);
   }
 
-  function hendalSubmit(e) {
-    setLoading(true);
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (handleValidation()) {
+      setLoading(true);
+
       let user = {
         username: username,
         password: password,
@@ -66,21 +69,22 @@ function Login() {
             );
             navigate("/");
           } else if (!data.success) {
-            setLoading(false);
             toast.error("Login yoki paroldagi xatolik !!!", {
               position: "top-center",
-            autoClose:1500
+              autoClose: 1500,
             });
           }
         })
         .catch((error) => {
           console.error("Login error:", error);
+          toast.error("Serverdagi xatolik !!!", {
+            position: "top-center",
+            autoClose: 1500,
+          });
         })
         .finally(() => {
           setLoading(false);
         });
-    } else {
-      setLoading(false);
     }
   }
 
@@ -93,7 +97,7 @@ function Login() {
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
           <div className="">
             <img
-              src={Logo} 
+              src={Logo}
               className="w-[100px] mx-auto h-[100px] rounded-full"
             />
           </div>
@@ -102,27 +106,36 @@ function Login() {
               Tizimga kirish
             </h1>
             <div className="w-full flex-1 mt-8">
-              <form className="mx-auto max-w-xs" onSubmit={hendalSubmit}>
+              <form className="mx-auto max-w-xs" onSubmit={handleSubmit}>
                 <label htmlFor="email" className="text-[18px]">
                   Username <span className="text-red-600 text-[25px]">*</span>
                 </label>
-                <OutlinedInput bgColor='white' value={username} onChange={setUsername} placeholder="Username..." isError={errors.username}  id="email"  />
-               
-          
+                <OutlinedInput
+                  bgColor="white"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username..."
+                  isError={errors.username}
+                  id="email"
+                />
                 <label htmlFor="password" className="text-[18px] mt-1 block">
-                  Password <span className="text-red-600 text-[25px]">*</span> 
+                  Password <span className="text-red-600 text-[25px]">*</span>
                 </label>
-             
-                <OutlinedInput type="password" bgColor='white' value={password} onChange={setPassword} placeholder="Username..."  isError={errors.password}  id="password"  />
-                
-               
+                <OutlinedInput
+                  type="password"
+                  bgColor="white"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password..."
+                  isError={errors.password}
+                  id="password"
+                />
                 <button
                   type="submit"
                   className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                 >
                   Kirish
                 </button>
-              
               </form>
             </div>
           </div>
@@ -133,7 +146,7 @@ function Login() {
           <div className="login-bg w-full bg-contain bg-center bg-no-repeat"></div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

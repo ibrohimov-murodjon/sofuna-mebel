@@ -4,11 +4,14 @@ import { SideBar } from "../components";
 import { Header } from "../Section";
 import { useForm } from "react-hook-form";
 import adduserIcon from "../../src/assets/user-plus-solid.svg";
-
+import { useSelector } from "react-redux";
+import {OutlineAdUserModal} from '../components/index.js';
 function RoutesLayout({ children }) {
   const [activePage, setActivePage] = useState("Home");
   const [open, setOpen] = useState(false);
+  const [sidebarSize, setSidebarSize] = useState(true)
   const handleOpen = () => setOpen((cur) => !cur);
+  const role = useSelector((state) => state.userToken.role);
   const { handleSubmit, register, resetField } = useForm({
     defaultValues: {
       user_role: "worker",
@@ -52,67 +55,30 @@ function RoutesLayout({ children }) {
   return (
     <div className="thum w-full flex gap-x-2">
       <SideBar
+        sidebarSize={sidebarSize}
+        setSidebarSize={setSidebarSize}
         setActivePage={setActivePageName}
         activePage={getActivePageName}
       />
-      <div className="col w-full max-w-[1250px] ">
+      <div className="col w-full ">
         <Header
           setActivePage={setActivePageName}
           activePage={getActivePageName}
         />
         {children}
       </div>
-      <div
+      {role == 'admin' ? <div
         onClick={handleOpen}
         className="createBtn w-full max-w-16 text-[40px] cursor-pointer text-white h-16 rounded-full flex items-center justify-center absolute bottom-6 right-6 bg-[#0e95d8]"
       >
         <img width="25px" height="25px" src={adduserIcon} alt="" />
-      </div>
+      </div> : null}
       <Dialog
-        size="xs"
+        size="md"
         open={open}
-        handler={handleOpen}
         className="bg-transparent shadow-none"
       >
-        <Card className="mx-auto w-full max-w-[24rem]">
-          <CardBody className="flex flex-col gap-4">
-            <form
-              onSubmit={handleSubmit((data) => addUser(data))}
-              className="flex flex-col gap-6 p-4"
-            >
-              <Typography
-                variant="h6"
-                color="blue-gray"
-                className="-mb-3 text-center"
-              >
-                Add User
-              </Typography>
-              <input
-                className="RefInput"
-                type="text"
-                {...register("username", { required: "Username required" })}
-                placeholder="Username"
-              />
-              <input
-                className="RefInput"
-                type="password"
-                {...register("password", { required: "password required" })}
-                placeholder="Password"
-              />
-              <select
-                label="Select Version"
-                {...register("user_role", { required: "Role is required" })}
-              >
-                <option value="worker">worker</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </select>
-
-              <button className="AddUserBtn">Send</button>
-            </form>
-          </CardBody>
-        </Card>
-        <h1>HELLo</h1>
+      <OutlineAdUserModal handleClose={handleOpen}/>
       </Dialog>
     </div>
   );

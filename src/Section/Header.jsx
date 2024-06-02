@@ -1,58 +1,44 @@
 //react-icons
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useRef } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-const months = [
-  "Yanvar",
-  "Fevral",
-  "Mart",
-  "Aprel",
-  "May",
-  "Iyun",
-  "Iyul",
-  "Avgust",
-  "Sentyabr",
-  "Oktyabr",
-  "Noyabr",
-  "Dekabr",
-];
 function Header({ activePage, setActivePage }) {
+  const stirNum = useRef();
+  const role = useSelector((state) => state.userToken.role);
+  const token = useSelector((state) => state.userToken.token);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const handleOpen = () => setOpen((cur) => !cur);
-  const [dataOfDay, setDataOfDay] = useState(new Date());
+  const decodedToken = jwtDecode(token);
+  function searchFn(e) {
+    e.preventDefault();
+    const id = stirNum.current?.value;
+    id !== "" ? navigate(`/stirCompany/${id}`) : null;
+  }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDataOfDay(new Date());
-    }, 60000); // 60000 milliseconds = 1 minute
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
-
+  function handLogout() {
+    localStorage.clear();
+    navigate("/login");
+  }
   return (
-    <div className="flex items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
+    <div className="flex ml-[-8px]  items-center justify-between px-6 w-full bg-white border-b-2 h-20 relative">
       <div className="logo flex items-center gap-x-4 ">
         <p className="text-black text-[30px]">{activePage()}</p>
       </div>
       <div className="flex items-center gap-x-20">
-        <div className="flex items-center gap-x-4 text-[18px] font-extralight">
-          <span className="flex items-center gap-x-2">
-            <p className="w-full">
-              {dataOfDay.getHours()} : {dataOfDay.getMinutes()}
-            </p>
-            {dataOfDay.getHours() > 12 ? (
-              <p className="text-gray-500">PM</p>
-            ) : (
-              <p className="text-gray-500">AM</p>
-            )}
-          </span>
-          <span className="flex items-center">
-            <p>{dataOfDay.getDate()}</p> -{" "}
-            <p className="mr-2">{months[dataOfDay.getMonth()]}</p>
-            <p className="text-gray-500">{dataOfDay.getFullYear()}</p>
-          </span>
-        </div>
+        {role !== "worker" ? (
+          <form onSubmit={(e) => searchFn(e)} className="w-96">
+            <input
+              ref={stirNum}
+              placeholder="Q   qidirish"
+              className="outline-none border py-1 px-3 w-96 rounded-md"
+            />
+          </form>
+        ) : null}
+
         <div
           onClick={handleOpen}
           className="flex cursor-pointer items-center gap-x-3"
@@ -60,7 +46,7 @@ function Header({ activePage, setActivePage }) {
           <div>
             <img
               alt="tania andrew"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+              src={"./user.png"}
               className="relative inline-block object-cover object-center w-12 h-12 rounded-full"
               data-popover-target="profile-menu"
             />
@@ -70,14 +56,14 @@ function Header({ activePage, setActivePage }) {
               data-popover-placement="bottom"
               className={`${
                 open ? "flex" : "hidden"
-              }  absolute bottom-[-100px] right-2 z-10 min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none`}
+              }  absolute bottom-[-100px] right-2 z-10 min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none`}
             >
               <Link
                 onClick={() => {
                   handleOpen();
                   setActivePage("Profile");
                 }}
-                to="/profile"
+                to={`/xodimlar/${decodedToken.user_id}`}
                 role="menuitem"
                 className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
               >
@@ -95,11 +81,12 @@ function Header({ activePage, setActivePage }) {
                     fill="#90A4AE"
                   ></path>
                 </svg>
-                <p className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
+                <p className="block text-sm antialiased font-medium leading-normal text-inherit">
                   My Profile
                 </p>
               </Link>
               <button
+                onClick={handLogout}
                 role="menuitem"
                 className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
               >
@@ -117,13 +104,13 @@ function Header({ activePage, setActivePage }) {
                     fill="#90A4AE"
                   ></path>
                 </svg>
-                <p className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
+                <p className="block text-sm antialiased font-medium leading-normal text-inherit">
                   Sign Out
                 </p>
               </button>
             </ul>
           </div>
-          <p className="text-[18px] font-medium">Husanboy</p>
+          <p className="text-[18px] font-medium">{decodedToken.first_name}</p>
         </div>
       </div>
     </div>

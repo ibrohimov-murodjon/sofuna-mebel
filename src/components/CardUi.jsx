@@ -69,47 +69,47 @@ function CardUI({ setUiData, uiData, api }) {
         <thead>
           <tr>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Name
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Qty
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Meauserement
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Price
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Total price
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 NDS + Price
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Dollar curs
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Dollar convert
               </p>
             </th>
             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-              <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+              <p className="block text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                 Actions
               </p>
             </th>
@@ -120,29 +120,29 @@ function CardUI({ setUiData, uiData, api }) {
             return (
               <tr key={crypto.randomUUID()}>
                 <td className="p-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.name.charAt() + user.name.slice(1) }
                   </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.qty}
                   </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.measurement}
                   </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.price}
                   </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
                   <a
                     href="#"
-                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                    className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                   >
                     {user.total_price}
                   </a>
@@ -150,7 +150,7 @@ function CardUI({ setUiData, uiData, api }) {
                 <td className="p-4 border-b border-blue-gray-50">
                   <a
                     href="#"
-                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                    className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                   >
                     {user.ndc_price}
                   </a>
@@ -158,7 +158,7 @@ function CardUI({ setUiData, uiData, api }) {
                 <td className="p-4 border-b border-blue-gray-50">
                   <a
                     href="#"
-                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                    className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                   >
                     {user.dollor_course}
                   </a>
@@ -166,7 +166,7 @@ function CardUI({ setUiData, uiData, api }) {
                 <td className="p-4 border-b border-blue-gray-50">
                   <a
                     href="#"
-                    className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                    className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                   >
                     {user.dollor_course_total?.toFixed(2)}
                   </a>

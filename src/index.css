@@ -1,6 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* poppins-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/poppins-v21-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./assets/fonts/poppins-v21-latin-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  src: url("./assets/fonts/poppins-v21-latin-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/fonts/poppins-v21-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-800 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  src: url("./assets/fonts/poppins-v21-latin-800.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* poppins-900 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 900;
+  src: url("./assets/fonts/poppins-v21-latin-900.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,8 +62,8 @@ body {
   width: 100%;
   /* min-height: 100vh; */
   max-height: max-content;
-  font-family: sans-serif;
-  background: rgb(223, 220, 220);
+  font-family: "Poppins", sans-serif;
+  background: #f5f5f5;
 }
 .group {
   display: flex;
@@ -369,11 +419,6 @@ input[type="checkbox"] {
 
 .MenuActive {
   background: rgb(14, 80, 193);
-  /* background: linear-gradient(
-    299deg,
-    rgba(160, 159, 164, 1) 34%,
-    rgba(62, 144, 240, 1) 79%
-  ); */
 }
 
 .MainMeniu {
@@ -413,6 +458,8 @@ input[type="checkbox"] {
 }
 .MainProductWrapper {
   margin-top: 10px;
+  max-width: 99%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -637,7 +684,7 @@ input[type="checkbox"] {
   right: 50px;
   bottom: 70px;
   background: #0e95d8;
-  
+
   border: none;
   border-radius: 1000px;
   transition: all 0.3s ease-in-out 0s;
@@ -702,4 +749,8 @@ input[type="checkbox"] {
     height: 150px;
     opacity: 0;
   }
+}
+.placeholder-styled::placeholder {
+  opacity: 1; /* Transparency */
+  color: #000000;
 }

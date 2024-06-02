@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Orderimg, Productimg } from "../assets";
-import { IoSend, IoOptions } from "react-icons/io5";
-import { Button, Dialog } from "@material-tailwind/react";
+import { Orderimg } from "../assets";
+import { IoSend } from "react-icons/io5";
+import { Dialog } from "@material-tailwind/react";
 import { Fragment } from "react";
 function Message() {
   const [users, setUsers] = useState([]);
@@ -12,34 +12,52 @@ function Message() {
   const [size, setSize] = useState(null);
   const handleOpen = (value) => setSize(value);
   const [orderData, setOrderData] = useState([]);
+  const [orderMes, setOrderMes] = useState({});
+  const [textMes, setTextMes] = useState("");
+  const [workerMes, setWorkerMes] = useState("");
   const messageData = {
-    sender: "",
-    worker: "",
-    order: null,
-    text: "",
+    sender: "c8af4463-936f-4d8e-a384-d06e1f92ec91",
+    worker: workerMes,
+    order: orderMes,
+    text: textMes,
   };
+  console.log(messageData);
   useEffect(() => {
     fetch("https://custom.uz/users/")
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setUsers(data);
       })
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, []);
+
+  // useEffect(() => {
+  //   fetch("https://custom.uz/users/")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       const filteredUsers = data.filter(
+  //         (user) => user.user_roles === "worker"
+  //       );
+  //       console.log(data);
+  //       setUsers(filteredUsers);
+  //     })
+  //     .catch((error) => console.error("malumot olishta xatolik:", error));
+  // }, []);
+
   useEffect(() => {
     fetch("https://custom.uz/products/message_send/api/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMessage(data);
       })
       .catch((error) => console.error("malumot olishta xatolik:", error));
   }, []);
+
   useEffect(() => {
     fetch("https://custom.uz/products/order/api/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setOrderData(data);
       })
       .catch((error) => console.error("Malumot olish hato", error));
@@ -48,7 +66,6 @@ function Message() {
   function createMessage(id) {
     setMessageUi(
       message.filter((me) => {
-        console.log(me.worker == id);
         if (me.worker == id) {
           return me;
         }
@@ -79,14 +96,17 @@ function Message() {
       });
   }
 
-  function hendalClick(e) {
-    messageData.order = e;
+  function selectOrder(orderId) {
+    let aa = orderData.filter((order) => {
+      return order.id == orderId;
+    });
+    const [order] = aa;
+    setOrderMes(order);
   }
 
-
   return (
-    <div className="flex  items-start gap-x-2 mt-2">
-      {/* LEFT_SECTION */}
+    <div className="flex items-start gap-x-2 mt-2">
+
       <div
         className={`w-full min-w-[250px] max-w-[250px] min-h-[80vh]  h-[85vh] overflow-y-auto flex rounded-md flex-col gap-y-3  px-5 bg-white  pt-4 scroll-m-1 box-border`}
       >
@@ -96,7 +116,9 @@ function Message() {
               <div
                 className="messageItem flex border  w-[100%] gap-x-3 p-2 "
                 key={crypto.randomUUID()}
-                onClick={() => createMessage(e.id)}
+                onClick={() => {
+                  createMessage(e.id), setWorkerMes(e.id);
+                }}
               >
                 <small className="flex w-full p-2 justify-between">
                   <p>
@@ -118,6 +140,13 @@ function Message() {
         {/* header-message */}
         <div className="bg-blue-400 px-3 py-1 flex rounded  items-center justify-between">
           <span className="flex items-center gap-4">
+            <img
+              src={
+                headMessage.length > 0 ? headMessage[0]?.image : users[0]?.image
+              }
+              alt="user img"
+              className="w-8 h-8 rounded-full"
+            />
             <small className="flex flex-col ">
               <p className="text-[18px] text-white">
                 {headMessage.length > 0
@@ -131,9 +160,6 @@ function Message() {
               </p>
             </small>
           </span>
-          <button>
-            <IoOptions />
-          </button>
         </div>
         {/* MAIN */}
         <div className="h-[70vh] overflow-y-auto relative mt-2">
@@ -168,6 +194,7 @@ function Message() {
             className="border-[2px] bg-inherit outline-none flex-grow border-none pl-2 "
             placeholder="Send your message"
             type="text"
+            onChange={(e) => setTextMes(e.target.value)}
           />
           <button onClick={() => submitMessage()}>
             <IoSend className="w-6 h-6" />
@@ -175,20 +202,20 @@ function Message() {
         </span>
       </div>
       <Dialog
-        className="animateModal"
+        className="flex items-center  w-full"
         open={size === "sm"}
         size={size || "md"}
         handler={handleOpen}
       >
-        <span>
+        <span className=" flex items-center justify-center flex-wrap gap-3 px-4 py-4 ">
           {orderData.map((order) => {
             return (
               <div
                 key={crypto.randomUUID()}
                 onClick={() => {
-                  hendalClick(order.id);
+                  selectOrder(order.id);
                 }}
-                className="border"
+                className="text-center bg-blue-500 text-white w-32 border px-3 py-2 hover:scale-105"
               >
                 <p>{order.name}</p>
               </div>
