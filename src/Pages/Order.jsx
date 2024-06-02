@@ -137,7 +137,6 @@ function Order() {
                       key={crypto.randomUUID()}
                       setUiData={setCategory}
                       uiData={category}
-
                       api={"https://custom.uz/products/order/api/"}
                       filteredData={filteredData}
                     />
