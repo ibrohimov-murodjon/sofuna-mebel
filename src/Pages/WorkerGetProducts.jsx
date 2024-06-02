@@ -17,6 +17,7 @@ import {
   import { useQuery } from "@tanstack/react-query";
   import { DatePicker } from "../components";
 import { jwtDecode } from "jwt-decode";
+import { ToastContainer } from "react-toastify";
   
   const STATUS = [
     {
@@ -37,18 +38,16 @@ import { jwtDecode } from "jwt-decode";
     },
   ];
   function WorkerGetProducts() {
-    const [filteredData, setFilteredData] = useState([]);
     const [category, setCategory] = useState([]);
-    const role = useSelector((state) => state.userToken.role);
     const token = useSelector((state) => state.userToken.token);
     const decodedToken = jwtDecode(token) 
+
     const fetchProductData = async () => {
       const response = await fetch(`https://custom.uz/products/worker-product-get/${decodedToken.user_id}`);
       const products = await response.json();
       const data = products.products;
       setCategory(data);
       console.log(data);
-      setFilteredData(data);
       return data;
     };
 
@@ -70,9 +69,6 @@ import { jwtDecode } from "jwt-decode";
       );
     }
 
-    function handleFilterData(filteredData) {
-      setFilteredData(filteredData);
-    }
 
     const { data, isLoading, isError } = useQuery({
       queryKey: ["products"],
@@ -116,11 +112,10 @@ import { jwtDecode } from "jwt-decode";
                   </div>
                 </div>
               </CardHeader>
-              <DatePicker filterDateData={handleFilterData} />
               <CardBody className="p-0 mt-8">
                 <div className="text-left">
                   <div className="flex flex-col">
-                    {category.length > 0 ? (
+                    {category &&  (
                       <>
                     
                           <WorkerProductTable
@@ -131,17 +126,14 @@ import { jwtDecode } from "jwt-decode";
                           />
                          
                       </>
-                    ) : (
-                      <div className="loaderWrapper">
-                        <Spinner className="h-12 w-12" />
-                      </div>
-                    )}
+                    ) }
                   </div>
                 </div>
               </CardBody>
             </Card>
           </div>
         )}
+        <ToastContainer/>
       </>
     );
   }
