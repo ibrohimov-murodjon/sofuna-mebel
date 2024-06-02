@@ -42,7 +42,8 @@ function Order() {
     const response = await fetch(
       "https://custom.uz/products/order-measurement/"
     );
-    const data = await response.json();
+    let data = await response.json();
+    data = data.reverse()
     setCategory(data);
     setFilteredData(data);
     return data;

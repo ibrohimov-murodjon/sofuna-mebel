@@ -31,7 +31,8 @@ function Expenses() {
   //!Get expenses
   const getExpensesFn = async () => {
     const request = await fetch(API)
-    const response = await request.json()
+    let response = await request.json()
+    response= response.reverse()
     setFilteredData(response);
     return response
   }
@@ -139,7 +140,7 @@ function Expenses() {
   };
   return (
     <div>
-      {loader && <Loader />}
+      {isLoading && <Loader />}
       <div
         style={{
           padding: "10px",

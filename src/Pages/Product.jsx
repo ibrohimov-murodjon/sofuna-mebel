@@ -45,7 +45,8 @@ function Product() {
   const {pathname} = useLocation()
   const fetchProductData = async () => {
     const response = await fetch("https://custom.uz/products/api/");
-    const data = await response.json();
+    let data = await response.json();
+    data = data.reverse()
     setCategory(data);
     setFilteredData(data);
     return data;
@@ -85,6 +86,11 @@ function Product() {
                   <Typography variant="h5" color="blue-gray">
                     Maxsulotlar
                   </Typography>
+                </div>
+                <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
+                  <AddProductModal
+                    api={"https://custom.uz/products/api/"}
+                  />
                 </div>
               </div>
               <div className="flex items-center justify-between">
