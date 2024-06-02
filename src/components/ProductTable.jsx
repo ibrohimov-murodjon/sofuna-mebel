@@ -4,13 +4,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { Dialog } from "@material-tailwind/react";
 import { DeleteBtn, EditBTn } from "../assets";
 import Loader from "./Loader";
-import {OutlineDeleteModal} from "../components";
+import { OutlineDeleteModal } from "../components";
+import { formatCurrency } from "../utils/helpers";
 
-function ProductTable({ setUiData, uiData, api }) {
+function ProductTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
   const handleOpen = (value) => setSize(value);
+  console.log(filteredData, "filteredData");
 
   const deleteCloseFun = () => {
     setSize(null);
@@ -106,7 +108,7 @@ function ProductTable({ setUiData, uiData, api }) {
 
                   </p>
                 </th> */}
-            
+
                 <th className="p-4 border-b bg-blue-600">
                   <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
@@ -115,88 +117,171 @@ function ProductTable({ setUiData, uiData, api }) {
               </tr>
             </thead>
             <tbody>
-              {uiData &&
-                uiData.map((user, index) => {
-                  return (
-                    <tr
-                      className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
-                      key={user.id}
-                    >
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {index + 1}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name?.charAt() + user.name?.slice(1)}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.measurement}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.qty}
-                        </p>
-                      </td>
+              {filteredData
+                ? filteredData.map((user, index) => {
+                    return (
+                      <tr
+                        className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
+                        key={user.id}
+                      >
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.measurement}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
 
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
-                          {user.total_price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
-                          {user.ndc_price}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
-                          {user.dollor_course}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50 text-center">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
-                          {api === "https://custom.uz/products/api/"
-                            ? user.dollor_course_total?.toFixed(2)
-                            : user.dollor_convert?.toFixed(2)}
-                        </p>
-                      </td>
-                      {/* <td className="p-4 border-b border-blue-gray-50 text-center">
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {formatCurrency(user.price)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {formatCurrency(user.total_price)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {formatCurrency(user.ndc_price)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {formatCurrency(user.dollor_course)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50 text-center">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {api === "https://custom.uz/products/api/"
+                              ? formatCurrency(
+                                  user.dollor_course_total?.toFixed(2)
+                                )
+                              : formatCurrency(user.dollor_convert?.toFixed(2))}
+                          </p>
+                        </td>
+                        {/* <td className="p-4 border-b border-blue-gray-50 text-center">
                         <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
                           {user.company_name}
                         </p>
                       </td> */}
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <span className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => {
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={EditBTn} alt="edit btn" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setUserId(user.id);
-                              handleOpen("xs");
-                            }}
-                          >
-                            <img src={DeleteBtn} alt="delete btn" />
-                          </button>
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => {
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : uiData.map((user, index) => {
+                    return (
+                      <tr
+                        className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
+                        key={user.id}
+                      >
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.measurement}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
+
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.price}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {user.total_price}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {user.ndc_price}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {user.dollor_course}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50 text-center">
+                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                            {api === "https://custom.uz/products/api/"
+                              ? user.dollor_course_total?.toFixed(2)
+                              : user.dollor_convert?.toFixed(2)}
+                          </p>
+                        </td>
+                        {/* <td className="p-4 border-b border-blue-gray-50 text-center">
+                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          {user.company_name}
+                        </p>
+                      </td> */}
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => {
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={EditBTn} alt="edit btn" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setUserId(user.id);
+                                handleOpen("xs");
+                              }}
+                            >
+                              <img src={DeleteBtn} alt="delete btn" />
+                            </button>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
 

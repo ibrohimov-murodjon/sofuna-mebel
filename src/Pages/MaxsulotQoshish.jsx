@@ -1,11 +1,26 @@
-import { Button, Dialog } from "@material-tailwind/react";
-import { DeleteBtn, EditBTn } from "../assets";
 import { useEffect, useRef, useState } from "react";
+import { Dialog } from "@material-tailwind/react";
+import styled from "@emotion/styled";
+import { DeleteBtn, EditBTn } from "../assets";
 import { toast } from "react-toastify";
 import { Loader, OutlineDeleteModal } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteElement } from "../fetchMethods/DeleteMethod";
 import { AddElement } from "../fetchMethods/AddMethod";
+import OutlinedInput from "../components/OutlinedInput";
+import { formatCurrency } from "../utils/helpers";
+import FileInput from "../ui/FileInput";
+import Button from "../ui/Button";
+
+const FileForm = styled.div`
+  border: 2px dashed var(--color-grey-300);
+  padding: 20px;
+  margin-top: 20px;
+  a {
+    text-decoration: underline;
+    color: var(--color-indigo-700);
+  }
+`;
 
 function MaxsulotQoshish() {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -16,7 +31,7 @@ function MaxsulotQoshish() {
   const priceInputRef = useRef(null);
   const [userId, setUserId] = useState("");
   const [updateView, setUpdateView] = useState(false);
-
+  const [selectedFile, setSelectedFile] = useState(null);
   const setValueReset = () => {
     setPrice("");
     setName("");
@@ -24,39 +39,43 @@ function MaxsulotQoshish() {
     setOpenAddModal(false);
     setOpenDeleteModal(false);
   };
-  const API = "https://custom.uz/products/company-product/" 
-  const queryClient = useQueryClient()
+  const API = "https://custom.uz/products/company-product/";
+  const queryClient = useQueryClient();
   const getAddProductFn = async () => {
-    const request = await fetch(API)
-    let response = await request.json()
-    return response.reverse()
-  }
-  const {data, isLoading} = useQuery({
+    const request = await fetch(API);
+    let response = await request.json();
+    return response.reverse();
+  };
+  const { data, isLoading } = useQuery({
     queryKey: ["addProducts"],
-    queryFn: getAddProductFn
-  })
-  const {mutate:deleteMutate } = useMutation({
+    queryFn: getAddProductFn,
+  });
+  const { mutate: deleteMutate } = useMutation({
     mutationFn: (id) => deleteElement(id, API),
     onSuccess: () => {
-      toast.success("Masulot muaffaqiyatli o'chirildi")
+      toast.success("Masulot muaffaqiyatli o'chirildi");
       queryClient.invalidateQueries({
-        queryKey:["addProducts"]
-      })
+        queryKey: ["addProducts"],
+      });
     },
-    onError: () => toast.success("Mahsulot o'chirishdagi xatolik!")
-  })
-  const {mutate: addMutate} = useMutation({
+    onError: () => toast.success("Mahsulot o'chirishdagi xatolik!"),
+  });
+  const { mutate: addMutate } = useMutation({
     mutationFn: (newData) => AddElement(newData, API),
     onSuccess: () => {
-      toast.success("Malumot muaffaqiyatli qo'shildi")
+      toast.success("Malumot muaffaqiyatli qo'shildi");
       queryClient.invalidateQueries({
-        queryKey:["addProducts"]
-      })
+        queryKey: ["addProducts"],
+      });
     },
-    onError: () => toast.error("Malumot qo'shishdagi xatolik!")
-  })
+    onError: () => toast.error("Malumot qo'shishdagi xatolik!"),
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newFormData = new FormData();
+    if (selectedFile) {
+      newFormData.append("image", selectedFile);
+    }
     if (!price) {
       toast.error("Iltimos, narxni kiriting.");
       priceInputRef.current.focus();
@@ -67,13 +86,31 @@ function MaxsulotQoshish() {
       nameInputRef.current.focus();
       return;
     }
-    const newData = {
-      price: price,
-      name: name,
-    };
+    newFormData.append("name", name);
+    newFormData.append("price", price);
+    // const newData = {
+    //   price: price,
+    //   name: name,
+    // };
+    fetch(API, {
+      method: "POST",
+      body: newFormData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    setName("");
+    setPrice("");
     setOpenAddModal(false);
-    addMutate(newData)
+    // addMutate(newFormData);
   };
+
+  function handleFileChange(file) {
+    setSelectedFile(file);
+  }
 
   return (
     <>
@@ -115,33 +152,31 @@ function MaxsulotQoshish() {
               onSubmit={handleSubmit}
               style={{ width: "100%", margin: "0px auto" }}
             >
-              <div className="relative w-full min-w-[200px]  mt-6">
-                <input
-                  ref={nameInputRef}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  style={{ resize: "none", background: "#f5f5f5" }}
-                  className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500 "
-                  placeholder=""
-                ></input>
-                <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                  Maxsulot nomini kiriting
-                </label>
-              </div>
-              <div className="relative w-full min-w-[200px] mt-6 h-10">
-                <input
-                  style={{ background: "#f5f5f5" }}
-                  ref={priceInputRef}
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  type="number"
-                  className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
-                  placeholder=" "
+              <OutlinedInput
+                label="Maxsulot nomini kiriting"
+                type="text"
+                ref={nameInputRef}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Maxsulot nomi"
+              />
+              <br />
+              <OutlinedInput
+                label="Maxsulot narxini kiriting"
+                ref={priceInputRef}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                type="number"
+                placeholder="Maxsulot narxi"
+              />
+              <FileForm>
+                <FileInput
+                  id="avatar"
+                  accept="pdf/*"
+                  onChange={handleFileChange}
+                  //   imgFileName={imgFileName}
                 />
-                <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                  Maxsulot narxini kiriting
-                </label>
-              </div>
+              </FileForm>
 
               <div
                 style={{
@@ -168,7 +203,7 @@ function MaxsulotQoshish() {
                     </Button>
                   </>
                 ) : (
-                  <Button type="submit" style={{ width: "50%" }} color="blue">
+                  <Button size="small" variation="primary" type="submit">
                     Qo&apos;shish
                   </Button>
                 )}
@@ -180,10 +215,9 @@ function MaxsulotQoshish() {
           style={{ marginLeft: "auto", display: "flex", justifyContent: "end" }}
         >
           <Button
-            style={{
-              display: "flex",
-            }}
-            color="blue"
+            size="medium"
+            variation="primary"
+            type="submit"
             onClick={() => setOpenAddModal(true)}
           >
             Maxsulot qo&apos;shish
@@ -252,7 +286,7 @@ function MaxsulotQoshish() {
 
                     <th className="p-4 border-b border-blue-gray-50">
                       <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
-                        {item.price}
+                        {formatCurrency(item.price)}
                       </p>
                     </th>
 
@@ -262,7 +296,7 @@ function MaxsulotQoshish() {
                           <button
                             className=""
                             onClick={() => {
-                                handleUpdate(item);
+                              handleUpdate(item);
                             }}
                           >
                             <img src={EditBTn} alt="edit btn" />

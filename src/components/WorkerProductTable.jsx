@@ -1,13 +1,12 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function WorkerProductTable({ setUiData, uiData, api }) {
+function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-
+  console.log(filteredData, "filteredData");
   return (
     <>
       {loader ? (
@@ -38,45 +37,42 @@ function WorkerProductTable({ setUiData, uiData, api }) {
                   </p>
                 </th>
 
-                {pathname === "/product" && (
-                  <th className="p-4 border-b bg-blue-600">
-                    <p className="block font-sans text-sm text-left antialiased font-normal leading-none text-white">
-                      Actions
-                    </p>
-                  </th>
-                )}
+                <th className="p-4 border-b bg-blue-600">
+                  <p className="block font-sans text-sm text-left antialiased font-normal leading-none text-white">
+                    Actions
+                  </p>
+                </th>
               </tr>
             </thead>
             <tbody>
-              {uiData &&
-                uiData.map((user, index) => {
-                  return (
-                    <tr
-                      className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
-                      key={user.id}
-                    >
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {index + 1}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name?.charAt(0).toUpperCase() + user.name?.slice(1)}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.measurement}
-                        </p>
-                      </td>
-                      <td className="p-4 border-b border-blue-gray-50">
-                        <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.qty}
-                        </p>
-                      </td>
+              {filteredData
+                ? filteredData.map((user, index) => {
+                    return (
+                      <tr
+                        className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
+                        key={user.id}
+                      >
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.measurement}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
 
-                      {pathname === "/product" && (
                         <td className="p-4 border-b border-blue-gray-50">
                           <span
                             onClick={() => {
@@ -87,10 +83,49 @@ function WorkerProductTable({ setUiData, uiData, api }) {
                             Mahsulot Olish
                           </span>
                         </td>
-                      )}
-                    </tr>
-                  );
-                })}
+                      </tr>
+                    );
+                  })
+                : uiData.map((user, index) => {
+                    return (
+                      <tr
+                        className={`${index % 2 === 0 ? "bg-blue-50" : ""}`}
+                        key={user.id}
+                      >
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.name?.charAt() + user.name?.slice(1)}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.measurement}
+                          </p>
+                        </td>
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {user.qty}
+                          </p>
+                        </td>
+
+                        <td className="p-4 border-b border-blue-gray-50">
+                          <span
+                            onClick={() => {
+                              navigate(`/product/${user.id}`);
+                            }}
+                            className="bg-blue-800 text-white p-3 cursor-pointer"
+                          >
+                            Mahsulot Olish
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         </div>

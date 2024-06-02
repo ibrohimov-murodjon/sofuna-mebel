@@ -9,8 +9,8 @@ const sizes = {
     text-align: center;
   `,
   medium: css`
-    font-size: 1.4rem;
-    padding: 1.2rem 1.6rem;
+    font-size: 1.1rem;
+    padding: 1rem 1.2rem;
     font-weight: 500;
   `,
   large: css`
