@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import WorkerProductTable from "../components/WorkerProductTable";
 import { useQuery } from "@tanstack/react-query";
 import { DatePicker } from "../components";
+import { useLocation } from "react-router-dom";
 
 const STATUS = [
   {
@@ -41,9 +42,11 @@ function Product() {
   const [filteredData, setFilteredData] = useState([]);
   const [category, setCategory] = useState([]);
   const role = useSelector((state) => state.userToken.role);
+  const {pathname} = useLocation()
   const fetchProductData = async () => {
     const response = await fetch("https://custom.uz/products/api/");
-    const data = await response.json();
+    let data = await response.json();
+    data = data.reverse()
     setCategory(data);
     setFilteredData(data);
     return data;
@@ -84,7 +87,6 @@ function Product() {
                     Maxsulotlar
                   </Typography>
                 </div>
-
                 <div className="flex shrink-0 flex-col mb-2 mt-1 gap-2 sm:flex-row">
                   <AddProductModal api={"https://custom.uz/products/api/"} />
                 </div>

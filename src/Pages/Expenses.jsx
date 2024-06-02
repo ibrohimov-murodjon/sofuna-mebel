@@ -1,14 +1,47 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Dialog } from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Button,
+  Dialog,
+  Tab,
+  Tabs,
+  TabsHeader,
+} from "@material-tailwind/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { DeleteBtn, EditBTn } from "../assets";
 import { OutlineDeleteModal, DatePicker } from "../components";
 import Loader from "../components/Loader";
 import Tag from "../ui/Tag";
 import { formatCurrency } from "../utils/helpers";
+import { AddElement } from "../fetchMethods/AddMethod";
+import { deleteElement } from "../fetchMethods/DeleteMethod";
+
+const API = "https://custom.uz/products/expense/";
+
+const STATUS = [
+  {
+    label: "Barchasi",
+    value: "all",
+  },
+  {
+    label: "Xarajat",
+    value: "MATERIAL_COST",
+  },
+  {
+    label: "Ish haqqi",
+    value: "SALARY",
+  },
+  {
+    label: "Transport",
+    value: "TRANSPORT",
+  },
+  {
+    label: "Boshqa",
+    value: "OTHER",
+  },
+];
 
 function Expenses() {
   const [filteredData, setFilteredData] = useState([]);
@@ -18,23 +51,62 @@ function Expenses() {
   const [userId, setUserId] = useState("");
   const [size, setSize] = useState(null);
   const descriptionInputRef = useRef(null);
-  const [loader, setLoader] = useState(false);
   const [updateView, setUpdateView] = useState(false);
+  const [selectedType, setSelectedType] = useState("MATERIAL_COST");
+  const [category, setCategory] = useState([]);
   const handleOpen = (value) => setSize(value);
   const token = useSelector((state) => state.userToken.token);
   const deleteCloseFun = () => {
     setSize(null);
   };
+  //!Get expenses
   const getExpensesFn = async () => {
-    const request = await fetch("https://custom.uz/products/cost/");
-    const response = await request.json();
-    setFilteredData(response);
-    return response;
+
+    const request = await fetch(API);
+    const data = await request.json();
+    setCategory(data);
+    setFilteredData(data);
+    return data;
   };
   const { data, isLoading } = useQuery({
     queryKey: ["expenses"],
     queryFn: getExpensesFn,
   });
+
+  function categoryFilter(category) {
+    setFilteredData(
+      data.filter((order) => {
+        if (category == "all") return order.status;
+        else return order.status == category;
+      })
+    );
+ 
+  }
+console.log(filteredData)
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: (id) => deleteElement(id, API),
+    onSuccess: () => {
+      toast.success("Xarajat muaffaqiyatli o'chirildi");
+      queryClient.invalidateQueries({
+        queryKey: ["expenses"],
+      });
+    },
+    onError: () => alert("Xarajat o'chirishdagi muammo"),
+  });
+
+  const { mutate: addMutate } = useMutation({
+    mutationFn: (newExpenses) => AddElement(newExpenses, API),
+    onSuccess: () => {
+      toast.success("Muaffiqiyatli qo'shildi");
+      queryClient.invalidateQueries({
+        queryKey: ["expenses"],
+      });
+      deleteCloseFun();
+    },
+    onError: () => toast.success("Malumot qo'shishda xatolik!"),
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -47,39 +119,20 @@ function Expenses() {
       descriptionInputRef.current.focus();
       return;
     }
-
     const decodedToken = jwtDecode(token);
-    const requestData = {
+    const newExpenses = {
       user: decodedToken.user_id,
+      status: selectedType,
       price: price,
       description: description,
     };
-    setLoader(true);
-    // try {
-    //   const response = await fetch(`https://custom.uz/products/cost/`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(requestData),
-    //   });
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setData((prevData) => [...prevData, data]);
-    //     notify();
-    //     setValueReset();
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting data:", error);
-    // } finally {
-    //   setLoader(false);
-    // }
+    console.log(newExpenses,127);
+    addMutate(newExpenses);
   };
   function handleFilterData(filteredData) {
     // Update the filteredData state with the received data
     setFilteredData(filteredData);
   }
-
   const handleUpdate = (item) => {
     setUserId(item.id);
     setPrice(item.price);
@@ -113,39 +166,11 @@ function Expenses() {
   //     setLoader(false);
   //   }
   // }
-
-  // async function deleteProduct(id) {
-  //   setLoader(true);
-  //   try {
-  //     const response = await fetch(`https://custom.uz/products/cost/${id}/`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       let copied = JSON.parse(JSON.stringify(data));
-  //       const updatedUiData = copied.filter((user) => user.id !== id);
-  //       setData(updatedUiData);
-  //       deleteCloseFun();
-  //       notify();
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete error:", error);
-  //     toast.error("Error deleting user", {
-  //       position: "top-center",
-  //       autoClose: 1500,
-  //     });
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // }
-
   const setValueReset = () => {
     setPrice("");
     setDescription("");
     setUpdateView(false);
+    deleteCloseFun();
   };
   const totalPrice = () => {
     let sum = 0;
@@ -158,7 +183,7 @@ function Expenses() {
   };
   return (
     <div>
-      {loader && <Loader />}
+      {isLoading && <Loader />}
       <div
         style={{
           padding: "10px",
@@ -173,6 +198,8 @@ function Expenses() {
           <div className="flex items-center gap-24">
             <button
               onClick={() => {
+                setDescription("");
+                setPrice("");
                 setUpdateView(false);
                 handleOpen("sm");
               }}
@@ -182,9 +209,10 @@ function Expenses() {
             </button>
             <DatePicker
               filterDateData={handleFilterData}
-              api={"https://custom.uz/products/cost/filter-date/"}
+              api={"https://custom.uz/products/expense/filter-date/"}
             />
           </div>
+
           <h3
             style={{
               textAlign: "center",
@@ -195,6 +223,19 @@ function Expenses() {
           >
             HARAJATLAR JADVALI
           </h3>
+          <Tabs value="all" className="w-full md:w-4/6 mx-auto">
+            <TabsHeader className="">
+              {STATUS.map(({ label, value }) => (
+                <Tab
+                  onClick={() => categoryFilter(value)}
+                  key={value}
+                  value={value}
+                >
+                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                </Tab>
+              ))}
+            </TabsHeader>
+          </Tabs>
 
           <table
             style={{
@@ -298,7 +339,7 @@ function Expenses() {
                     </>
                   );
                 })
-              : data.map((item, index) => {
+              : category.map((item, index) => {
                   return (
                     <>
                       <tbody key={index}>
@@ -374,7 +415,7 @@ function Expenses() {
         >
           <OutlineDeleteModal
             handleClose={deleteCloseFun}
-            deleteUser={() => deleteProduct(userId)}
+            deleteUser={() => deleteMutate(userId)}
           />
         </Dialog>
       </div>
@@ -406,32 +447,45 @@ function Expenses() {
             onSubmit={handleSubmit}
             style={{ width: "100%", margin: "0px auto" }}
           >
-            <div className="relative w-full min-w-[200px] h-10">
+            <div className=" w-full min-w-[200px] h-10">
+              <label htmlFor="price">Harajat narxini kiriting</label>
               <input
                 style={{ background: "#f5f5f5" }}
                 ref={priceInputRef}
                 value={price}
+                id="price"
                 onChange={(e) => setPrice(e.target.value)}
                 type="number"
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
-                placeholder=" "
+                placeholder=""
+                className="block w-full rounded mb-2"
               />
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                Harajat narxini kiriting
-              </label>
             </div>
-            <div className="relative w-full min-w-[200px] h-28   mt-6">
+            <div className=" w-full min-w-[200px] h-10 mt-8">
+              <label htmlFor="type">Harajat turini Tanlang</label>
+              <select
+                id="type"
+                className="block w-full"
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+              >
+                <option value="MATERIAL_COST" selected>
+                  Moddiy Harajat
+                </option>
+                <option value="SALARY">Ish Haqqi</option>
+                <option value="TRASNPORT">Transport</option>
+                <option value="OTHER">Boshqa</option>
+              </select>
+            </div>
+            <div className=" w-full min-w-[200px] h-28 mt-8">
+              <label>Nima uchun qo&apos;shilganini ko&apos;rsating</label>
               <textarea
                 ref={descriptionInputRef}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 style={{ resize: "none", background: "#f5f5f5" }}
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-3 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
+                className="block w-full rounded mb-2"
                 placeholder=""
               ></textarea>
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">
-                Nima uchun qo&apos;shilganini ko&apos;rsating
-              </label>
             </div>
             <div
               style={{
@@ -469,6 +523,7 @@ function Expenses() {
           </form>
         </div>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

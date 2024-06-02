@@ -29,13 +29,16 @@ import WorkerGetOrder from "./Pages/WorkerGetOrder.jsx";
 import Expenses from "./Pages/Expenses.jsx";
 import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
+import WorkerGetProducts from "./Pages/WorkerGetProducts.jsx";
+import { ToastContainer } from "react-toastify";
+import OlinganMaxsulotlar from "./Pages/OlinganMaxsulotlar.jsx";
+import OlinganlarHaqida from "./Pages/OlinganlarHaqida.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
   const role = useSelector((state) => state.userToken.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   function fetchUserRole() {
     if (token) {
       const decodedToken = jwtDecode(token);
@@ -83,7 +86,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
         {token && role === "admin" && (
           <>
-            <Route
+            {/* <Route
               path="/"
               element={
                 <ProtectedRoute
@@ -95,9 +98,9 @@ function App() {
                   </RoutesLayout>
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
-              path="/product"
+              path="/"
               element={
                 <ProtectedRoute
                   isAuthentication={token ? true : false}
@@ -170,6 +173,32 @@ function App() {
                 >
                   <RoutesLayout>
                     <MaxsulotQoshish />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/olinganlar"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <OlinganMaxsulotlar />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/olinganlar/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <OlinganlarHaqida />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -344,7 +373,7 @@ function App() {
                   redirectTo="/login"
                 >
                   <RoutesLayout>
-                    <Message />
+                    <WorkerGetProducts />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -375,6 +404,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/get-products"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <WorkerGetProducts />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
           </>
         )}
       </Routes>
@@ -398,6 +440,7 @@ function App() {
           },
         }}
       />
+      <ToastContainer />
     </QueryClientProvider>
   );
 }

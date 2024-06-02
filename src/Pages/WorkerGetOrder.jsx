@@ -4,7 +4,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   max-width: 768px;
@@ -19,6 +20,7 @@ const WorkerGetOrder = () => {
   const decodedToken = jwtDecode(token);
   const [product, setProduct] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,6 +67,8 @@ const WorkerGetOrder = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
+        toast.success("Buyurtma qo'shildi")
+        navigate('/')
       })
       .catch((error) => console.error("Error sending message:", error));
   }
@@ -75,10 +79,7 @@ const WorkerGetOrder = () => {
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md text-3xl text-black ">
           {product.name}
         </h2>
-        <h3 className="text-2xl text-gray-600">Buyurtma beruvchi: </h3>
-        <h2 className="border border-gray-400 mt-2 p-2 rounded-md  text-black text-3xl">
-          {product.company_name}
-        </h2>
+      
         <h3 className="text-2xl text-gray-600">Buyurtma soni: </h3>
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md text-3xl text-black ">
           {product.qty}

@@ -59,6 +59,7 @@ function WorkerOrder() {
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
+      setInputValue('')
 
       const responseData = await response.json();
       fetchData();
@@ -71,7 +72,6 @@ function WorkerOrder() {
 
   const AcceptanceUpdate = async () => {
     setLoader(true);
-
     const updatedWorkProses = Number(product.work_proses) + Number(inputValue);
 
     const updatedStatus =
@@ -102,6 +102,8 @@ function WorkerOrder() {
       const responseData = await response.json();
       console.log("Response:", responseData);
       fetchData();
+      setInputValue('')
+
       setLoader(false);
     } catch (error) {
       setLoader(false);
@@ -119,10 +121,7 @@ function WorkerOrder() {
         <Loader />
       </div>
       <div>
-        <h3 className="text-2xl text-gray-600">Buyurtma beruvchi: </h3>
-        <h2 className="border border-gray-400 mt-2 p-2 rounded-md  text-black text-3xl">
-          {product.company_name}
-        </h2>
+      
         <h3 className="text-2xl text-gray-600">Maxsulot nomi: </h3>
         <h2 className="border border-gray-400 mt-2 p-2 rounded-md text-3xl text-black ">
           {product.name}
@@ -164,7 +163,7 @@ function WorkerOrder() {
             Qabul qilish
           </button>
         )}
-        {product.status == "pending" && (
+        {product.status == "PENDING" && (
           <>
             <input
               type="number"
