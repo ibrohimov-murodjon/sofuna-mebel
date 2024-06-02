@@ -67,6 +67,13 @@ const AdminMenuItems = [
     active: CostImg,
     link: "/maxsulotQoshish",
   },
+  {
+    id: 6,
+    name: "Olinganlar",
+    unActive: CostImg,
+    active: CostImg,
+    link: "/olinganlar",
+  },
 ];
 const WorkerMenuItems = [
   {

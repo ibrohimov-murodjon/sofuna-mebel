@@ -31,6 +31,8 @@ import MaxsulotQoshish from "./Pages/MaxsulotQoshish.jsx";
 import WorkerProductDetail from "./Pages/WorkerProductDetail.jsx";
 import WorkerGetProducts from "./Pages/WorkerGetProducts.jsx";
 import { ToastContainer } from "react-toastify";
+import OlinganMaxsulotlar from "./Pages/OlinganMaxsulotlar.jsx";
+import OlinganlarHaqida from "./Pages/OlinganlarHaqida.jsx";
 
 function App() {
   const token = useSelector((state) => state.userToken.token);
@@ -140,7 +142,6 @@ function App() {
               path="/stirCompany/:id"
               element={
                 <ProtectedRoute
-
                   isAuthentication={token ? true : false}
                   redirectTo="/login"
                 >
@@ -172,6 +173,32 @@ function App() {
                 >
                   <RoutesLayout>
                     <MaxsulotQoshish />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/olinganlar"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <OlinganMaxsulotlar />
+                  </RoutesLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/olinganlar/:id"
+              element={
+                <ProtectedRoute
+                  isAuthentication={token ? true : false}
+                  redirectTo="/login"
+                >
+                  <RoutesLayout>
+                    <OlinganlarHaqida />
                   </RoutesLayout>
                 </ProtectedRoute>
               }
@@ -242,7 +269,6 @@ function App() {
                 </ProtectedRoute>
               }
             /> */}
-
 
             <Route
               path="/profile"
@@ -414,7 +440,7 @@ function App() {
           },
         }}
       />
-      <ToastContainer/>
+      <ToastContainer />
     </QueryClientProvider>
   );
 }
