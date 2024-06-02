@@ -40,8 +40,6 @@ function AddProduct({ api }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleOpen = () => setOpen((cur) => !cur);
-  const notify = () => toast.success("Amaliyot muvofaqiyatli bo'ldi");
-
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (newOrder) => AddElement(newOrder, api),
