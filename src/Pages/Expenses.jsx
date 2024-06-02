@@ -248,34 +248,34 @@ console.log(filteredData)
             <thead>
               <tr>
                 <th className="py-4 px-2 w-2 border-b bg-blue-600 text-white">
-                  <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-white">
+                  <p className="w-8 text-center block text-sm font-normal leading-none text-white">
                     No
                   </p>
                 </th>
                 <th className="py-4 px-2 border-b bg-blue-600 text-white">
-                  <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="w-20 block text-sm antialiased font-normal leading-none text-white">
                     Ism
                   </p>
                 </th>
                 <th className="py-4 px-2 border-b bg-blue-600">
-                  <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className=" w-20 block text-sm antialiased font-normal leading-none text-white">
                     Familya
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="w-16 block text-sm antialiased font-normal leading-none text-white">
                     Puli
                   </p>
                 </th>
 
                 <th className="p-4 border-b bg-blue-600">
-                  <p className=" block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className=" block text-sm antialiased font-normal leading-none text-white">
                     Nima uchun qo&apos;shilgani
                   </p>
                 </th>
 
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="text-end block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="text-end block text-sm antialiased font-normal leading-none text-white">
                     Actions
                   </p>
                 </th>
@@ -287,28 +287,28 @@ console.log(filteredData)
                     <>
                       <tbody key={index}>
                         <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
-                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                          <p className="w-8 text-center block text-sm font-normal leading-none text-blue-gray-900">
                             {index + 1}
                           </p>
                         </th>
                         <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
-                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className="w-20 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.user.first_name}
                           </p>
                         </th>
                         <th className="py-4 px-2 border-b border-blue-gray-50">
-                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className=" w-20 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.user.last_name}
                           </p>
                         </th>
                         <th className="p-4 border-b border-blue-gray-50">
-                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className="w-16 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {formatCurrency(item.price)}
                           </p>
                         </th>
 
                         <th className="p-4 border-b border-blue-gray-50">
-                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className=" block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.description}
                           </p>
                         </th>
@@ -344,28 +344,28 @@ console.log(filteredData)
                     <>
                       <tbody key={index}>
                         <th className="py-4 px-2 w-2 border-b border-blue-gray-50 text-white">
-                          <p className="w-8 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                          <p className="w-8 text-center block text-sm font-normal leading-none text-blue-gray-900">
                             {index + 1}
                           </p>
                         </th>
                         <th className="py-4 px-2 border-b border-blue-gray-50 text-blue-gray-900">
-                          <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className="w-20 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.user.first_name}
                           </p>
                         </th>
                         <th className="py-4 px-2 border-b border-blue-gray-50">
-                          <p className=" w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className=" w-20 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.user.last_name}
                           </p>
                         </th>
                         <th className="p-4 border-b border-blue-gray-50">
-                          <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className="w-16 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {formatCurrency(item.price)}
                           </p>
                         </th>
 
                         <th className="p-4 border-b border-blue-gray-50">
-                          <p className=" block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                          <p className=" block text-sm antialiased font-normal leading-none text-blue-gray-900">
                             {item.description}
                           </p>
                         </th>

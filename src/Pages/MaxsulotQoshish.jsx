@@ -244,24 +244,24 @@ function MaxsulotQoshish() {
           <thead>
             <tr>
               <th className="py-4 px-2 w-16 border-b bg-blue-600 text-white">
-                <p className="w-16 text-center block font-sans text-sm font-normal leading-none text-white">
+                <p className="w-16 text-center block text-sm font-normal leading-none text-white">
                   No
                 </p>
               </th>
               <th className="py-4 px-2 border-b bg-blue-600 text-white">
-                <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-white">
+                <p className="w-20 block text-sm antialiased font-normal leading-none text-white">
                   Nomi
                 </p>
               </th>
 
               <th className="p-4 border-b bg-blue-600">
-                <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-white">
+                <p className="w-16 block text-sm antialiased font-normal leading-none text-white">
                   Puli
                 </p>
               </th>
 
               <th className="p-4 border-b bg-blue-600">
-                <p className="text-end block font-sans text-sm antialiased font-normal leading-none text-white">
+                <p className="text-end block text-sm antialiased font-normal leading-none text-white">
                   Actions
                 </p>
               </th>
@@ -274,24 +274,24 @@ function MaxsulotQoshish() {
                 <>
                   <tbody key={index}>
                     <th className="py-4 px-2 w-16 border-b border-blue-gray-50 text-white">
-                      <p className="w-16 text-center block font-sans text-sm font-normal leading-none text-blue-gray-900">
+                      <p className="w-16 text-center block text-sm font-normal leading-none text-blue-gray-900">
                         {index + 1}
                       </p>
                     </th>
                     <th className="py-4 px-2 border-b border-blue-gray-50 text-white">
-                      <p className="w-20 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                      <p className="w-20 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                         {item.name}
                       </p>
                     </th>
 
                     <th className="p-4 border-b border-blue-gray-50">
-                      <p className="w-16 block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                      <p className="w-16 block text-sm antialiased font-normal leading-none text-blue-gray-900">
                         {formatCurrency(item.price)}
                       </p>
                     </th>
 
                     <th className="p-4 border-b border-blue-gray-50">
-                      <p className="text-end block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900">
+                      <p className="text-end block text-sm antialiased font-normal leading-none text-blue-gray-900">
                         <span className="flex items-center justify-end gap-5">
                           <button
                             className=""

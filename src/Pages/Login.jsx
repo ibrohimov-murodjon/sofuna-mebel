@@ -5,8 +5,7 @@ import { setToken } from "../store/userToken";
 import { toast, ToastContainer } from "react-toastify";
 import { Loader } from "../components/index";
 import { Logo } from "../assets";
-import OutlinedInput from '../components/OutlinedInput'
-
+import OutlinedInput from "../components/OutlinedInput";
 
 function Login() {
   const navigate = useNavigate();
@@ -29,7 +28,9 @@ function Login() {
       newErrors.username = false;
     }
 
-    if (!(password.trim().length >= 1 && password.length >= minPasswordLength)) {
+    if (
+      !(password.trim().length >= 1 && password.length >= minPasswordLength)
+    ) {
       newErrors.password = true;
     } else {
       newErrors.password = false;
@@ -62,7 +63,10 @@ function Login() {
         .then((data) => {
           if (data.access_token) {
             dispatch(setToken(data.access_token));
-            localStorage.setItem("accessToken", JSON.stringify(data.access_token));
+            localStorage.setItem(
+              "accessToken",
+              JSON.stringify(data.access_token)
+            );
             navigate("/");
           } else if (!data.success) {
             toast.error("Login yoki paroldagi xatolik !!!", {
@@ -92,10 +96,15 @@ function Login() {
       <div className="max-w-screen-xl m-0 sm:m-10 backdrop-blur-md drop-shadow-2xl bg-white/30 shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
           <div className="">
-            <img src={Logo} className="w-[100px] mx-auto h-[100px] rounded-full" />
+            <img
+              src={Logo}
+              className="w-[100px] mx-auto h-[100px] rounded-full"
+            />
           </div>
           <div className="mt-12 flex flex-col items-center z-50">
-            <h1 className="text-2xl xl:text-3xl font-extrabold">Tizimga kirish</h1>
+            <h1 className="text-2xl xl:text-3xl font-extrabold">
+              Tizimga kirish
+            </h1>
             <div className="w-full flex-1 mt-8">
               <form className="mx-auto max-w-xs" onSubmit={handleSubmit}>
                 <label htmlFor="email" className="text-[18px]">
@@ -104,8 +113,7 @@ function Login() {
                 <OutlinedInput
                   bgColor="white"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)
-                  }
+                  onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username..."
                   isError={errors.username}
                   id="email"

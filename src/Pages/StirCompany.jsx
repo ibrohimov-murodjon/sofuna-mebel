@@ -48,58 +48,58 @@ const StirCompany = () => {
               <thead className="">
                 <tr>
                   <th className="p-4 border-b  bg-blue-600 text-white">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
+                    <p className="block text-sm antialiased font-normal leading-none text-white ">
                       No
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600 text-white">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
+                    <p className="block text-sm antialiased font-normal leading-none text-white ">
                       Name
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-sm antialiased font-normal leading-none text-white">
                       Qty
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-center  text-sm antialiased font-normal leading-none text-white">
                       Meauserement
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-sm antialiased font-normal leading-none text-white">
                       Price
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-sm antialiased font-normal leading-none text-white">
                       Total price
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-sm antialiased font-normal leading-none text-white">
                       NDS Price
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                    <p className="block text-sm antialiased font-normal leading-none text-white">
                       Dollar curs
                     </p>
                   </th>
 
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                    <p className="block text-sm antialiased font-normal leading-none text-white text-center">
                       Dollar convert
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                    <p className="block text-sm antialiased font-normal leading-none text-white text-center">
                       Qarzdorlik
                     </p>
                   </th>
                   <th className="p-4 border-b  bg-blue-600">
-                    <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
+                    <p className="block text-sm text-right antialiased font-normal leading-none text-white">
                       Actions
                     </p>
                   </th>
@@ -114,7 +114,7 @@ const StirCompany = () => {
                         key={crypto.randomUUID()}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
@@ -122,29 +122,29 @@ const StirCompany = () => {
                           onClick={() => handleRowClick(user.id)}
                           className="p-4 border-b border-blue-gray-50"
                         >
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.price}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
                           <a
                             href="#"
-                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                            className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                           >
                             {user.total_price}
                           </a>
@@ -152,7 +152,7 @@ const StirCompany = () => {
                         <td className="p-4 border-b border-blue-gray-50">
                           <a
                             href="#"
-                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                            className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                           >
                             {user.ndc_price}
                           </a>
@@ -160,7 +160,7 @@ const StirCompany = () => {
                         <td className="p-4 border-b border-blue-gray-50">
                           <a
                             href="#"
-                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                            className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                           >
                             {user.dollor_course}
                           </a>
@@ -168,7 +168,7 @@ const StirCompany = () => {
                         <td className="p-4 border-b border-blue-gray-50 text-center ">
                           <a
                             href="#"
-                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                            className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                           >
                     {user.dollor_convert.toFixed(2)}
                           </a>
@@ -176,7 +176,7 @@ const StirCompany = () => {
                         <td className="p-4 border-b border-blue-gray-50 text-center ">
                           <a
                             href="#"
-                            className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900"
+                            className="block text-sm antialiased font-medium leading-normal text-blue-gray-900"
                           >
                             {user.debt}
                           </a>

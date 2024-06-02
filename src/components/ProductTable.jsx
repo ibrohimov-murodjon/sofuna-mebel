@@ -56,53 +56,53 @@ function ProductTable({ setUiData, uiData, api, filteredData }) {
             <thead>
               <tr>
                 <th className="p-4 w-2 border-b bg-blue-600 text-white">
-                  <p className="block font-sans text-sm font-normal leading-none text-white">
+                  <p className="block text-sm font-normal leading-none text-white">
                     No
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600 text-white">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Name
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-center text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-center text-sm antialiased font-normal leading-none text-white">
                     O&apos;lchov
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Soni
                   </p>
                 </th>
 
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Price
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Total price
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     NDS Price
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Dollar curs
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                  <p className="block text-sm antialiased font-normal leading-none text-white text-center">
                     Dollar convert
                   </p>
                 </th>
                 {/* <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white text-center">
+                  <p className="block text-sm antialiased font-normal leading-none text-white text-center">
                     Company
 
 
@@ -110,7 +110,7 @@ function ProductTable({ setUiData, uiData, api, filteredData }) {
                 </th> */}
 
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
+                  <p className="block text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
                   </p>
                 </th>
@@ -125,48 +125,48 @@ function ProductTable({ setUiData, uiData, api, filteredData }) {
                         key={user.id}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>
 
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {formatCurrency(user.price)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {formatCurrency(user.total_price)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {formatCurrency(user.ndc_price)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {formatCurrency(user.dollor_course)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50 text-center">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {api === "https://custom.uz/products/api/"
                               ? formatCurrency(
                                   user.dollor_course_total?.toFixed(2)
@@ -175,7 +175,7 @@ function ProductTable({ setUiData, uiData, api, filteredData }) {
                           </p>
                         </td>
                         {/* <td className="p-4 border-b border-blue-gray-50 text-center">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                        <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                           {user.company_name}
                         </p>
                       </td> */}
@@ -208,55 +208,55 @@ function ProductTable({ setUiData, uiData, api, filteredData }) {
                         key={user.id}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>
 
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.price}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {user.total_price}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {user.ndc_price}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {user.dollor_course}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50 text-center">
-                          <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                             {api === "https://custom.uz/products/api/"
                               ? user.dollor_course_total?.toFixed(2)
                               : user.dollor_convert?.toFixed(2)}
                           </p>
                         </td>
                         {/* <td className="p-4 border-b border-blue-gray-50 text-center">
-                        <p className="block font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
+                        <p className="block text-sm antialiased font-medium leading-normal text-blue-gray-900">
                           {user.company_name}
                         </p>
                       </td> */}

@@ -1,7 +1,7 @@
 //react-icons
 import { jwtDecode } from "jwt-decode";
 import { useRef } from "react";
-import {  useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -46,9 +46,7 @@ function Header({ activePage, setActivePage }) {
           <div>
             <img
               alt="tania andrew"
-              src={
-                './user.png'
-              }
+              src={"./user.png"}
               className="relative inline-block object-cover object-center w-12 h-12 rounded-full"
               data-popover-target="profile-menu"
             />
@@ -58,7 +56,7 @@ function Header({ activePage, setActivePage }) {
               data-popover-placement="bottom"
               className={`${
                 open ? "flex" : "hidden"
-              }  absolute bottom-[-100px] right-2 z-10 min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none`}
+              }  absolute bottom-[-100px] right-2 z-10 min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none`}
             >
               <Link
                 onClick={() => {
@@ -83,7 +81,7 @@ function Header({ activePage, setActivePage }) {
                     fill="#90A4AE"
                   ></path>
                 </svg>
-                <p className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
+                <p className="block text-sm antialiased font-medium leading-normal text-inherit">
                   My Profile
                 </p>
               </Link>
@@ -106,7 +104,7 @@ function Header({ activePage, setActivePage }) {
                     fill="#90A4AE"
                   ></path>
                 </svg>
-                <p className="block font-sans text-sm antialiased font-medium leading-normal text-inherit">
+                <p className="block text-sm antialiased font-medium leading-normal text-inherit">
                   Sign Out
                 </p>
               </button>

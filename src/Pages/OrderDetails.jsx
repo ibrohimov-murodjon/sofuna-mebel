@@ -108,27 +108,27 @@ function OrderDetails() {
                 key={user.id}
               >
                 <td className="py-2 px-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 text-center">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900 text-center">
                     {index + 1}
                   </p>
                 </td>
                 <td className="py-2 px-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.first_name}
                   </p>
                 </td>
                 <td className="py-2 px-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.last_name}
                   </p>
                 </td>
                 <td className="py-2 px-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.phone_number}
                   </p>
                 </td>
                 <td className="py-2 px-4 border-b border-blue-gray-50">
-                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                  <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {user.filial_name || "N/A"}
                   </p>
                 </td>

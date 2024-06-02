@@ -1,9 +1,9 @@
 import React from "react";
 import { useRef, useState } from "react";
 import styled from "@emotion/styled";
-import {CloseIcon} from "../assets";
-import {Button } from "../components";
-import OutlinedInput from './OutlinedInput'
+import { CloseIcon } from "../assets";
+import { Button } from "../components";
+import OutlinedInput from "./OutlinedInput";
 
 const MainWrapper = styled.div`
   position: relative;

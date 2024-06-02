@@ -27,7 +27,7 @@ const StyledOption = styled.option`
   margin-top: 20px;
 `;
 function AddProduct({ api }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [productMeasurement, setProductMeasurement] = useState("kg");
   const [productName, setProductName] = useState("");
   const [productQty, setProductQty] = useState("");
@@ -89,7 +89,6 @@ function AddProduct({ api }) {
       .then((data) => {
         setCompanyProduct(data);
         setFilteredProducts(data);
-        console.log(data);
       });
   }, []);
 
@@ -100,8 +99,9 @@ function AddProduct({ api }) {
   }, []);
 
   const handleSearch = (searchTerm) => {
+    console.log(searchTerm);
     if (searchTerm === "") {
-      setFilteredProducts(companyProduct); // Show all products if search input is empty
+      setFilteredProducts([]); // Show all products if search input is empty
     } else {
       const filtered = companyProduct.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -130,11 +130,11 @@ function AddProduct({ api }) {
         className="bg-transparent shadow-none"
       >
         <Card className="mx-auto w-full max-w-[730px]">
-          <CardBody className="flex flex-col gap-4">
+          <CardBody className="flex flex-col gap-4 items-center justify-center">
             <Typography variant="h4" className="text-center" color="blue-gray">
               Buyurtma qo&apos;shish
             </Typography>
-            <div className="flex items-start justify-center gap-x-10 w-full">
+            <div className="flex items-start justify-center gap-x-10 w-full relative max-w-[320px]">
               <div className="flex items-start flex-col gap-2 w-80">
                 <Typography className="-mb-2" variant="h6">
                   Mahsulot nomi
@@ -150,8 +150,8 @@ function AddProduct({ api }) {
                   size="lg"
                   error={productNameError}
                 />
-                {filteredProducts.length > 0 ? (
-                  <ul style={{ listStyle: "none", padding: 0 }}>
+                {filteredProducts.length > 0 && productName !== "" && (
+                  <ul className="shadow-xl w-full bg-white z-50 top-[80px] flex flex-col py-3 px-6 absolute ">
                     {filteredProducts.map((product) => (
                       <li
                         key={product.id}
@@ -160,14 +160,19 @@ function AddProduct({ api }) {
                           cursor: "pointer",
                           padding: "8px 0",
                           borderBottom: "1px solid #ddd",
+                          width: "100%",
+                          margin: "0 auto",
                         }}
                       >
                         {product.name}
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p>No product data found</p>
+                )}
+                {filteredProducts.length === 0 && !selectedProduct && (
+                  <ul className="shadow-xl w-full bg-white z-50 top-[80px] flex flex-col py-3 px-6 absolute">
+                    <li>Afsuski, mahsulot topilmadi</li>
+                  </ul>
                 )}
                 <label
                   style={{

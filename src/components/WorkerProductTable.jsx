@@ -15,26 +15,26 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
         <Loader />
       ) : (
         <div className="relative flex flex-col w-full h-full text-gray-700 bg-white">
-          <table className="text-left border-l-2 table-auto min-w-max">
+          <table className="text-left border-l-2 table-auto min-w-max mx-auto sm:w-full md:w-4/5">
             <thead>
               <tr>
                 <th className="p-4 w-2 border-b bg-blue-600 text-white">
-                  <p className="block font-sans text-sm font-normal leading-none text-white">
+                  <p className="block text-sm font-normal leading-none text-white">
                     No
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600 text-white">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Name
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-center text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-center text-sm antialiased font-normal leading-none text-white">
                     O&apos;lchov
                   </p>
                 </th>
                 <th className="p-4 border-b bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Soni
                   </p>
                 </th>
@@ -57,22 +57,22 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
                         key={user.id}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>
@@ -99,22 +99,22 @@ function WorkerProductTable({ setUiData, uiData, api, filteredData }) {
                         key={user.id}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>

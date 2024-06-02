@@ -44,30 +44,30 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
             <thead>
               <tr>
                 <th className="p-4 border-b  bg-blue-600 text-white">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white ">
+                  <p className="block text-sm antialiased font-normal leading-none text-white ">
                     No
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600 text-white">
                   <p
                     style={{ cursor: "pointer" }}
-                    className="block font-sans text-sm antialiased font-normal leading-none text-white "
+                    className="block text-sm antialiased font-normal leading-none text-white "
                   >
                     Name
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-center  text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-center  text-sm antialiased font-normal leading-none text-white">
                     O&apos;lchov
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm antialiased font-normal leading-none text-white">
+                  <p className="block text-sm antialiased font-normal leading-none text-white">
                     Soni
                   </p>
                 </th>
                 <th className="p-4 border-b  bg-blue-600">
-                  <p className="block font-sans text-sm text-right antialiased font-normal leading-none text-white">
+                  <p className="block text-sm text-right antialiased font-normal leading-none text-white">
                     Actions
                   </p>
                 </th>
@@ -82,7 +82,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         key={crypto.randomUUID()}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
@@ -90,17 +90,17 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                           onClick={() => handleRowClick(user.id)}
                           className="p-4 border-b border-blue-gray-50"
                         >
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user?.measurement.name}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>
@@ -129,7 +129,7 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                         key={crypto.randomUUID()}
                       >
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {index + 1}
                           </p>
                         </td>
@@ -137,17 +137,17 @@ function OrderTable({ setUiData, uiData, api, filteredData }) {
                           onClick={() => handleRowClick(user.id)}
                           className="p-4 border-b border-blue-gray-50"
                         >
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.name?.charAt() + user.name?.slice(1)}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-center text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.measurement.name}
                           </p>
                         </td>
                         <td className="p-4 border-b border-blue-gray-50">
-                          <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          <p className="block text-sm antialiased font-normal leading-normal text-blue-gray-900">
                             {user.qty}
                           </p>
                         </td>

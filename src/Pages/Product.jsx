@@ -43,11 +43,11 @@ function Product() {
   const [filteredData, setFilteredData] = useState([]);
   const [category, setCategory] = useState([]);
   const role = useSelector((state) => state.userToken.role);
-  const {pathname} = useLocation()
+  const { pathname } = useLocation();
   const fetchProductData = async () => {
     const response = await fetch("https://custom.uz/products/api/");
     let data = await response.json();
-    data = data.reverse()
+    data = data.reverse();
     setCategory(data);
     setFilteredData(data);
     return data;
